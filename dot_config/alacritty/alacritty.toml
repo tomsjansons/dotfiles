@@ -1,0 +1,10 @@
+import = [
+	"~/.config/alacritty/gruvbox_dark.toml"
+]
+
+[cursor.style]
+blinking = "Always"
+shape = "Block"
+
+[window]
+	option_as_alt = "Both"
