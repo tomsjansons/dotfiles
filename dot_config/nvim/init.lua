@@ -665,7 +665,7 @@ vim.defer_fn(function()
 	require("nvim-treesitter.install").prefer_git = true
 	require('nvim-treesitter.configs').setup {
 		-- Add languages to be installed here that you want installed for treesitter
-		ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'json', 'css', 'rust', 'kdl', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash', 'astro', 'svelte', 'nix', 'regex', 'markdown', 'markdown_inline', 'just', 'xml', 'graphql' },
+		ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'json', 'css', 'rust', 'kdl', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash', 'astro', 'svelte', 'regex', 'markdown', 'markdown_inline', 'just', 'xml', 'graphql' },
 
 		-- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
 		auto_install = false,
@@ -805,7 +805,6 @@ local mason_tools = {
 	eslint_d = {},
 	prettierd = { filetypes = { 'jsonc', 'json' } },
 	-- biome = {},
-	nil_ls = { filetypes = { 'nix' } },
 	yamlls = {},
 	-- html = { filetypes = { 'html', 'twig', 'hbs'} },
 
@@ -836,22 +835,12 @@ local mason_lspconfig = require 'mason-lspconfig'
 --   ensure_installed = vim.tbl_keys(servers),
 -- }
 --
-local get_nix_cmd = require("nix-cmd")
-
-local nix_cmds = {
-	rust_analyzer = get_nix_cmd("rust-analyzer", "rust-analyzer"),
-	lua_ls = get_nix_cmd("lua-language-server", "lua-language-server"),
-	biome = get_nix_cmd("biome", "biome"),
-	prettierd = get_nix_cmd("prettierd", "prettierd"),
-	eslint_d = get_nix_cmd("eslint_d", "eslint_d")
-}
 
 local on_attach = require('lsp-config')
 
 mason_lspconfig.setup_handlers {
 	function(server_name)
 		require('lspconfig')[server_name].setup {
-			cmd = nix_cmds[server_name] and { nix_cmds[server_name] } or nil,
 			capabilities = capabilities,
 			on_attach = on_attach,
 			settings = mason_tools[server_name],
