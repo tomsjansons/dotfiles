@@ -1,0 +1,20 @@
+packages:
+  arch:
+    pacman:
+      - zsh
+      - 1password
+      - 1password-cli
+      - alacritty
+      - go
+      - man-db
+      - rustup
+      - zsh-completions
+      - zsh-syntax-highlighting
+      - mise
+      - neovim
+    yay:
+      - 'bottom-git'
+      - brave-bin
+      - neovide-git
+      - oh-my-posh-bin
+      - rambox-pro-bin

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+{{ if eq .chezmoi.osRelease.id "arch" }}
+
+{{ range .packages.arch.pacman }}
+sudo pacman -S --noconfirm --needed {{ . | quote }}
+{{ end -}}
+
+{{ range .packages.arch.yay }}
+yay -S --noconfirm --needed {{ . | quote }}
+{{ end -}}
+
+mise use -g node@22
+
+{{ end -}}
