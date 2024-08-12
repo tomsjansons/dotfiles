@@ -12,6 +12,8 @@ packages:
       - zsh-syntax-highlighting
       - mise
       - neovim
+      - bc
+      - gnome-browser-connector
     yay:
       - 'bottom-git'
       - brave-bin
