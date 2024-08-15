@@ -17,3 +17,7 @@ eval "$(oh-my-posh init zsh --config /home/toms/.config/oh-my-posh/gruvbox.omp.j
 export EDITOR='nvim'
 export VISUAL='neovide'
 eval "$(/usr/bin/mise activate zsh)"
+
+alias gnome_settings_dump="dconf dump / > ~/.local/share/chezmoi/dconf.ini"
+alias source_me="source ~/.zshrc"
+
