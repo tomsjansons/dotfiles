@@ -2,8 +2,6 @@ packages:
   arch:
     pacman:
       - zsh
-      - 1password
-      - 1password-cli
       - alacritty
       - go
       - man-db
@@ -16,6 +14,8 @@ packages:
       - gnome-browser-connector
       - ttf-firacode-nerd
     yay:
+      - 1password
+      - 1password-cli
       - bottom-git
       - brave-bin
       - neovide-git
