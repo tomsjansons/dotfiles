@@ -12,4 +12,10 @@ yay -S --noconfirm --needed {{ . | quote }}
 
 mise use -g node@22
 
+if [ $SHELL != '/usr/bin/zsh' ]; then
+	sudo chsh --shell /usr/bin/zsh toms
+fi
+
+
+
 {{ end -}}

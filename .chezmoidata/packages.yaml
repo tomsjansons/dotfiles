@@ -14,9 +14,13 @@ packages:
       - neovim
       - bc
       - gnome-browser-connector
+      - ttf-firacode-nerd
     yay:
-      - 'bottom-git'
+      - bottom-git
       - brave-bin
       - neovide-git
       - oh-my-posh-bin
       - rambox-pro-bin
+      - gnome-shell-extension-paperwm-git
+      - mise-bin
+      - spotify
