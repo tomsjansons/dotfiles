@@ -12,12 +12,24 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 #
+
 eval "$(oh-my-posh init zsh --config /home/toms/.config/oh-my-posh/gruvbox.omp.json)"
+eval "$(/usr/bin/mise activate zsh)"
 
 export EDITOR='nvim'
 export VISUAL='neovide'
-eval "$(/usr/bin/mise activate zsh)"
+export NDK_HOME='/opt/android-ndk/'
+#export PATH='/opt/android-sdk/cmdline-tools/latest/bin:$PATH'
+
 
 alias gnome_settings_dump="dconf dump / > ~/.local/share/chezmoi/dconf.ini"
 alias source_me="source ~/.zshrc"
-
+alias lsa="eza --long --all --icons=always --git --time-style=long-iso --octal-permissions --no-user"
+alias lsas="eza --long --all --icons=always --git --time-style=long-iso --octal-permissions --no-user --total-size"
+alias ls="eza"
+alias cat="bat"
+alias cdz="z"
+alias alacritty_dark="alacritty msg config \"$(cat ~/.config/alacritty/gruvbox_dark.toml)\""
+alias alacritty_light="alacritty msg config \"$(cat ~/.config/alacritty/gruvbox_light.toml)\""
+alias neovide_disown="neovide \"$@\" &; disown"
+alias neovide_disown_light="NVIM_LIGHT=\"true\" neovide \"$@\" &; disown"

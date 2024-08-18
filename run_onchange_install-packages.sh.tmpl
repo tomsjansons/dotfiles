@@ -10,6 +10,10 @@ sudo pacman -S --noconfirm --needed {{ . | quote }}
 yay -S --noconfirm --needed {{ . | quote }}
 {{ end -}}
 
+{{ range .packages.cargo }}
+cargo install {{ . | quote }}
+{{ end -}}
+
 mise use -g node@22
 
 if [ $SHELL != '/usr/bin/zsh' ]; then

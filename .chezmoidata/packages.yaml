@@ -8,12 +8,20 @@ packages:
       - rustup
       - zsh-completions
       - zsh-syntax-highlighting
-      - mise
       - neovim
       - bc
       - gnome-browser-connector
       - ttf-firacode-nerd
       - gpxsee
+      - tealdeer
+      - bat
+      - eza
+      - fd
+      - fzf
+      - jq
+      - helix
+      - steam
+      - pnpm
     yay:
       - 1password
       - 1password-cli
@@ -25,3 +33,16 @@ packages:
       - gnome-shell-extension-paperwm-git
       - mise-bin
       - spotify
+      - slack-desktop
+      - pnpm-shell-completion
+      - android-sdk-cmdline-tools-latest
+      - android-sdk-build-tools
+      - android-sdk-platform-tools
+      - android-platform
+      - android-tools
+      - android-emulator
+      - android-google-apis-playstore-x86-64-system-image
+      - android-ndk
+  cargo:
+    - tauri-cli@2.0.0-rc.4
+    - trunk
