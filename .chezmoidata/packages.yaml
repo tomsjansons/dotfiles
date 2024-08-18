@@ -22,6 +22,7 @@ packages:
       - helix
       - steam
       - pnpm
+      - 
     yay:
       - 1password
       - 1password-cli
@@ -43,6 +44,7 @@ packages:
       - android-emulator
       - android-google-apis-playstore-x86-64-system-image
       - android-ndk
+      - zsh-timer-git
   cargo:
     - tauri-cli@2.0.0-rc.4
     - trunk
