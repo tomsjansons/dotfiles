@@ -46,6 +46,9 @@ packages:
       - android-ndk
       - zsh-timer-git
       - gnome-shell-extension-just-perfection-desktop
+      - ripgrep
+      - xclip
+      - wl-clipboard
   cargo:
     - tauri-cli@2.0.0-rc.4
     - trunk
