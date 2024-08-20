@@ -22,7 +22,6 @@ packages:
       - helix
       - steam
       - pnpm
-      - 
     yay:
       - 1password
       - 1password-cli
@@ -49,6 +48,7 @@ packages:
       - ripgrep
       - xclip
       - wl-clipboard
+      - xwayland-satellite
   cargo:
     - tauri-cli@2.0.0-rc.4
     - trunk
