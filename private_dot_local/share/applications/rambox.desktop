@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Rambox
+Exec=/opt/rambox/rambox --no-sandbox %U --ozone-platform-hint=auto
+Terminal=false
+Type=Application
+Icon=rambox
+StartupWMClass=Rambox
+Categories=Network;
+Comment=Workspace simplifier

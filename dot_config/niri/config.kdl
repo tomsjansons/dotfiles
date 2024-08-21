@@ -65,6 +65,7 @@ environment {
   QT_QPA_PLATFORMTHEME "qt5ct"
   GTK_THEME "Adwaita:dark"
   DISPLAY ":0"
+	ELECTRON_OZONE_PLATFORM_HINT "auto"
 }
 
 cursor {
@@ -342,7 +343,7 @@ binds {
 
   // Suggested binds for running programs: terminal, app launcher, screen locker.
   Mod+Q { spawn "alacritty"; }
-  Mod+E { spawn "nautilus"; }
+  Mod+E { spawn "cosmic-files"; }
   Mod+R { spawn "wofi" "--show" "drun"; }
   Mod+M { spawn "bash" "-c" "exec ~/.config/system_resources/power-menu.sh"; }
 

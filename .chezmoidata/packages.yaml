@@ -11,7 +11,8 @@ packages:
       - playerctl   #for controlling playback
       - polkit-gnome
       - libnotify
-      - nautilus
+      - cosmic-files
+      - cosmic-text-editor
       - zsh
       - alacritty
       - go
