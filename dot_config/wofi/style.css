@@ -1,0 +1,38 @@
+window {
+	border: 1px solid #b8bb26;
+	background-color: #282828;
+	border-radius: 8px;
+}
+
+#input {
+	margin: 10px;
+	background-color: #282828;
+	box-shadow: none;
+	border: 1px solid #928374;
+	border-radius: 8px;
+}
+
+#outer-box {
+	margin: 10px;
+}
+
+#scroll {
+	margin: 10px;
+	border-top: 1px solid #504945;
+}
+
+#entry:selected {
+	border: 1px solid #b8bb26;
+	background-color: #282828;
+	border-radius: 8px;
+}
+
+#text {
+	margin: 10px;
+	color: #ebdbb2;
+}
+
+#text:selected {
+	color: #ebdbb2;
+	border-radius: 8px;
+}

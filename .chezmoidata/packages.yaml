@@ -1,6 +1,12 @@
 packages:
   arch:
     pacman:
+      - niri
+      - swaync
+      - swaylock
+      - swaybg
+      - waybar
+      - wofi
       - zsh
       - alacritty
       - go
@@ -10,7 +16,6 @@ packages:
       - zsh-syntax-highlighting
       - neovim
       - bc
-      - gnome-browser-connector
       - ttf-firacode-nerd
       - gpxsee
       - tealdeer
@@ -30,25 +35,23 @@ packages:
       - neovide-git
       - oh-my-posh-bin
       - rambox-pro-bin
-      - gnome-shell-extension-paperwm-git
       - mise-bin
       - spotify
       - slack-desktop
       - pnpm-shell-completion
-      - android-sdk-cmdline-tools-latest
-      - android-sdk-build-tools
-      - android-sdk-platform-tools
-      - android-platform
-      - android-tools
-      - android-emulator
-      - android-google-apis-playstore-x86-64-system-image
-      - android-ndk
+      #- android-sdk-cmdline-tools-latest
+      #- android-sdk-build-tools
+      #- android-sdk-platform-tools
+      #- android-platform
+      #- android-tools
+      #- android-emulator
+      #- android-google-apis-playstore-x86-64-system-image
+      #- android-ndk
       - zsh-timer-git
-      - gnome-shell-extension-just-perfection-desktop
       - ripgrep
       - xclip
       - wl-clipboard
       - xwayland-satellite
   cargo:
-    - tauri-cli@2.0.0-rc.4
+    # - tauri-cli@2.0.0-rc.4
     - trunk

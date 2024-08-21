@@ -1,0 +1,47 @@
+/* #workspaces { */
+/* 	margin-top: 6px; */
+/* 	margin-left: 12px; */
+/* 	font-size: 4px; */
+/* 	margin-bottom: 0px; */
+/* 	background: #282828; */
+/* 	transition: none; */
+/* 	border-radius: 8px; */
+/* } */
+/**/
+/* #workspaces button { */
+/* 	transition: none; */
+/* 	color: #98971a; */
+/* 	background: transparent; */
+/* 	font-size: 16px; */
+/* } */
+/**/
+/* #workspaces button.special { */
+/* 	transition: none; */
+/* 	color: #d79921; */
+/* 	background: transparent; */
+/* 	font-size: 4px; */
+/* } */
+/**/
+/* #workspaces button.active { */
+/* 	border: 1px solid #98971a; */
+/* 	border-radius: 8px */
+/* } */
+/**/
+/* #workspaces button:hover { */
+/* 	transition: none; */
+/* 	box-shadow: inherit; */
+/* 	text-shadow: inherit; */
+/* 	color: #b8bb26; */
+/* } */
+/**/
+/* #workspaces button.focused:hover { */
+/* 	color: #b8bb26; */
+/* 	border: 1px solid #b8bb26; */
+/* } */
+
+#custom-workspaces {
+	color: #98971a;
+	background: transparent;
+	border-radius: 8px;
+	margin-top: 6px;
+}

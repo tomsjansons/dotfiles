@@ -7,20 +7,16 @@
 // Find the full list of options on the wiki:
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Input
 
-spawn-at-startup "rm" "/tmp/nwg-shell-check-update.lock"
-spawn-at-startup "wlsunset" "-t" "4500" "-T" "6500" "-l" "-1" "-L" "-1" "-g" "1.0"
-spawn-at-startup "swaync" "-s" "/home/toms/.config/swaync/preset-0.css"
-spawn-at-startup "nm-applet" "--indicator"
-spawn-at-startup "wl-paste" "--type" "text" "--watch" "cliphist" "store"
-spawn-at-startup "wl-paste" "--type" "image" "--watch" "cliphist" "store"
-spawn-at-startup "exec ~/.config/niri/drawer.sh"
-spawn-at-startup "exec ~/.config/niri/idle.sh"
-spawn-at-startup "nwg-panel" "-c" "preset-0" "-s" "preset-0.css"
-spawn-at-startup "nwg-shell-check-updates"
-
-spawn-at-startup "nwg-update-indicator"
-spawn-at-startup "nwg-screenshot-applet"
+spawn-at-startup "waybar"
+spawn-at-startup "swaync"
+// spawn-at-startup "bash" "-c" "/nix/store/$(ls -la /nix/store | grep 'polkit-gnome' | grep '4096' | grep -v 'fish' | grep -v 'service' | awk '{print $9}' | sed -n '$p')/libexec/polkit-gnome-authentication-agent-1"
+// spawn-at-startup "wl-paste" "--type" "text" "--watch" "cliphist" "store" //Stores only text data
+// spawn-at-startup "wl-paste" "--type" "image" "--watch" "cliphist" "store" //Stores only image data
+spawn-at-startup "systemctl" "--user" "start" "blueman-applet"
+spawn-at-startup "systemctl" "--user" "start" "network-manager-applet"
 spawn-at-startup "xwayland-satellite"
+spawn-at-startup "swaybg" "-i" "~/.config/system_resources/astronaut_wp.jpg"
+spawn-at-startup "bash" "~/.config/system_resources/swayidle.sh"
 
 prefer-no-csd
 
@@ -346,9 +342,9 @@ binds {
 
   // Suggested binds for running programs: terminal, app launcher, screen locker.
   Mod+Q { spawn "alacritty"; }
-  Mod+E { spawn "thunar"; }
-  Mod+R { spawn "nwg-drawer"; }
-  Mod+M { spawn "bash" "-c" "exec ~/.config/system_scripts/power-menu.sh"; }
+  Mod+E { spawn "alacritty" "-e" "yazi" "~"; }
+  Mod+R { spawn "wofi" "--show" "drun"; }
+  Mod+M { spawn "bash" "-c" "exec ~/.config/system_resources/power-menu.sh"; }
 
   // You can also use a shell. Do this if you need pipes, multiple commands, etc.
   // Note: the entire command goes as a single argument in the end.

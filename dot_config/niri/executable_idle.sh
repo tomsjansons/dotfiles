@@ -1,1 +1,0 @@
-swayidle timeout 1200 nwg-lock timeout 1800 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' after-resume 'swaymsg "output * enable"' 
