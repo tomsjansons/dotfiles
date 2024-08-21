@@ -3,10 +3,10 @@
 		"format": "{}",
 		"interval": 1,
 		"return-type": "json",
-		"exec": "$HOME/.config/system_scripts/niri-ws.ts \"$WAYBAR_OUTPUT_NAME\"",
-		"on-click": "$HOME/.config/system_scripts/niri-ws.ts click",
-		"on-scroll-up": "$HOME/.config/system_scripts/niri-ws.ts up",
-		"on-scroll-down": "$HOME/.config/system_scripts/niri-ws.ts down",
+		"exec": "$HOME/.config/system_resources/niri-ws.ts \"$WAYBAR_OUTPUT_NAME\"",
+		"on-click": "$HOME/.config/system_resources/niri-ws.ts click",
+		"on-scroll-up": "$HOME/.config/system_resources/niri-ws.ts up",
+		"on-scroll-down": "$HOME/.config/system_resources/niri-ws.ts down",
 		"signal": 8
 	}
 }

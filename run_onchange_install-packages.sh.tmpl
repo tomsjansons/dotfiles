@@ -1,7 +1,6 @@
 #!/bin/bash
 
-if ! command -v yay &> /dev/null
-then
+if ! command -v yay &> /dev/null; then
 	cd /tmp && sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm
 fi
 
@@ -25,6 +24,11 @@ if [ $SHELL != '/usr/bin/zsh' ]; then
 	sudo chsh --shell /usr/bin/zsh toms
 fi
 
-
+if ! groups | grep -q 'video'; then
+	echo "Adding video to user groups"
+	sudo usermod -aG video toms
+else
+	echo "User has video group"
+fi
 
 {{ end -}}

@@ -6,7 +6,12 @@ packages:
       - swaylock
       - swaybg
       - waybar
-      - wofi
+      - wofi    # menu
+      - wireplumber # for controlling volume
+      - playerctl   #for controlling playback
+      - polkit-gnome
+      - libnotify
+      - nautilus
       - zsh
       - alacritty
       - go
@@ -20,8 +25,8 @@ packages:
       - gpxsee
       - tealdeer
       - bat
-      - eza
-      - fd
+      - eza # ls replacement
+      - fd # find replacement
       - fzf
       - jq
       - helix
@@ -30,12 +35,12 @@ packages:
     yay:
       - 1password
       - 1password-cli
-      - bottom-git
+      - bottom-git    # top replacement
       - brave-bin
       - neovide-git
       - oh-my-posh-bin
       - rambox-pro-bin
-      - mise-bin
+      - mise-bin      # version manager for node and other envs
       - spotify
       - slack-desktop
       - pnpm-shell-completion
@@ -47,11 +52,15 @@ packages:
       #- android-emulator
       #- android-google-apis-playstore-x86-64-system-image
       #- android-ndk
-      - zsh-timer-git
+      - zsh-timer-git # ommand execution time in zsh
       - ripgrep
-      - xclip
-      - wl-clipboard
+      - xclip         # copy-paste for nvim in xorg
+      - wl-clipboard  # copy-paste for nvim in wayland
       - xwayland-satellite
+      - brillo  # controls brightness
+      - bun-bin
+      - neovim-remote
+      - impala
   cargo:
     # - tauri-cli@2.0.0-rc.4
     - trunk

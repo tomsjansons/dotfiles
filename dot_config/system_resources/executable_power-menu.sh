@@ -18,7 +18,7 @@ case $op in
                 ;;
         lock)
                 # hyprlock
-                exec /etc/nixos/system_scripts/swaylockwp.sh
+                exec ~/.config/system_resources/swaylockwp.sh
                 ;;
         logout)
                 # hyprctl dispatch exit

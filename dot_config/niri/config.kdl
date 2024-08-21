@@ -9,7 +9,7 @@
 
 spawn-at-startup "waybar"
 spawn-at-startup "swaync"
-// spawn-at-startup "bash" "-c" "/nix/store/$(ls -la /nix/store | grep 'polkit-gnome' | grep '4096' | grep -v 'fish' | grep -v 'service' | awk '{print $9}' | sed -n '$p')/libexec/polkit-gnome-authentication-agent-1"
+spawn-at-startup "bash" "-c" "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 // spawn-at-startup "wl-paste" "--type" "text" "--watch" "cliphist" "store" //Stores only text data
 // spawn-at-startup "wl-paste" "--type" "image" "--watch" "cliphist" "store" //Stores only image data
 spawn-at-startup "systemctl" "--user" "start" "blueman-applet"
@@ -342,7 +342,7 @@ binds {
 
   // Suggested binds for running programs: terminal, app launcher, screen locker.
   Mod+Q { spawn "alacritty"; }
-  Mod+E { spawn "alacritty" "-e" "yazi" "~"; }
+  Mod+E { spawn "nautilus"; }
   Mod+R { spawn "wofi" "--show" "drun"; }
   Mod+M { spawn "bash" "-c" "exec ~/.config/system_resources/power-menu.sh"; }
 

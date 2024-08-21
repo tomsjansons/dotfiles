@@ -3,7 +3,7 @@
 		"tooltip": false,
 		"format": "  {}%",
 		"interval": 1,
-		"on-scroll-up": "light -A 5",
-		"on-scroll-down": "light -U 5"
+		"on-scroll-up": "brillo -q -A 5",
+		"on-scroll-down": "brillo -q -U 5"
 	}
 }

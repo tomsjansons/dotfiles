@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!usr/bin/env bun
 
 import { $, file } from "bun";
 
@@ -34,15 +34,15 @@ while (true) {
     }
 
     if (batPercent < CRIT_BAT) {
-      await $`notify-send -u critical -i /etc/nixos/system_scripts/icons8-sleep-50.png "Battery critical - hibernating"`;
+      await $`notify-send -u critical -i ~/.config/system_resources/icons8-sleep-50.png "Battery critical - hibernating"`;
       await $`systemctl hibernate`;
     } else if (batPercent < MIN_BAT) {
-      await $`notify-send -u critical -i /etc/nixos/system_scripts/icons8-android-l-battery-64.png "Battery below ${MIN_BAT}"`;
+      await $`notify-send -u critical -i ~/.config/system_resources/icons8-android-l-battery-64.png "Battery below ${MIN_BAT}"`;
     }
   }
   if (pluggedState === "Charging" && batPercent > MAX_BAT) {
     if (!(await markerFile.exists())) {
-      await $`notify-send -u critical -i /etc/nixos/system_scripts/icons8-full-battery-64.png "Battery above ${MAX_BAT}"`;
+      await $`notify-send -u critical -i ~/.config/system_resources/icons8-full-battery-64.png "Battery above ${MAX_BAT}"`;
       await $`touch /tmp/battery-check-marker`;
     }
   }
