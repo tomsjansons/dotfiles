@@ -1,1 +1,1 @@
-swaylock -i ~/.config/system_resources/astronaut_wp.jpg
+swaylock -i /home/toms/.config/system_resources/astronaut_wp.jpg

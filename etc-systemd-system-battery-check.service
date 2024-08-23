@@ -1,0 +1,12 @@
+[Unit]
+Description=Battery check service
+
+[Service]
+ExecStart=bun /home/toms/.config/system_resources/battery-check.ts
+Type=simple
+RestartSec=3
+Restart=always
+
+
+[Install]
+WantedBy=default.target

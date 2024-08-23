@@ -2,6 +2,10 @@ import = [
 	"~/.config/alacritty/catppuccin-mocha.toml"
 ]
 
+[font]
+normal.style = "Semibold"
+size = 12
+
 [cursor.style]
 blinking = "Always"
 shape = "Block"

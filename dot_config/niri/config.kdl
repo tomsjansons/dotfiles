@@ -15,8 +15,9 @@ spawn-at-startup "bash" "-c" "/usr/lib/polkit-gnome/polkit-gnome-authentication-
 spawn-at-startup "systemctl" "--user" "start" "blueman-applet"
 spawn-at-startup "systemctl" "--user" "start" "network-manager-applet"
 spawn-at-startup "xwayland-satellite"
-spawn-at-startup "swaybg" "-i" "~/.config/system_resources/astronaut_wp.jpg"
-spawn-at-startup "bash" "~/.config/system_resources/swayidle.sh"
+spawn-at-startup "swaybg" "-i" "/home/toms/.config/system_resources/astronaut_wp.jpg"
+spawn-at-startup "bash" "/home/toms/.config/system_resources/swayidle.sh"
+
 
 prefer-no-csd
 
@@ -229,7 +230,7 @@ layout {
     // defaulting to 180 (top-to-bottom gradient).
     // You can use any CSS linear-gradient tool on the web to set these up.
     //
-    active-gradient from="#98971a" to="#d79921" angle=180
+    active-gradient from="#cdd6f4" to="#f5e0dc" angle=180
 
     // You can also color the gradient relative to the entire view
     // of the workspace, rather than relative to just the window itself.
@@ -341,6 +342,7 @@ binds {
   // shows a list of important hotkeys.
   Mod+Shift+Slash { show-hotkey-overlay; }
 
+	Mod+T { spawn "swaybg" "-i" "/home/toms/.config/system_resources/astronaut_wp.jpg"; }
   // Suggested binds for running programs: terminal, app launcher, screen locker.
   Mod+Q { spawn "alacritty"; }
   Mod+W { spawn "cosmic-files"; }

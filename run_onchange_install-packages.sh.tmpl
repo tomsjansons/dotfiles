@@ -29,6 +29,23 @@ if ! groups | grep -q 'video'; then
 	sudo usermod -aG video toms
 fi
 
-sudo systemctl enable greetd.service
+sudo systemctl is-active --quiet greetd.service || sudo systemctl enable greetd.service
+
+greetdconf='/etc/greetd/config.toml'
+if [ ! -L $greetdconf ]; then
+	if [ -f $greetdconf ]; then
+		sudo rm /etc/greetd/config.toml
+	fi
+	sudo ln -sf /home/toms/.local/share/chezmoi/etc-greetd-config.toml /etc/greetd/config.toml
+fi
+
+batterycheck='/etc/systemd/system/battery-check.service'
+if [ ! -L $batterycheck ]; then
+	sudo ln -sf /home/toms/.local/share/chezmoi/etc-systemd-system-battery-check.service /etc/systemd/system/battery-check.service
+	sudo systemctl daemon-reload
+fi
+
+sudo systemctl is-active --quiet battery-check.service || sudo systemctl enable battery-check.service
+sudo systemctl start battery-check.service
 
 {{ end -}}

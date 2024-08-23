@@ -1,1 +1,2 @@
 ./etc-greetd-config.toml
+./etc-systemd-system-battery-check.service

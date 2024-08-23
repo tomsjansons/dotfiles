@@ -213,7 +213,7 @@ require('lazy').setup({
 			options = {
 				icons_enabled = false,
 				-- theme = os.getenv("NVIM_LIGHT") == "true" and "gruvbox_light" or "gruvbox_dark",
-				theme = "ayu_dark",
+				theme = "codedark",
 				component_separators = '|',
 				section_separators = '',
 

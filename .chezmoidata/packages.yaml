@@ -37,6 +37,8 @@ packages:
       - pnpm
       - just
       - yazi
+      - kdeconnect
+      - kcharselect
     yay:
       - 1password
       - 1password-cli
@@ -67,6 +69,7 @@ packages:
       - neovim-remote
       - impala
       - numbat-bin
+      - zen-browser-bin
   cargo:
     # - tauri-cli@2.0.0-rc.4
     - trunk

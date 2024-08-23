@@ -23,9 +23,14 @@ if (outputOrAction === "up") {
 } else {
   const output = outputOrAction;
 
-  const workspaces = JSON.parse(await $`niri msg -j workspaces`.text()).filter(
-    (ws) => ws.output === output,
-  );
+  const workspaces = JSON.parse(await $`niri msg -j workspaces`.text())
+    .filter((ws) => ws.output === output)
+    .sort((a, b) => {
+      let a_num = a.name === null ? 11 : Number(a.name);
+      let b_num = b.name === null ? 11 : Number(b.name);
+      // console.log({ a_num, b_num });
+      return a_num - b_num;
+    });
 
   const workspaceGlyphs = ["⑩", "①", "②", "③", "④", "⑤", "⑥", "⑦", "⑧", "⑨"];
 
