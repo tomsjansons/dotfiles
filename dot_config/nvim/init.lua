@@ -188,24 +188,23 @@ require('lazy').setup({
 			end,
 		},
 	},
+	-- {
+	-- 	"ellisonleao/gruvbox.nvim",
+	-- 	name = "gruvbox",
+	-- 	priority = 1000,
+	-- 	config = function()
+	-- 		vim.o.background = os.getenv("NVIM_LIGHT") == "true" and "light" or "dark"
+	-- 		vim.cmd.colorscheme "gruvbox"
+	-- 	end,
+	-- },
 	{
-		"ellisonleao/gruvbox.nvim",
-		name = "gruvbox",
+		"catppuccin/nvim",
+		name = "catppuccin",
 		priority = 1000,
 		config = function()
-			vim.o.background = os.getenv("NVIM_LIGHT") == "true" and "light" or "dark"
-			vim.cmd.colorscheme "gruvbox"
+			vim.cmd.colorscheme 'catppuccin-mocha'
 		end,
 	},
-	-- {
-	--   "catppuccin/nvim",
-	--   name = "catppuccin",
-	--   priority = 1000,
-	--   config = function()
-	--     vim.cmd.colorscheme 'catppuccin'
-	--   end,
-	-- },
-
 	{
 		-- Set lualine as statusline
 		'nvim-lualine/lualine.nvim',
@@ -213,7 +212,8 @@ require('lazy').setup({
 		opts = {
 			options = {
 				icons_enabled = false,
-				theme = os.getenv("NVIM_LIGHT") == "true" and "gruvbox_light" or "gruvbox_dark",
+				-- theme = os.getenv("NVIM_LIGHT") == "true" and "gruvbox_light" or "gruvbox_dark",
+				theme = "ayu_dark",
 				component_separators = '|',
 				section_separators = '',
 

@@ -342,8 +342,8 @@ binds {
   Mod+Shift+Slash { show-hotkey-overlay; }
 
   // Suggested binds for running programs: terminal, app launcher, screen locker.
-  Mod+Q { spawn "bash" "~/.config/system_resources/alacritty.sh"; }
-  Mod+E { spawn "cosmic-files"; }
+  Mod+Q { spawn "alacritty"; }
+  Mod+W { spawn "cosmic-files"; }
   Mod+R { spawn "wofi" "--show" "drun"; }
   Mod+M { spawn "bash" "-c" "exec ~/.config/system_resources/power-menu.sh"; }
 
@@ -425,8 +425,8 @@ binds {
 
   // Mod+Page_Down      { focus-workspace-down; }
   // Mod+Page_Up        { focus-workspace-up; }
-  Mod+U              { focus-workspace-down; }
-  Mod+D              { focus-workspace-up; }
+  Mod+E              { focus-workspace-up; }
+  Mod+D              { focus-workspace-down; }
   // Mod+Ctrl+Page_Down { move-column-to-workspace-down; }
   // Mod+Ctrl+Page_Up   { move-column-to-workspace-up; }
   Mod+Shift+U         { move-column-to-workspace-down; }

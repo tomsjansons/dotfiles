@@ -1,5 +1,5 @@
 import = [
-	"~/.config/alacritty/gruvbox_dark.toml"
+	"~/.config/alacritty/catppuccin-mocha.toml"
 ]
 
 [cursor.style]
@@ -7,4 +7,4 @@ blinking = "Always"
 shape = "Block"
 
 [window]
-	option_as_alt = "Both"
+option_as_alt = "Both"

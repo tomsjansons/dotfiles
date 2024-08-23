@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Rambox
-Exec=/opt/rambox/rambox --no-sandbox %U --ozone-platform-hint=auto
+Exec=/opt/rambox/rambox --no-sandbox %U
 Terminal=false
 Type=Application
 Icon=rambox

@@ -27,8 +27,8 @@ fi
 if ! groups | grep -q 'video'; then
 	echo "Adding video to user groups"
 	sudo usermod -aG video toms
-else
-	echo "User has video group"
 fi
+
+sudo systemctl enable greetd.service
 
 {{ end -}}
