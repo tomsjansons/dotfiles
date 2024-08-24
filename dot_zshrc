@@ -39,6 +39,7 @@ alias alacritty_dark="alacritty msg config \"$(cat ~/.config/alacritty/gruvbox_d
 alias alacritty_light="alacritty msg config \"$(cat ~/.config/alacritty/gruvbox_light.toml)\""
 alias neovide_disown="neovide \"$@\" &; disown"
 alias neovide_disown_light="NVIM_LIGHT=\"true\" neovide \"$@\" &; disown"
+alias alacritty="/home/toms/.config/system_resources/alacritty.sh"
 
 chezmoi-cd() {
     cd $(chezmoi source-path)

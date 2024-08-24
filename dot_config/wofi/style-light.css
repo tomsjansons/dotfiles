@@ -1,15 +1,16 @@
 window {
-	border: 1px solid #cdd6f4;
-	background-color: #1e1e2e;
+	border: 1px solid #4c4f69;
+	background-color: #eff1f5;
 	border-radius: 8px;
 }
 
 #input {
 	margin: 10px;
-	background-color: #1e1e2e;
+	background-color: #eff1f5;
 	box-shadow: none;
 	border: 1px solid #7f849c;
 	border-radius: 8px;
+	color: #4c4f69;
 }
 
 #outer-box {
@@ -18,21 +19,20 @@ window {
 
 #scroll {
 	margin: 10px;
-	border-top: 1px solid #504945;
 }
 
 #entry:selected {
-	border: 1px solid #cdd6f4;
-	background-color: #1e1e2e;
+	border: 1px solid #4c4f69;
+	background-color: #eff1f5;
 	border-radius: 8px;
 }
 
 #text {
 	margin: 10px;
-	color: #f5e0dc;
+	color: #4c4f69;
 }
 
 #text:selected {
-	color: #f5e0dc;
+	color: #4c4f69;
 	border-radius: 8px;
 }

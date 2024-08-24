@@ -202,7 +202,12 @@ require('lazy').setup({
 		name = "catppuccin",
 		priority = 1000,
 		config = function()
-			vim.cmd.colorscheme 'catppuccin-mocha'
+			local is_theme_light = require("theme-dark-light")
+			if is_theme_light() then
+				vim.cmd.colorscheme 'catppuccin-latte'
+			else
+				vim.cmd.colorscheme 'catppuccin-mocha'
+			end
 		end,
 	},
 	{
@@ -212,8 +217,7 @@ require('lazy').setup({
 		opts = {
 			options = {
 				icons_enabled = false,
-				-- theme = os.getenv("NVIM_LIGHT") == "true" and "gruvbox_light" or "gruvbox_dark",
-				theme = "codedark",
+				theme = require("theme-dark-light")() and "ayu_light" or "codedark",
 				component_separators = '|',
 				section_separators = '',
 

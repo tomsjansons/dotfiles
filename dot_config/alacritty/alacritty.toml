@@ -1,7 +1,3 @@
-import = [
-	"~/.config/alacritty/catppuccin-mocha.toml"
-]
-
 [font]
 normal.style = "Semibold"
 size = 12
