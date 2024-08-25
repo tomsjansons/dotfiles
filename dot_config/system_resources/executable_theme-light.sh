@@ -15,3 +15,9 @@ done
 
 killall swaybg && /home/toms/.config/system_resources/swaybg.sh &
 killall swayidle && /home/toms/.config/system_resources/swayidle.sh &
+
+gsettings set org.gnome.desktop.interface gtk-theme "Adwaita:light"
+gsettings set org.gnome.desktop.interface color-scheme prefer-light
+
+sed -i 's/cdd6f4/7287fd/g' /home/toms/.config/niri/config.kdl
+sed -i 's/f5e0dc/dc8a78/g' /home/toms/.config/niri/config.kdl

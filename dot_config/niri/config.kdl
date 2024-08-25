@@ -64,7 +64,6 @@ workspace "0" {
 
 environment {
   QT_QPA_PLATFORMTHEME "qt5ct"
-  GTK_THEME "Adwaita:dark"
   DISPLAY ":0"
 	ELECTRON_OZONE_PLATFORM_HINT "auto"
 }
@@ -211,7 +210,7 @@ layout {
     // off
 
     // How many logical pixels the ring extends out from the windows.
-    width 2
+    width 3
 
     // Colors can be set in a variety of ways:
     // - CSS named colors: "red"

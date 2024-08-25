@@ -70,6 +70,7 @@ packages:
       - impala
       - numbat-bin
       - zen-browser-bin
+      - qt5ct-kde
   cargo:
     # - tauri-cli@2.0.0-rc.4
     - trunk

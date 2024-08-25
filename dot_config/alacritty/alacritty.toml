@@ -1,6 +1,7 @@
 [font]
-normal.style = "Semibold"
-size = 12
+normal.family = "FiraCode Nerd Font"
+normal.style = "Regular"
+size = 10
 
 [cursor.style]
 blinking = "Always"
