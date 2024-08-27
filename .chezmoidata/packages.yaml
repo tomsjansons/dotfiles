@@ -39,6 +39,8 @@ packages:
       - yazi
       - kdeconnect
       - kcharselect
+      - cups
+      - cups-pdf
     yay:
       - 1password
       - 1password-cli
@@ -71,6 +73,7 @@ packages:
       - numbat-bin
       - zen-browser-bin
       - qt5ct-kde
+      - system-config-printer # https://unix.stackexchange.com/questions/732293/how-to-install-samsung-xpress-m2070fw-on-ubuntu-20-04-samsung-m2070-series
   cargo:
     # - tauri-cli@2.0.0-rc.4
     - trunk
