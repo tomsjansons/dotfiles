@@ -2,6 +2,6 @@
 	"custom/theme": {
 		"format": "☼",
 		"return-type": "json",
-		"on-click": "bash /home/toms/.config/system_resources/theme-get-set.sh"
+		"on-click": "bash /home/toms/bin/theme-toggle.sh"
 	}
 }

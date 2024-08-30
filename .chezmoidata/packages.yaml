@@ -41,6 +41,11 @@ packages:
       - kcharselect
       - cups
       - cups-pdf
+      - neofetch
+      - partitionmanager
+      - gnome-disk-utility
+      - bitwarden
+      - bitwarden-cli
     yay:
       - 1password
       - 1password-cli
@@ -67,13 +72,18 @@ packages:
       - wl-clipboard  # copy-paste for nvim in wayland
       - xwayland-satellite
       - brillo  # controls brightness
-      - bun-bin
       - neovim-remote
       - impala
       - numbat-bin
       - zen-browser-bin
       - qt5ct-kde
       - system-config-printer # https://unix.stackexchange.com/questions/732293/how-to-install-samsung-xpress-m2070fw-on-ubuntu-20-04-samsung-m2070-series
+      - thunderbird-nightly-bin
+      - bitwarden-ssh-agent-git
   cargo:
     # - tauri-cli@2.0.0-rc.4
     - trunk
+  mise:
+    - node@22
+    - python@3
+    - bun
