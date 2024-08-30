@@ -65,7 +65,7 @@ workspace "0" {
 environment {
   QT_QPA_PLATFORMTHEME "qt5ct"
   DISPLAY ":0"
-	// ELECTRON_OZONE_PLATFORM_HINT "auto"
+	ELECTRON_OZONE_PLATFORM_HINT "auto"
 }
 
 cursor {
