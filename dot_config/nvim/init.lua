@@ -496,18 +496,6 @@ require('lazy').setup({
 		},
 		config = true
 	},
-	{
-		'Exafunction/codeium.vim',
-		config = function()
-			-- Change '<C-g>' here to any keycode you like.
-			vim.keymap.set('i', '<C-g>', function() return vim.fn['codeium#Accept']() end, { expr = true, silent = true })
-			vim.keymap.set('i', '<c-;>', function() return vim.fn['codeium#CycleCompletions'](1) end,
-				{ expr = true, silent = true })
-			vim.keymap.set('i', '<c-,>', function() return vim.fn['codeium#CycleCompletions'](-1) end,
-				{ expr = true, silent = true })
-			vim.keymap.set('i', '<c-x>', function() return vim.fn['codeium#Clear']() end, { expr = true, silent = true })
-		end
-	}
 	-- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
 	--       These are some example plugins that I've included in the kickstart repository.
 	--       Uncomment any of the lines below to enable them.
@@ -820,7 +808,7 @@ local mason_tools = {
 	eslint = {},
 	eslint_d = {},
 	prettierd = { filetypes = { 'jsonc', 'json' } },
-	-- biome = {},
+	biome = {},
 	yamlls = {},
 	-- html = { filetypes = { 'html', 'twig', 'hbs'} },
 
@@ -865,15 +853,7 @@ mason_lspconfig.setup_handlers {
 	end,
 }
 
-local mason_tools_list = vim.tbl_keys(mason_tools)
-local ensure_installed = {}
-for _, key in pairs(mason_tools_list) do
-	if key == "rust_analyzer" then
-		table.insert(ensure_installed, { "rust_analyzer", version = "2024-04-29" })
-	else
-		table.insert(ensure_installed, key)
-	end
-end
+local ensure_installed = vim.tbl_keys(mason_tools)
 
 require('mason-tool-installer').setup {
 	ensure_installed = ensure_installed,

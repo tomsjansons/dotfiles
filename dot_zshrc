@@ -27,7 +27,7 @@ export VISUAL='neovide'
 export NDK_HOME='/opt/android-ndk/'
 export PATH=$PATH:/opt/android-sdk/cmdline-tools/latest/bin
 export PATH=$PATH:/home/toms/bin
-
+export PATH="$PATH:/home/toms/.turso"
 
 alias gnome_settings_dump="dconf dump / > ~/.local/share/chezmoi/dconf.ini"
 alias source_me="source ~/.zshrc"
