@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo pacman -Syu
+sudo pacman -Syu --noconfirm --needed
 
 if ! command -v yay &> /dev/null; then
 	cd /tmp && sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm
@@ -21,6 +21,12 @@ cargo install {{ . | quote }}
 {{ end -}}
 
 mise use -g node@22
+
+if command -v turso &> /dev/null; then
+	turso update
+else
+	curl -sSfL https://get.tur.so/install.sh | bash
+fi
 
 if [ $SHELL != '/usr/bin/zsh' ]; then
 	sudo chsh --shell /usr/bin/zsh toms
