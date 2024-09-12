@@ -19,7 +19,7 @@ local js_related = {
 			-- 	print("biome formatting temp file: " .. vim.fn.expand("%"))
 			-- 	return vim.fn.expand("%") .. '.formatter-temp'
 			-- end,
-			cmd = { "biome", "lint", "--write", "%" }
+			cmd = { "biome", "lint", "--write", "--unsafe", "%" }
 			-- cmd = function()
 			-- 	print("biome lint --write " .. vim.fn.expand("%"))
 			-- 	return { "biome", "lint", "--write", "%" }

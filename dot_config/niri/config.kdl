@@ -14,7 +14,7 @@ spawn-at-startup "bash" "-c" "/usr/lib/polkit-gnome/polkit-gnome-authentication-
 // spawn-at-startup "wl-paste" "--type" "image" "--watch" "cliphist" "store" //Stores only image data
 spawn-at-startup "systemctl" "--user" "start" "blueman-applet"
 spawn-at-startup "systemctl" "--user" "start" "network-manager-applet"
-spawn-at-startup "xwayland-satellite"
+// spawn-at-startup "xwayland-satellite"
 spawn-at-startup "bash" "/home/toms/.config/system_resources/swaybg.sh"
 spawn-at-startup "bash" "/home/toms/.config/system_resources/swayidle.sh"
 
@@ -66,6 +66,7 @@ environment {
   QT_QPA_PLATFORMTHEME "qt5ct"
   DISPLAY ":0"
 	ELECTRON_OZONE_PLATFORM_HINT "auto"
+	MOZ_ENABLE_WAYLAND "1"
 }
 
 cursor {
@@ -113,7 +114,7 @@ input {
   warp-mouse-to-focus
 
   // Focus windows and outputs automatically when moving the mouse into them.
-  // focus-follows-mouse
+  focus-follows-mouse max-scroll-amount="0%"
 }
 
 // You can configure outputs by their name, which you can find
