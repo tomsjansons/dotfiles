@@ -50,6 +50,7 @@ packages:
       - docker-compose
       - postgresql
       - thunderbird
+      - zed
     yay:
       - 1password
       - 1password-cli
@@ -62,14 +63,14 @@ packages:
       - spotify
       - slack-desktop
       - pnpm-shell-completion
-      - android-sdk-cmdline-tools-latest
-      - android-sdk-build-tools
-      - android-sdk-platform-tools
-      - android-platform
-      - android-tools
-      - android-emulator
-      - android-google-apis-playstore-x86-64-system-image
-      - android-ndk
+      # - android-sdk-cmdline-tools-latest
+      # - android-sdk-build-tools
+      # - android-sdk-platform-tools
+      # - android-platform
+      # - android-tools
+      # - android-emulator
+      # - android-google-apis-playstore-x86-64-system-image
+      # - android-ndk
       - zsh-timer-git # ommand execution time in zsh
       - ripgrep
       - xclip         # copy-paste for nvim in xorg
@@ -84,6 +85,7 @@ packages:
       - system-config-printer # https://unix.stackexchange.com/questions/732293/how-to-install-samsung-xpress-m2070fw-on-ubuntu-20-04-samsung-m2070-series
       - bitwarden-ssh-agent-git
       - ngrok 
+      - supabase-bin
   cargo:
     # - tauri-cli@2.0.0-rc.4
     - trunk
@@ -93,3 +95,4 @@ packages:
     - bun
   pnpm:
     - nativescript
+    - eas-cli
