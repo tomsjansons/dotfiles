@@ -24,12 +24,12 @@ eval "$(/usr/bin/mise activate zsh)"
 
 export EDITOR='nvim'
 export VISUAL='neovide'
-export NDK_HOME='/opt/android-ndk/'
-export PATH=$PATH:/opt/android-sdk/cmdline-tools/latest/bin
+# export NDK_HOME='/opt/android-ndk/'
+# export PATH=$PATH:/opt/android-sdk/cmdline-tools/latest/bin
 export PATH=$PATH:/home/toms/bin
 export PATH="$PATH:/home/toms/.turso"
 
-alias gnome_settings_dump="dconf dump / > ~/.local/share/chezmoi/dconf.ini"
+# alias gnome_settings_dump="dconf dump / > ~/.local/share/chezmoi/dconf.ini"
 alias source_me="source ~/.zshrc"
 alias lsa="eza --long --all --icons=always --git --time-style=long-iso --octal-permissions --no-user"
 alias lsas="eza --long --all --icons=always --git --time-style=long-iso --octal-permissions --no-user --total-size"
@@ -48,3 +48,5 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+export ANTHROPIC_API_KEY=
