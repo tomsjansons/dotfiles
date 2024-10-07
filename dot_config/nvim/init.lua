@@ -835,6 +835,7 @@ require('mason-lspconfig').setup()
 --
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
+local nvim_lsp = require("lspconfig")
 local mason_tools = {
 	-- clangd = {},
 	-- gopls = {},
@@ -849,10 +850,12 @@ local mason_tools = {
 			'svelte',
 			'astro'
 		},
-		tailwindCSS = {
-			experimental = {
-				classRegex = {
-					"@tw\\s\\*\\/\\s+[\"'`]([^\"'`]*)"
+		settings = {
+			tailwindCSS = {
+				experimental = {
+					classRegex = {
+						"@tw\\s\\*\\/\\s+[\"'`]([^\"'`]*)"
+					}
 				}
 			}
 		}
@@ -864,7 +867,16 @@ local mason_tools = {
 	beautysh = {},
 	lemminx = {},
 	xmlformatter = {},
-	tsserver = { init_options = { preferences = { importModuleSpecifierPreference = "non-relative" } } },
+	tsserver = {
+		root_dir = nvim_lsp.util.root_pattern("tsconfig.json"),
+		settings = {
+			init_options = { preferences = { importModuleSpecifierPreference = "non-relative" } }
+		},
+		single_file_support = false,
+	},
+	denols = {
+		root_dir = nvim_lsp.util.root_pattern("deno.json", "deno.jsonc"),
+	},
 	jsonls = {},
 	cssls = {},
 	eslint = {},
@@ -875,12 +887,14 @@ local mason_tools = {
 	-- html = { filetypes = { 'html', 'twig', 'hbs'} },
 
 	lua_ls = {
-		Lua = {
-			workspace = { checkThirdParty = false },
-			telemetry = { enable = false },
-			-- NOTE: toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-			-- diagnostics = { disable = { 'missing-fields' } },
-		},
+		settings = {
+			Lua = {
+				workspace = { checkThirdParty = false },
+				telemetry = { enable = false },
+				-- NOTE: toggle below to ignore Lua_LS's noisy `missing-fields` warnings
+				-- diagnostics = { disable = { 'missing-fields' } },
+			},
+		}
 	},
 	codelldb = {},
 	cpptools = {}
@@ -909,8 +923,10 @@ mason_lspconfig.setup_handlers {
 		require('lspconfig')[server_name].setup {
 			capabilities = capabilities,
 			on_attach = on_attach,
-			settings = mason_tools[server_name],
+			settings = (mason_tools[server_name] or {}).settings,
 			filetypes = (mason_tools[server_name] or {}).filetypes,
+			root_dir = (mason_tools[server_name] or {}).root_dir,
+			single_file_support = (mason_tools[server_name] or {}).single_file_support
 		}
 	end,
 }

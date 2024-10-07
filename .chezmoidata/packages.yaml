@@ -96,3 +96,4 @@ packages:
   pnpm:
     - nativescript
     - eas-cli
+    - wrangler@latest
