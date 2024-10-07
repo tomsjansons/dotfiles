@@ -360,8 +360,11 @@ binds {
   XF86AudioMute        	allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
   XF86AudioMicMute     	allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
   XF86AudioPlay     	 	allow-when-locked=true { spawn "playerctl" "play-pause"; }
+  Mod+P     	 					allow-when-locked=true { spawn "playerctl" "play-pause"; }
   XF86AudioNext     	 	allow-when-locked=true { spawn "playerctl" "next"; }
+  Mod+bracketright     	allow-when-locked=true { spawn "playerctl" "next"; }
   XF86AudioPrev     	 	allow-when-locked=true { spawn "playerctl" "previous"; }
+  Mod+bracketleft				allow-when-locked=true { spawn "playerctl" "previous"; }
 
   XF86MonBrightnessDown allow-when-locked=true { spawn "brillo" "-q" "-U" "5"; }
   XF86MonBrightnessUp 	allow-when-locked=true { spawn "brillo" "-q" "-A" "5"; }
