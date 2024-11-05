@@ -506,12 +506,12 @@ require('lazy').setup({
 		lazy = false,
 		version = false, -- set this if you want to always pull the latest change
 		opts = {
-			-- add any opts here
 		},
 		-- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
 		build = "make",
 		-- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
 		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
 			"stevearc/dressing.nvim",
 			"nvim-lua/plenary.nvim",
 			"MunifTanjim/nui.nvim",
@@ -556,8 +556,10 @@ require('lazy').setup({
 		"takac/vim-hardtime",
 		init = function()
 			vim.g.hardtime_default_on = 1
+			vim.g.hardtime_maxcount = 3
 		end
-	}
+	},
+	{ 'dmmulroy/ts-error-translator.nvim' }
 	-- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
 	--       These are some example plugins that I've included in the kickstart repository.
 	--       Uncomment any of the lines below to enable them.
@@ -953,3 +955,4 @@ require('leap-config')
 require('neo-tree-config')
 require('dap-config')
 require('neogit-config')
+require('avante-config')

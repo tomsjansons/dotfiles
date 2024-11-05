@@ -30,6 +30,10 @@ local js_related = {
 		pattern = { "*biome*" },
 		formatter = formatters.lsp,
 	}),
+	formatters.if_file_exists({
+		pattern = { "*deno*" },
+		formatter = formatters.lsp
+	})
 }
 
 format_on_save.setup({

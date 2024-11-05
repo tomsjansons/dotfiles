@@ -51,6 +51,11 @@ packages:
       - postgresql
       - thunderbird
       - zed
+      - acpi
+      - pulumi
+      - sqlc
+      - protonmail-bridge
+      - gnome-keyring
     yay:
       - 1password
       - 1password-cli
@@ -86,6 +91,9 @@ packages:
       - bitwarden-ssh-agent-git
       - ngrok 
       - supabase-bin
+      - lazydocker
+      - mprocs-bin
+      - pmtiles
   cargo:
     # - tauri-cli@2.0.0-rc.4
     - trunk
@@ -93,6 +101,7 @@ packages:
     - node@22
     - python@3
     - bun
+    - deno@latest
   pnpm:
     - nativescript
     - eas-cli

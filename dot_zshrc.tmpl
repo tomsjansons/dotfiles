@@ -38,7 +38,10 @@ alias cat="bat"
 alias cdz="z"
 
 chezmoi-cd() {
-    cd $(chezmoi source-path)
+	cd $(chezmoi source-path)
+}
+chezmoi-apply() {
+	export BW_SESSION=$(bw unlock --raw) && chezmoi apply
 }
 
 # pnpm
@@ -49,4 +52,4 @@ case ":$PATH:" in
 esac
 # pnpm end
 
-export ANTHROPIC_API_KEY=
+export ANTHROPIC_API_KEY={{ (bitwarden "item" "ANTHROPIC_API_KEY").notes }}
