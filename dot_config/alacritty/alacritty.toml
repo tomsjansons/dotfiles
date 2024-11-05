@@ -9,3 +9,8 @@ shape = "Block"
 
 [window]
 option_as_alt = "Both"
+
+[keyboard]
+bindings = [
+	{ key = "N", mods = "Control", action = "CreateNewWindow" }
+]
