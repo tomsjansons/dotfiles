@@ -1,0 +1,6 @@
+ls
+cd dev/ridi-router/map-data/
+lsa
+ls
+ls | where size > 1mb
+ls | where size > 1gb
