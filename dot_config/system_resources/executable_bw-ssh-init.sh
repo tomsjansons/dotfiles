@@ -2,7 +2,7 @@
 
 export BW_SESSION=$(bw unlock --raw)
 
-eval $(ssh-agent -s -t 60)
+eval $(ssh-agent -s -t 1h)
 
 bw_add_sshkeys
 

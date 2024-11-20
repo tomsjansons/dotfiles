@@ -49,6 +49,13 @@ if ! groups | grep -q 'docker'; then
 	sudo usermod -aG docker toms
 fi
 
+if ! fc-list | grep -i "FiraCode" > /dev/null; then
+    echo "Installing FiraCode font..."
+    sudo oh-my-posh font install firacode
+else
+    echo "FiraCode font is already installed"
+fi
+
 sudo systemctl is-active --quiet greetd.service || sudo systemctl enable greetd.service
 
 greetdconf='/etc/greetd/config.toml'

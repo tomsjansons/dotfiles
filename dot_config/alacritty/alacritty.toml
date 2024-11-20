@@ -1,3 +1,6 @@
+[terminal]
+shell = "nu"
+
 [font]
 normal.family = "FiraCode Nerd Font"
 normal.style = "Semibold"
@@ -12,5 +15,5 @@ option_as_alt = "Both"
 
 [keyboard]
 bindings = [
-	{ key = "N", mods = "Control", action = "CreateNewWindow" }
+	{ key = "M", mods = "Control", action = "CreateNewWindow" }
 ]
