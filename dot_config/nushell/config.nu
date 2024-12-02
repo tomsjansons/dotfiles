@@ -907,3 +907,7 @@ alias cat = bat
 def chezmoi-cd [] {
 	cd (chezmoi source-path)	
 }
+
+def bw-ssh [] {
+	source ~/bw-ssh-init.nu
+}

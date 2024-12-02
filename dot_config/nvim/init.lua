@@ -467,7 +467,7 @@ require('lazy').setup({
 			"nvim-lua/plenary.nvim",
 			"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
 			"MunifTanjim/nui.nvim",
-			-- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+			"3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
 		},
 	},
 	{
@@ -559,7 +559,11 @@ require('lazy').setup({
 			vim.g.hardtime_maxcount = 3
 		end
 	},
-	{ 'dmmulroy/ts-error-translator.nvim' }
+	{ 'dmmulroy/ts-error-translator.nvim' },
+	{
+		"3rd/image.nvim",
+		opts = {}
+	}
 	-- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
 	--       These are some example plugins that I've included in the kickstart repository.
 	--       Uncomment any of the lines below to enable them.
@@ -573,7 +577,11 @@ require('lazy').setup({
 	--
 	--    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
 	-- { import = 'custom.plugins' },
-}, {})
+}, {
+	rocks = {         -- for "3rd/image.nvim",
+		hererocks = true, -- recommended if you do not have global installation of Lua 5.1.
+	},
+})
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
