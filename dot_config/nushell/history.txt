@@ -4,3 +4,581 @@ lsa
 ls
 ls | where size > 1mb
 ls | where size > 1gb
+oh-my-posh init nu
+chezmoi add ~/.oh-my-posh.nu
+ps
+ps | where cpu > 5
+ps | where mem > 200mb
+source ~/.oh-my-posh.nu
+chezmoi apply
+source ~/.oh-my-posh.nu
+ls
+chezmoi apply
+exit
+exit
+cd dev/ridi-router
+ls
+chezmoi apply
+source 
+source .
+source ~/.oh-my-posh.nu
+ls
+cd ~/.config/oh-my-posh/
+ls
+cat 1_shell_my.omp.json
+nvim 1_shell_my.omp.json
+source ~/.oh-my-posh.nu
+nvim ~/.oh-my-posh.nu
+chezmoi apply
+ls
+source ~/.oh-my-posh.nu
+chezmoi apply
+source ~/.config/nushell/
+source ~/.config/nushell/env.nu
+mise doc
+mise doctor
+chezmoi apply
+exit
+mise doctor
+echo $EDITOR
+eza
+eza -la
+chezmoi chattr +template ~/.config/nushell/env.nu
+chezmoi apply
+exit
+chezmoi apply
+exit
+chezmoi apply
+exit
+chezmoi apply
+exit
+chezmoi apply
+source ~/.config/nushell/config.nu
+source ~/.config/nushell/env.nu
+chezmoi apply
+source ~/.config/nushell/env.nu
+source ~/.config/nushell/config.nu
+chezmoi apply
+cd ~/.config/oh-my-posh/
+lsa
+ls
+rm 1_shell.omp.json
+rm gruvbox.omp.json
+rm gruvbox.omp.json.bak
+lsa
+ls
+echo $EDITOR
+echo $env.EDITOR
+echo $env.ANTHROPIC_API_KEY
+chezmoi cd
+chezmoi apply
+source ~/.config/nushell/config.nu
+chezmoi apply
+source ~/.config/nushell/config.nu
+chezmoi-cd 
+cd dev/ridi-router
+neovide
+ls
+ls | sort-by type | sort-by name
+ls | sort-by type, name
+ls | sort-by type and name
+ls | sort-by type name
+chezmoi edit
+exit
+chezmoi apply
+source ~/.config/nushell/config.nu
+chezmoi add ~/.oh-my-posh.nu
+chezmoi apply
+source ~/.oh-my-posh.nu
+exit
+chezmoi edit
+exit
+ls
+exit
+cd dev/ridi-router
+git checkout main
+git pull
+git fetch --prune
+zsh
+ls
+git checkout -b feat-create-cache-cmd
+cargo build
+zsh
+ls
+git fetch --prune
+zsh
+ls
+nvim
+exit
+cd ../ridi-apps/
+cd dev/ridi-apps/
+nvim
+cd main/
+exit
+cd dev/ridi-router/
+zsh
+cargo build
+git add .
+git commit -m'feat: introduce socket name'
+zsh
+git checkout feat-socket-name
+cargo run --release -- server -i ./map-data/latvia -c ./map-data/cache/latvia/ -s omg-socket
+cd dev/ridi-router/
+cargo run --release -- client 
+cargo run --release -- client -s 56.951861,24.113821 -f 57.313103,25.281460 -s sss
+cargo run --release -- client -s 56.951861,24.113821 -f 57.313103,25.281460 --socket_name ss
+cargo run --release -- client -s 56.951861,24.113821 -f 57.313103,25.281460 --socket-name ss
+cargo run --release -- client -s 56.951861,24.113821 -f 57.313103,25.281460 --socket-name omg-socket
+cd dev/ridi-router/ 
+cargo run --release -- server -i ./map-data/latvia -c ./map-data/cache/latvia/ -s omg-socket-2
+cargo run --release -- client -s 56.951861,24.113821 -f 57.313103,25.281460 --socket-name omg-socket-2
+ps | where name "ridi"
+ps | where name = "ridi"
+ps
+ps | where name like "ridi"
+exit
+nvim
+numbat
+exit
+cd main/
+ls
+git checkout -b feat-router-handlers
+^ssh-agent
+^ssh-agent -c
+^ssh-agent -C
+^ssh-agent help
+^ssh-agent -h
+^ssh-agent --help
+man ssh-agent
+cat ~/.config/system_resources/bw-ssh-init.sh
+bw unlock --raw
+bw unlock --raw | lines | first
+bw unlock --raw | parse "setenv {name} {value};"
+bw unlock --raw | parse "setenv BW_SESSION {value};" | transpose -r
+bw unlock --raw | parse "setenv BW_SESSION {value};" | transpose -r | into record | load-env
+bw unlock --raw | parse "setenv BW_SESSION {value};" | transpose -r | into record
+bw unlock --raw | lines | first | parse "setenv BW_SESSION {value};" | transpose -r | into record
+bw unlock --raw | lines
+bw unlock --raw | lines | first 1
+bw unlock --raw | lines | first 1 | $""
+bw unlock --raw | lines | detect-colums
+bw unlock --raw | lines | detect colums
+bw unlock --raw | detect colums
+df -h | str replace "Mounted on" Mounted_On | detect columns
+bw unlock --raw | detect columns
+^ssh-agent -c<\n>    | lines<\n>    | first 2
+cat ~/.config/system_resources/bw-ssh-init.sh
+bw unlock --raw | lines | first 1 | parse "setenv BW_SESSION {0}" | transpose -r | into record
+bw unlock --raw | lines | first 1 | parse "setenv BW_SESSION {0}"
+bw unlock --raw | lines | first 1
+bw unlock --raw | lines | first 1 | parse "setenv BW_SESSION {it}"
+let bw_keys = bw unlock --raw | lines | first 1
+$bw_keys.0
+$bw_keys.0 | parse "ss {$bw_keys}"
+$bw_keys | parse "ss {$bw_keys}"
+$bw_keys | get 0
+$bw_keys | get 0 | parse "ss {value}"
+$bw_keys | get 0 | parse "ss "
+$bw_keys | get 0 | parse "ss {column0"
+$bw_keys | get 0 | parse "ss {column0}"
+$bw_keys
+$bw_keys | parse "ss {column0}"
+cargo search shells --limit 10 | lines | parse "{crate_name} = {version} #{description}" | str trim
+cargo search shells --limit 10 | lines
+cargo search shells --limit 10 | lines | parse "{crate_name} = {version} #{description}" | str trim
+cargo search shells --limit 10 | lines
+^ssh-agent -c<\n>    | lines<\n>    | first 2<\n>    | parse "setenv {name} {value};"<\n>    | transpose -r<\n>    | into record<\n>    | load-env
+^ssh-agent -c<\n>    | lines<\n>    | first 2
+^ssh-agent -c<\n>    | lines<\n>    | first 2<\n>    | parse "setenv {name} {value};"
+^ssh-agent -c<\n>    | lines<\n>    | first 2<\n>    | parse "setenv {name} {value};"<\n>    | transpose -r
+^ssh-agent -c<\n>    | lines<\n>    | first 2<\n>    | parse "setenv {name} {value};"<\n>    | transpose -r<\n>    | into record
+^ssh-agent -c<\n>    | lines<\n>    | first 2<\n>    | parse "setenv {name} {value};"<\n>    | into record
+$bw_keys | record
+let bw_keys = bw unlock --raw | lines | first 1 | record
+let bw_keys = bw unlock --raw | lines | first 1 | into record
+{} | insert BW_SESSION {bw unlock --raw}
+{} | insert BW_SESSION {$bw_keys}
+{} | insert BW_SESSION {$bw_keys.0}
+$bw_keys | into record
+bw unlock --raw | lines | {} | insert BW_SESSION {$bw_keys.0}
+bw unlock --raw | lines | insert col_h 2
+{BW_SESSION:(bw unlock --raw)}
+{BW_SESSION:(bw unlock --raw)} | load-env
+bw unlock
+$env.BW_SESSION
+cd ~/.config/system_resources/
+chmod +x ~/.config/system_resources/bw-ssh-init.nu
+chezmoi add ~/.config/system_resources/bw-ssh-init.nu
+cd ~/.config/system_resources/
+bw-ssh-init.nu
+./bw-ssh-init.nu
+cd ~/dev/ridi-apps/
+cd main/
+git fetch
+source ~/.config/system_resources/bw-ssh-init.nu
+git fetch
+~/.config/system_resources/bw-ssh-init.nu
+nvim
+yaz
+chezmoi edit
+chezmoi add ~/bw-ssh-init.nu
+chezmoi edit
+chezmoi-cd 
+chezmoi cd
+source ~/bw-ssh-init.nu
+ls
+exit
+nvim
+exit
+cargo run --release -- server -i ./map-data/latvia-latest.osm.pbf -c ./map-data/cache/latvia/ -s omg-socket
+exit
+cargo run --release -- server -i ./map-data/latvia-latest.osm.pbf -c ./map-data/cache/latvia/ -s omg-socket-2
+exit
+exit
+zsh
+exit
+chezmoi edit
+exit
+yazi
+exit
+chezmoi edit
+exit
+cd dev/ridi-apps/
+zsh
+exit
+cd main/
+exit
+cat dev/ridi-router/map-data/.gitignore
+exiit
+exit
+cd apps/ridi-router/map-data-handler/
+deno install
+mise doctor
+mise install deno
+deno install
+nvim
+cd ../lib/
+deno install
+helix
+helix --health
+nvim
+deno install
+cd ../map-data-handler/
+deno install
+source ~/bw-ssh-init.nu
+git push
+git push -u origin feat-router-handlers
+ls
+deno -A --unstable-ffi main.ts
+deno task dev
+ls /home/toms/dev/ridi-apps/main/apps/ridi-router/.ridi-data/db/sqlite.db
+deno task dev
+cat /home/toms/dev/ridi-apps/main/apps/ridi-router/.ridi-data/db/sqlite.db
+ls /home/toms/dev/ridi-apps/main/apps/ridi-router/.ridi-data/db/
+ls /home/toms/dev/ridi-apps/main/apps/ridi-router/.ridi-data/
+deno task dev
+ls
+cd ..
+ls
+cd ./.ridi-data/
+ls
+ls -la
+cd db/
+touch sqlite.db
+cd ../../map-data-handler/
+deno task dev
+cat /home/toms/dev/ridi-apps/main/apps/ridi-router/.ridi-data/db/sqlite.db
+deno task dev
+cat /home/toms/dev/ridi-apps/main/apps/ridi-router/.ridi-data/db/sqlite.db
+deno task dev
+cd dev/ridi-apps/main/apps/ridi-router/.ridi-data/
+ls
+cd db
+open sqlite.db
+open sqlite.db | get handlers
+rm sqlite.db
+cd cache
+ls
+cd ..
+cd cache/
+ls
+cd v0.4.0/
+ls
+cd 0/
+cd ../..
+cd ..
+rm cache/
+rm -rf cache/
+ls
+cd pbf/
+ls
+cd 0
+ls
+cat <!DOCTYPE/
+cd ../..
+ls
+rm -rf pbf/
+yazi
+deno task dev
+ls
+cd pbf/
+ls
+cd 0/
+ls
+cd <!DOCTYPE/
+ls
+cat osm.pbf
+cd ../..
+ls
+cd .ridi-data/
+ls
+rm -rf cache/
+rm -rf pbf/
+deno task dev
+ls
+rm cache/
+rm -rf pbf/
+rm -rf cache/
+ls
+cd cache/
+ls
+cd v0.4.0/
+ls
+cd europe/
+ls
+cd greece/
+ls
+cd ../..
+cd pbf/
+ls
+cd europe/greece/
+ls
+cd 0ae76e7f37ba2d51e8c19ac44c48fcad/
+ls
+cd ../..
+ls
+cd ../..
+ls
+rm -rf cache/ pbf/
+ls
+ps | where name like "deno"
+ps -a 
+tldr ps
+ps -F
+ps f
+man ps
+ps -f
+ps aux -f
+man ps
+ps --help
+btm
+ls
+ls -la 
+mkdir omg
+ls -la 
+rm -rf omg/
+strace ls
+chmod 777 db/
+deno task dev
+open sqlite.db | get handlers
+cd db/
+open sqlite.db | get handlers
+open sqlite.db | get map_data
+ls
+cd ..
+ls
+cd cache/
+ls
+cd v0.4.0/
+cd europe/greece/
+ls
+cd ../../..
+cd ..
+open db/sqlite.db | get map_data
+chezmoi apply
+bw-ssh 
+git push
+source ~/bw-ssh-init.nu
+git push
+deno install
+deno task dev
+deno install
+deno task dev
+deno install
+deno task dev
+deno install
+nvm
+deno task dev
+ls
+rm -rf cache/ pbf/
+ls
+exit
+deno task dev
+deno install
+deno task dev
+rm -rf cache/ pbf/
+rm -rf db/
+ls
+./ridi-router server -i ./pbf/europe/andorra/c2621e122082c7d646ba9c5fb04ce2ec/osm.pbf -c ./cache/v0.4.0/europe/andorra/
+ls
+open db/sqlite.db | get map_data
+rm -rf db/ cache/ pbf/
+deno task dev
+open db/sqlite.db | get map_data
+cd db/
+pwd
+cd ..
+open db/sqlite.db | get map_data
+open view-source:https://download.geofabrik.de/europe.html
+open https://download.geofabrik.de/europe.html
+http get https://download.geofabrik.de/europe.html
+http get https://download.geofabrik.de/europe.html | lines
+http get https://download.geofabrik.de/europe.html | lines | where ($it =~ 'href="europe')
+http get https://download.geofabrik.de/europe.html | lines | where ($it =~ 'href="europe/*-latest')
+http get https://download.geofabrik.de/europe.html | lines | where ($it =~ 'href="europe/.-latest')
+http get https://download.geofabrik.de/europe.html | lines | where ($it =~ 'href="europe\/-latest')
+http get https://download.geofabrik.de/europe.html | lines | where ($it =~ 'href="europe\/.-latest')
+http get https://download.geofabrik.de/europe.html | lines | where ($it =~ 'href="europe*-latest')
+http get https://download.geofabrik.de/europe.html | lines | where ($it =~ 'href="europe.-latest')
+http get https://download.geofabrik.de/europe.html | lines | where ($it =~ 'href="europe/-latest')
+http get https://download.geofabrik.de/europe.html | lines | where ($it =~ 'href="europe/*-latest')
+http get https://download.geofabrik.de/europe.html | lines | where ($it =~ 'href="europe')
+http get https://download.geofabrik.de/europe.html | lines | where ($it =~ 'href="europe') | where ($it !~ 'kml') | where ($it !~ 'pbf')
+http get https://download.geofabrik.de/europe.html | lines | where ($it =~ "loadkml('europe")
+http get https://download.geofabrik.de/europe.html | lines | where ($it =~ 'loadkml')
+http get https://download.geofabrik.de/europe.html | lines | where ($it =~ 'loadkml') | parse '{region}.kml'
+http get https://download.geofabrik.de/europe.html | lines | where ($it =~ 'loadkml') | parse --regex 'loadkml\('(?<region>europe\/[a-z]+)''
+http get https://download.geofabrik.de/europe.html | lines | where ($it =~ 'loadkml') | parse --regex "loadkml\('(?<region>europe\/[a-z]+)'"
+http get https://download.geofabrik.de/europe.html | lines | where ($it =~ 'loadkml') | parse --regex "loadkml\('(?<region>europe\/[a-z]+\)'"
+http get https://download.geofabrik.de/europe.html | lines | where ($it =~ 'loadkml') | parse --regex "loadkml\('(?<region>europe\/[a-z]+)\)'"
+http get https://download.geofabrik.de/europe.html | lines | where ($it =~ 'loadkml') | parse --regex "href=\"(?<region>europe\/[\w-]+)\.html\""
+http get https://download.geofabrik.de/europe.html | lines | where ($it =~ 'loadkml') | parse --regex href="(?<region>europe\/[\w-]+)\.html"
+http get https://download.geofabrik.de/europe.html | lines | where ($it =~ 'loadkml') | parse --regex `href="(?<region>europe\/[\w-]+)\.html"`
+http get https://download.geofabrik.de/europe.html | lines | where ($it =~ 'loadkml') | parse --regex `href="(?<region>europe\/[\w-]+)\.html"` | to json
+http get https://download.geofabrik.de/europe.html | lines | where ($it =~ 'loadkml') | parse --regex `href="(?<region>europe\/[\w-]+)\.html"`
+http get https://download.geofabrik.de/europe.html | lines | where ($it =~ 'loadkml') | parse --regex `href="(?<region>europe\/[\w-]+)\.html"` | lines
+http get https://download.geofabrik.de/europe.html | lines | where ($it =~ 'loadkml') | parse --regex `href="(?<region>europe\/[\w-]+)\.html"` | get region
+http get https://download.geofabrik.de/europe.html | lines | where ($it =~ 'loadkml') | parse --regex `href="(?<region>europe\/[\w-]+)\.html"` | get region | to json
+cd ..
+ls
+http get https://download.geofabrik.de/europe.html | lines | where ($it =~ 'loadkml') | parse --regex `href="(?<region>europe\/[\w-]+)\.html"` | get region | to json | save region-list-prod.json
+http get https://download.geofabrik.de/europe.html | lines | where ($it =~ 'loadkml') | parse --regex `href="(?<region>europe\/[\w-]+)\.html"` | get region | to json | save region-list-prod-eu.json
+http get https://download.geofabrik.de/africa.html | lines | where ($it =~ 'loadkml') | parse --regex `href="(?<region>africa\/[\w-]+)\.html"` | get region
+http get https://download.geofabrik.de/africa.html | lines | where ($it =~ 'loadkml') | parse --regex `href="(?<region>africa\/[\w-]+)\.html"` | get region | save region-list-prod-africa.json
+http get https://download.geofabrik.de/asia.html | lines | where ($it =~ 'loadkml') | parse --regex `href="(?<region>asia\/[\w-]+)\.html"` | get region | save region-list-prod-asia.json
+http get https://download.geofabrik.de/australia-oceania.html | lines | where ($it =~ 'loadkml') | parse --regex `href="(?<region>australia-oceania\/[\w-]+)\.html"` | get region | save region-list-prod-aus.json
+http get https://download.geofabrik.de/central-america.html | lines | where ($it =~ 'loadkml') | parse --regex `href="(?<region>central-america\/[\w-]+)\.html"` | get region | save region-list-prod-ca.json
+http get https://download.geofabrik.de/north-america.html | lines | where ($it =~ 'loadkml') | parse --regex `href="(?<region>north-america\/[\w-]+)\.html"` | get region | save region-list-prod-na.json
+http get https://download.geofabrik.de/south-america.html | lines | where ($it =~ 'loadkml') | parse --regex `href="(?<region>south-america\/[\w-]+)\.html"` | get region | save region-list-prod-sa.json
+cd Downloads/
+ls
+cat alps.kml
+deno task dev
+cd ..
+cd deploy-handler/
+deno install
+cd ../
+ls
+cd ridi-router/
+cd .ridi-data/
+ls
+deno task dev
+rm -rf db
+deno task dev
+nvim
+cd ../..
+cd monitoring-app/
+docker compose up
+sudo systemctl start docker.socket
+docker compose up
+cd ../
+cd ridi-router/
+ls
+cd router-handler/
+docker compose up
+pwd
+source ~/bw-ssh-init.nu
+git checkout main
+git merge feat-router-handlers
+git push
+cd ../map-data-handler/
+pwd
+ls
+git push
+source ~/bw-ssh-init.nu
+git push
+RIDI_ROUTER_VERSION="v0.4.0" docker build 
+RIDI_ROUTER_VERSION="v0.4.0" docker build --help
+RIDI_ROUTER_VERSION="v0.4.0" docker build .
+RIDI_ROUTER_VERSION="v0.4.0" docker build ../Dockerfile
+RIDI_ROUTER_VERSION="v0.4.0" docker build . -f ../Dockerfile
+git push
+docker compose up
+RIDI_DATA_DIR="../ridi-data" docker compose up
+cd ..
+cd deploy-handler/
+deno install --frozen=false
+cd ..
+cd map-data-handler/
+deno install --frozen=false
+cd ../router-handler/
+deno install --frozen=false
+deno install --lock deno.lock --frozen=false --entrypoint main.ts
+cd ../map-data-handler/
+deno install --lock deno.lock --frozen=false --entrypoint main.ts
+cd ../deploy-handler/
+deno install --lock deno.lock --frozen=false --entrypoint main.ts
+git push
+cd ..
+ls
+docker compose up --help
+docker compose --help
+docker compose -f ./docker-compose-map-data-handler.yaml up
+git push
+source ~/bw-ssh-init.nu
+git push
+docker compose -f ./docker-compose-map-data-handler.yaml up
+docker compose -f ./docker-compose-map-data-handler.yaml up -f
+docker compose -f ./docker-compose-map-data-handler.yaml up --help
+docker compose -f ./docker-compose-map-data-handler.yaml up --force-recreate
+docker compose -f ./docker-compose-map-data-handler.yaml up --help
+docker compose -f ./docker-compose-map-data-handler.yaml up --build
+git push
+cd ..
+ls
+cd monitoring-app/
+pwd
+cd dev/ridi-apps
+journalctl 
+acpi
+cd ~/.config/system_resources/
+./battery-check.ts
+bun battery-check.ts
+chezmoi apply
+journalctl 
+tldr journalctl
+journalctl --lines 30 --follow
+journalctl --lines 300 --follow
+journalctl --lines 300 --follow --unit battery-check.service
+sudo systemctl restart battery-check.service
+journalctl --lines 300 --follow --unit battery-check.service
+notify-send "omg"
+journalctl --lines 300 --follow --unit battery-check.service
+cd dev
+source ~/bw-ssh-init.nu
+git clone git@github.com:manulthanura/Positivus.git
+cd Positivus/
+ls
+yazi
+cd ../ridi-apps/main/apps/astro-app/
+pnpm i
+cd ../..
+pwd
+pnpm dev
+cd apps/astro-app/
+yazi
+pnpm remove @astrojs/vercel
+pnpm dev
+chezmoi apply
+chezmoi add ~/.ssh/known_hosts
+chezmoi apply
