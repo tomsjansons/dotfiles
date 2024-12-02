@@ -1,0 +1,6 @@
+[tools]
+yarn = "latest"
+node = "latest"
+python = "3"
+bun = "latest"
+deno = "latest"
