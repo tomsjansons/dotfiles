@@ -76,7 +76,7 @@ packages:
       - mise-bin      # version manager for node and other envs
       - spotify
       - slack-desktop
-      - pnpm-shell-completion
+      # - pnpm-shell-completion
       # - android-sdk-cmdline-tools-latest
       # - android-sdk-build-tools
       # - android-sdk-platform-tools
@@ -85,13 +85,13 @@ packages:
       # - android-emulator
       # - android-google-apis-playstore-x86-64-system-image
       # - android-ndk
-      - zsh-timer-git # ommand execution time in zsh
+      # - zsh-timer-git # ommand execution time in zsh
       - ripgrep
       - xclip         # copy-paste for nvim in xorg
       - wl-clipboard  # copy-paste for nvim in wayland
       - xwayland-satellite
       - brillo  # controls brightness
-      - neovim-remote
+      # - neovim-remote
       - impala
       - numbat-bin
       - zen-browser-bin
@@ -109,6 +109,7 @@ packages:
   cargo:
     # - tauri-cli@2.0.0-rc.4
     - trunk
+    - bacon 
   mise:
     - node@22
     - python@3

@@ -911,3 +911,8 @@ def chezmoi-cd [] {
 def bw-ssh [] {
 	source ~/bw-ssh-init.nu
 }
+
+source ./git-completions.nu
+source ./just-completions.nu
+source ./pnpm-completions.nu
+source ./docker-completions.nu
