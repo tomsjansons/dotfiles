@@ -21,3 +21,6 @@ gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 
 sed -i 's/7287fd/cdd6f4/g' /home/toms/.config/niri/config.kdl
 sed -i 's/dc8a78/f5e0dc/g' /home/toms/.config/niri/config.kdl
+
+echo '@import url("mocha.css");' > /home/toms/.config/swaync/style.css
+swaync-client -rs

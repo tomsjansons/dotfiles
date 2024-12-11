@@ -29,11 +29,11 @@ pnpm install -g {{ . | quote }}
 mise use -g {{ . | quote }}
 {{ end -}}
 
-if command -v turso &> /dev/null; then
-	turso update
-else
-	curl -sSfL https://get.tur.so/install.sh | bash
-fi
+## if command -v turso &> /dev/null; then
+## 	turso update
+## else
+## 	curl -sSfL https://get.tur.so/install.sh | bash
+## fi
 
 if [ $SHELL != '/usr/bin/zsh' ]; then
 	sudo chsh --shell /usr/bin/zsh toms
@@ -74,5 +74,7 @@ fi
 
 sudo systemctl is-active --quiet battery-check.service || sudo systemctl enable battery-check.service
 sudo systemctl start battery-check.service
+
+## curl https://raw.githubusercontent.com/Lifailon/lazyjournal/main/install.sh | bash
 
 {{ end -}}
