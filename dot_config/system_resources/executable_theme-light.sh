@@ -24,3 +24,8 @@ sed -i 's/f5e0dc/dc8a78/g' /home/toms/.config/niri/config.kdl
 
 echo '@import url("latte.css");' > /home/toms/.config/swaync/style.css
 swaync-client -rs
+
+
+sed -i 's/mocha.css/latte.css/g' /home/toms/.config/waybar/style.css
+killall waybar
+waybar & disown
