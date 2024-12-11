@@ -65,6 +65,8 @@ packages:
       - ueberzugpp
       - imagemagick
       - libvips
+      - pueue
+      - ttf-fantasque-nerd
     yay:
       - 1password
       - 1password-cli

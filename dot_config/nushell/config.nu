@@ -904,15 +904,13 @@ use ($nu.default-config-dir | path join mise.nu)
 
 alias cat = bat
 
-def chezmoi-cd [] {
-	cd (chezmoi source-path)	
-}
-
 def bw-ssh [] {
 	source ~/bw-ssh-init.nu
 }
 
+source ./chezmoi.nu
 source ./git-completions.nu
 source ./just-completions.nu
 source ./pnpm-completions.nu
 source ./docker-completions.nu
+source ./job.nu
