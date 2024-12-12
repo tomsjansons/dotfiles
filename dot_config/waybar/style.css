@@ -1,8 +1,8 @@
 @import "mocha.css";
 
 * {
-	font-family: FantasqueSansMono Nerd Font;
-	font-size: 17px;
+	font-family: FiraCode Nerd Font;
+	font-size: 14px;
 	min-height: 0;
 }
 
@@ -15,8 +15,7 @@
 #workspaces {
 	border-radius: 1rem;
 	margin: 5px;
-	background-color: @surface0;
-	margin-left: 1rem;
+	background-color: @base;
 }
 
 #workspaces button {
@@ -41,11 +40,16 @@
 #clock,
 #battery,
 #pulseaudio,
+#custom-theme,
 #custom-lock,
 #custom-power {
-	background-color: @surface0;
+	background-color: @base;
 	padding: 0.5rem 1rem;
 	margin: 5px 0;
+}
+
+#custom-lock {
+	margin-left: 1rem;
 }
 
 #clock {
@@ -71,6 +75,7 @@
 }
 
 #backlight,
+#custom-theme,
 #battery {
 	border-radius: 0;
 }
@@ -92,12 +97,16 @@
 }
 
 #custom-power {
-	margin-right: 1rem;
 	border-radius: 0px 1rem 1rem 0px;
+	margin-right: 5px;
 	color: @red;
 }
 
+#custom-theme {
+	font-size: 19px;
+	color: @mauve;
+}
+
 #tray {
-	margin-right: 1rem;
 	border-radius: 1rem;
 }
