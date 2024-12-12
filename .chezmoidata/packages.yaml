@@ -111,12 +111,13 @@ packages:
     # - tauri-cli@2.0.0-rc.4
     - trunk
     - bacon 
+    - zizmor
   mise:
     - node@22
     - python@3
     - bun
     - deno@latest
   pnpm:
-    - nativescript
+    # - nativescript
     - eas-cli
     - wrangler@latest
