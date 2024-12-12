@@ -4,6 +4,9 @@
 	// "width": 1280, // Waybar width
 	// Choose the order of the modules
 	"modules-left": [
+		"custom/lock",
+		"custom/power",
+		"tray",
 		"niri/workspaces"
 	],
 	"modules-center": [
@@ -13,10 +16,8 @@
 		"pulseaudio",
 		"backlight",
 		"battery",
-		"clock",
-		"tray",
-		"custom/lock",
-		"custom/power"
+		"custom/theme",
+		"clock"
 	],
 	"niri/workspaces": {
 		"disable-scroll": true,
@@ -41,8 +42,21 @@
 	},
 	"clock": {
 		"tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-		"format-alt": " {:%d/%m/%Y}",
-		"format": " {:%Y-%m-%d %H:%M (%Z)}"
+		"format": "  {:%Y-%m-%d    %H:%M (%Z)}",
+		"calendar": {
+			"mode": "year",
+			"mode-mon-col": 3,
+			"weeks-pos": "right",
+			"on-scroll": 1,
+			"on-click-right": "mode",
+			"format": {
+				"months": "<span color='#ffead3'><b>{}</b></span>",
+				"days": "<span color='#ecc6d9'><b>{}</b></span>",
+				"weeks": "<span color='#99ffdd'><b>W{}</b></span>",
+				"weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+				"today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+			}
+		}
 	},
 	"backlight": {
 		"device": "intel_backlight",
@@ -65,22 +79,16 @@
 			"critical": 15
 		},
 		"format": "{icon}",
-		"format-charging": "",
-		"format-plugged": "",
+		"format-charging": " ↯{capacity}%",
+		"format-not-charging": "",
+		"format-discharging": "{icon} {capacity}%",
 		"format-alt": "{icon}",
 		"format-icons": [
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			"",
-			""
+			"",
+			"",
+			"",
+			"",
+			""
 		]
 	},
 	"pulseaudio": {
@@ -99,11 +107,16 @@
 	"custom/lock": {
 		"tooltip": false,
 		"on-click": "sh /home/toms/.config/system_resources/swaylockwp.sh & disown",
-		"format": "",
+		"format": ""
 	},
 	"custom/power": {
 		"tooltip": false,
-		"on-click": "sh /home/toms/.config/system_scripts/power-menu.sh",
-		"format": "襤"
+		"on-click": "sh /home/toms/.config/system_resources/power-menu.sh",
+		"format": "󰣇"
+	},
+	"custom/theme": {
+		"tooltip": false,
+		"on-click": "sh /home/toms/.config/system_resources/theme-toggle.sh",
+		"format": "◐"
 	}
 }

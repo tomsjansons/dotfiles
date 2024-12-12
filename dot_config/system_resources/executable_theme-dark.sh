@@ -28,3 +28,5 @@ swaync-client -rs
 sed -i 's/latte.css/mocha.css/g' /home/toms/.config/waybar/style.css
 killall waybar
 waybar & disown
+
+sed -i 's/ansi/TwoDark/g' /home/toms/.config/bat/config
