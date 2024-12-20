@@ -107,11 +107,13 @@ packages:
       - onlyoffice-bin
       - evil-helix-bin
       - anytype-bin
+      - textql-git
   cargo:
     # - tauri-cli@2.0.0-rc.4
     - trunk
     - bacon 
     - zizmor
+    - plotrs
   mise:
     - node@22
     - python@3
