@@ -881,7 +881,7 @@ local mason_tools = {
 	beautysh = {},
 	lemminx = {},
 	xmlformatter = {},
-	tsserver = {
+	ts_ls = {
 		root_dir = nvim_lsp.util.root_pattern("tsconfig.json"),
 		settings = {
 			init_options = { preferences = { importModuleSpecifierPreference = "non-relative" } }
@@ -919,8 +919,8 @@ require('neodev').setup()
 
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = false;
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+capabilities.textDocument.completion.completionItem.snippetSupport = false;
 
 -- Ensure the servers above are installed
 local mason_lspconfig = require 'mason-lspconfig'
