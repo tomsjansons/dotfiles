@@ -1,0 +1,5 @@
+gtk-titlebar=false
+command = /usr/bin/nu
+click-repeat-interval = 500
+auto-update-channel = tip
+theme=catppuccin-mocha

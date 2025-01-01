@@ -898,7 +898,7 @@ local mason_tools = {
 	prettierd = { filetypes = { 'jsonc', 'json' } },
 	biome = {},
 	yamlls = {},
-	-- html = { filetypes = { 'html', 'twig', 'hbs'} },
+	html = { filetypes = { 'html', 'twig', 'hbs' } },
 
 	lua_ls = {
 		settings = {

@@ -7,7 +7,7 @@ local js_related = {
 		formatter = formatters.eslint_d_fix,
 	}),
 	formatters.if_file_exists({
-		pattern = { "*prettier*" },
+		pattern = { ".prettierrc", ".prettierrc.*", "prettier.config.*", ".prettier.json" },
 		formatter = formatters.prettierd,
 	}),
 	formatters.if_file_exists({
