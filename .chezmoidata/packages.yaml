@@ -68,6 +68,7 @@ packages:
       - notmuch
       - astroid
       - ghostty
+      - flatpak
     yay:
       - 1password
       - 1password-cli
@@ -110,6 +111,8 @@ packages:
       - evil-helix-bin
       - anytype-bin
       - hl-log-viewer-bin
+  flathub:
+    - com.usebottles.bottles
   cargo:
     # - tauri-cli@2.0.0-rc.4
     # - trunk
