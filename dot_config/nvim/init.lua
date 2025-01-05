@@ -862,7 +862,8 @@ local mason_tools = {
 			'typescript',
 			'typescriptreact',
 			'svelte',
-			'astro'
+			'astro',
+			'javascript'
 		},
 		settings = {
 			tailwindCSS = {

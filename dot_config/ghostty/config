@@ -1,5 +1,11 @@
-gtk-titlebar=false
+font-size = 11
+gtk-titlebar = false
 command = /usr/bin/nu
 click-repeat-interval = 500
 auto-update-channel = tip
-theme=catppuccin-mocha
+theme = catppuccin-mocha
+
+keybind = ctrl+shift+j=write_screen_file:paste
+keybind = ctrl+j=scroll_page_down
+keybind = ctrl+k=scroll_page_up
+keybind = ctrl+c=clear_screen

@@ -31,3 +31,5 @@ killall waybar
 waybar & disown
 
 sed -i 's/TwoDark/ansi/g' /home/toms/.config/bat/config
+
+sed -i 's/mocha/latte/g' /home/toms/.config/ghostty/config

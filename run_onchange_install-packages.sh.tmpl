@@ -17,6 +17,10 @@ sudo pacman -S --noconfirm --needed {{ . | quote }}
 yay -S --noconfirm --needed {{ . | quote }}
 {{ end -}}
 
+{{ range .packages.flathub }}
+flatpak install --assumeyes --noninteractive --or-update flathub {{ . | quote }}
+{{ end -}}
+
 {{ range .packages.cargo }}
 cargo install {{ . | quote }}
 {{ end -}}
