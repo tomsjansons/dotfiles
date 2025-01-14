@@ -61,7 +61,6 @@ packages:
       - discord
       - lazygit
       - nushell
-      - helix
       - imagemagick
       - libvips
       - pueue
@@ -69,6 +68,10 @@ packages:
       - astroid
       - ghostty
       - flatpak
+      - remmina
+      - proton-vpn-gtk-app
+      - lldb
+      - ueberzugpp
     yay:
       - 1password
       - 1password-cli
@@ -108,9 +111,10 @@ packages:
       - mprocs-bin
       - pmtiles
       - onlyoffice-bin
-      - evil-helix-bin
+      # - evil-helix-bin
       - anytype-bin
       - hl-log-viewer-bin
+      - anyrun-git 
   flathub:
     - com.usebottles.bottles
   cargo:

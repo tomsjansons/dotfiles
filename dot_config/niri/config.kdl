@@ -352,9 +352,10 @@ binds {
 
 	Mod+T { spawn "swaybg" "-i" "/home/toms/.config/system_resources/astronaut_wp.jpg"; }
   // Suggested binds for running programs: terminal, app launcher, screen locker.
-  Mod+Q { spawn "/home/toms/.config/system_resources/ghostty.sh"; }
+  Mod+Q { spawn "/home/toms/.config/system_resources/alacritty.sh"; }
   Mod+W { spawn "cosmic-files"; }
-  Mod+R { spawn "bash" "/home/toms/.config/system_resources/wofi.sh" "--show" "drun"; }
+  Mod+R { spawn "anyrun"; }
+  // Mod+R { spawn "bash" "/home/toms/.config/system_resources/wofi.sh" "--show" "drun"; }
   Mod+M { spawn "bash" "-c" "exec ~/.config/system_resources/power-menu.sh"; }
 
   // You can also use a shell. Do this if you need pipes, multiple commands, etc.
