@@ -33,6 +33,8 @@ pnpm install -g {{ . | quote }}
 mise use -g {{ . | quote }}
 {{ end -}}
 
+rustup component add rust-analyzer
+
 ## if command -v turso &> /dev/null; then
 ## 	turso update
 ## else
