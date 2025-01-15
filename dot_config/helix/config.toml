@@ -1,3 +1,5 @@
+theme = "default"
+
 [editor]
 line-number = "relative"
 end-of-line-diagnostics = "hint"
