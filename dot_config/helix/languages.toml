@@ -8,3 +8,20 @@ check.command = "clippy"
 # inlayHints.typeHints.enable = false
 # inlayHints.parameterHints.enable = false
 # inlayHints.chainingHints.enable = false
+
+[[language]]
+name = "typescript"
+roots = ["deno.json", "deno.jsonc", "package.json"]
+auto-format = true
+language-servers = ["deno-lsp"]
+
+[[language]]
+name = "javascript"
+roots = ["deno.json", "deno.jsonc", "package.json"]
+auto-format = true
+language-servers = ["deno-lsp"]
+
+[language-server.deno-lsp]
+command = "deno"
+args = ["lsp"]
+config.deno.enable = true

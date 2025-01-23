@@ -115,6 +115,7 @@ packages:
       - anytype-bin
       - hl-log-viewer-bin
       - anyrun-git 
+      - lazysql
   flathub:
     - com.usebottles.bottles
   cargo:
