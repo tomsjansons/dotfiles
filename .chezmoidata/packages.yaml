@@ -72,6 +72,10 @@ packages:
       - proton-vpn-gtk-app
       - lldb
       - ueberzugpp
+      - evolution
+      - tailwindcss-language-server
+      - eslint
+      - prettier
     yay:
       - 1password
       - 1password-cli
@@ -133,3 +137,4 @@ packages:
     # - nativescript
     - eas-cli
     - wrangler@latest
+    - vscode-langservers-extracted@4.8.0

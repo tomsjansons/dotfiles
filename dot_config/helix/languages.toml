@@ -12,16 +12,60 @@ check.command = "clippy"
 [[language]]
 name = "typescript"
 roots = ["deno.json", "deno.jsonc", "package.json"]
+language-servers = [
+  { except-features = ["format"], name = "typescript-language-server" },
+  { except-features = ["format"], name = "deno-lsp" },
+  { except-features = ["format"], name = "tailwindcss-ls" },
+  "vscode-eslint-language-server"
+]
+formatter = { command = "prettier", args = [ "--parser", "typescript"] }
 auto-format = true
-language-servers = ["deno-lsp"]
 
 [[language]]
 name = "javascript"
 roots = ["deno.json", "deno.jsonc", "package.json"]
+language-servers = [
+  { except-features = ["format"], name = "typescript-language-server" },
+  { except-features = ["format"], name = "deno-lsp" },
+  { except-features = ["format"], name = "tailwindcss-ls" },
+  "vscode-eslint-language-server"
+]
+formatter = { command = "prettier", args = [ "--parser", "typescript"] }
 auto-format = true
-language-servers = ["deno-lsp"]
+
+[[language]]
+name = "tsx"
+roots = ["deno.json", "deno.jsonc", "package.json"]
+language-servers = [
+  { except-features = ["format"], name = "typescript-language-server" },
+  { except-features = ["format"], name = "deno-lsp" },
+  { except-features = ["format"], name = "tailwindcss-ls" },
+  "vscode-eslint-language-server"
+]
+formatter = { command = "prettier", args = [ "--parser", "typescript"] }
+auto-format = true
+
+[[language]]
+name = "jsx"
+roots = ["deno.json", "deno.jsonc", "package.json"]
+language-servers = [
+  { except-features = ["format"], name = "typescript-language-server" },
+  { except-features = ["format"], name = "deno-lsp" },
+  { except-features = ["format"], name = "tailwindcss-ls" },
+  "vscode-eslint-language-server"
+]
+formatter = { command = "prettier", args = [ "--parser", "typescript"] }
+auto-format = true
+
+[language-server.typescript-language-server]
+required-root-patterns = ["package.json"]
 
 [language-server.deno-lsp]
 command = "deno"
 args = ["lsp"]
 config.deno.enable = true
+required-root-patterns = ["deno.*"]
+
+# [language-server.vscode-eslint-language-server.config.codeActionsOnSave]
+# enable = true
+# mode = "fixAll"
