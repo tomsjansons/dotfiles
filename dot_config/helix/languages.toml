@@ -57,6 +57,18 @@ language-servers = [
 formatter = { command = "prettier", args = [ "--parser", "typescript"] }
 auto-format = true
 
+# [language-server.vscode-eslint-language-server.config]
+# rootDir = "expo-app/"
+# validate = "on"
+# experimental = { useFlatConfig = false }
+# rulesCustomizations = []
+# run = "onType"
+# problems = { shortenToSingleLine = false }
+# nodePath = ""
+
+# [language-server.vscode-eslint-language-server]
+# required-root-patterns = ["*eslint*", "eslint*"]
+
 [language-server.typescript-language-server]
 required-root-patterns = ["package.json"]
 
