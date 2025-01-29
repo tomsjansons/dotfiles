@@ -5,6 +5,9 @@ line-number = "relative"
 end-of-line-diagnostics = "hint"
 popup-border = "all"
 
+[editor.statusline]
+right = ["file-type", "diagnostics", "selections", "register", "position", "file-encoding"]
+separator = "│"
 
 [editor.cursor-shape]
 insert = "bar"
