@@ -908,6 +908,11 @@ def bw-ssh [] {
 	source ~/bw-ssh-init.nu
 }
 
+def cz-edit [] {
+    cd ~/.local/share/chezmoi
+    nvim
+  }
+
 source ./chezmoi.nu
 source ./git-completions.nu
 source ./just-completions.nu
