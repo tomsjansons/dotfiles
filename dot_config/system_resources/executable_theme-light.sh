@@ -36,3 +36,5 @@ sed -i 's/TwoDark/ansi/g' /home/toms/.config/bat/config
 sed -i 's/mocha/latte/g' /home/toms/.config/ghostty/config
 
 sed -i 's/catppuccin_mocha/catppuccin_latte/g' /home/toms/.config/helix/config.toml
+
+sed -i 's/catppuccin-mocha/catppuccin-latte/g' /home/toms/.config/k9s/config.yaml
