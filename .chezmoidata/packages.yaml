@@ -75,7 +75,10 @@ packages:
       - tailwindcss-language-server
       - eslint
       - prettier
-      - vivaldi # omg
+      - vivaldi
+      - tailscale
+      - podman
+      - k9s
     yay:
       - 1password
       - 1password-cli
@@ -120,6 +123,7 @@ packages:
       - hl-log-viewer-bin
       - anyrun-git 
       - lazysql
+      - blisk-browser-stable
   flathub:
     - com.usebottles.bottles
   cargo:
