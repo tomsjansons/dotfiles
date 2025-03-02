@@ -73,12 +73,12 @@ packages:
       - ueberzugpp
       - evolution
       - tailwindcss-language-server
-      - eslint
-      - prettier
       - vivaldi
       - tailscale
       - podman
       - k9s
+      - ansible
+      - geary
     yay:
       - 1password
       - 1password-cli
