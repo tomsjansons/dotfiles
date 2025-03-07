@@ -1,5 +1,5 @@
 [terminal]
-shell = "nu"
+shell = "zsh"
 
 [font]
 normal.family = "FiraCode Nerd Font"
@@ -14,6 +14,4 @@ shape = "Block"
 option_as_alt = "Both"
 
 [keyboard]
-bindings = [
-	{ key = "M", mods = "Control", action = "CreateNewWindow" }
-]
+bindings = [{ key = "M", mods = "Control", action = "CreateNewWindow" }]
