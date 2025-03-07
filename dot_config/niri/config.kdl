@@ -388,6 +388,7 @@ binds {
   Mod+J     { focus-window-down; }
   Mod+K     { focus-window-up; }
   Mod+L     { focus-column-right; }
+  Mod+G     { switch-focus-between-floating-and-tiling }
 
   // Mod+Shift+Left  { move-column-left; }
   // Mod+Shift+Down  { move-window-down; }

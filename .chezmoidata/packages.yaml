@@ -79,6 +79,8 @@ packages:
       - k9s
       - ansible
       - geary
+      - bluetui
+      - gsettings-desktop-schemas
     yay:
       - 1password
       - 1password-cli

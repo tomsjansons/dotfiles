@@ -1,7 +1,7 @@
-if ! pgrep -x 'swaylock' > /dev/null; then
-	if [ -e ~/.theme-light ]; then
-		swaylock -i /home/toms/.config/system_resources/astronaut_wp_lighter.jpg
-	else
-		swaylock -i /home/toms/.config/system_resources/astronaut_wp.jpg
-	fi
+if ! pgrep -x 'swaylock' >/dev/null; then
+  if [ -e ~/.theme-light ]; then
+    swaylock -i /home/toms/.config/system_resources/view-light.jpg
+  else
+    swaylock -i /home/toms/.config/system_resources/view-dark.jpg
+  fi
 fi
