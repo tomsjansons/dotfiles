@@ -3,19 +3,39 @@
         modifiers: [
             Super,
         ],
-        key: "q",
-        description: Some("Alacritty"),
-    ): Spawn("bash /home/toms/.config/system_resources/alacritty.sh"),
+        key: "e",
+    ): PreviousWorkspace,
     (
         modifiers: [
             Super,
+        ],
+        key: "n",
+    ): Minimize,
+    (
+        modifiers: [
+            Super,
+            Shift,
+        ],
+        key: "g",
+    ): ToggleSticky,
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "bracketright",
+    ): System(PlayNext),
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "t",
+    ): Disable,
+    (
+        modifiers: [
+            Super,
+            Shift,
         ],
         key: "r",
-    ): System(Launcher),
-    (
-        modifiers: [
-            Super,
-        ],
     ): Disable,
     (
         modifiers: [
@@ -27,7 +47,44 @@
         modifiers: [
             Super,
         ],
-        key: "slash",
+        key: "r",
+    ): System(Launcher),
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "q",
+        description: Some("Alacritty"),
+    ): Spawn("bash /home/toms/.config/system_resources/alacritty.sh"),
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "p",
+    ): System(PlayPause),
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "c",
+    ): Close,
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "bracketleft",
+    ): System(PlayPrev),
+    (
+        modifiers: [
+            Super,
+            Shift,
+        ],
+        key: "f",
+    ): MoveToNextWorkspace,
+    (
+        modifiers: [
+            Super,
+        ],
     ): Disable,
     (
         modifiers: [
@@ -40,13 +97,7 @@
         modifiers: [
             Super,
         ],
-        key: "e",
-    ): PreviousWorkspace,
-    (
-        modifiers: [
-            Super,
-        ],
-        key: "t",
+        key: "slash",
     ): Disable,
     (
         modifiers: [
@@ -60,51 +111,6 @@
             Super,
             Shift,
         ],
-        key: "r",
-    ): Disable,
-    (
-        modifiers: [
-            Super,
-            Shift,
-        ],
-        key: "g",
-    ): ToggleSticky,
-    (
-        modifiers: [
-            Super,
-        ],
-        key: "c",
-    ): Close,
-    (
-        modifiers: [
-            Super,
-            Shift,
-        ],
         key: "equal",
     ): Resizing(Outwards),
-    (
-        modifiers: [
-            Super,
-            Shift,
-        ],
-        key: "f",
-    ): MoveToNextWorkspace,
-    (
-        modifiers: [
-            Super,
-        ],
-        key: "bracketright",
-    ): System(PlayNext),
-    (
-        modifiers: [
-            Super,
-        ],
-        key: "p",
-    ): System(PlayPause),
-    (
-        modifiers: [
-            Super,
-        ],
-        key: "bracketleft",
-    ): System(PlayPrev),
 }
