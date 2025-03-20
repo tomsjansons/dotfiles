@@ -81,6 +81,20 @@ packages:
       - geary
       - bluetui
       - gsettings-desktop-schemas
+      # qemu stuff
+      - qemu 
+      - virt-manager
+      - virt-viewer
+      - dnsmasq
+      - vde2
+      - bridge-utils
+      - openbsd-netcat
+      - ebtables
+      - iptables 
+      - libguestfs
+      - cpio
+      # quemu stuff end 
+      - cosmic-session
     yay:
       - 1password
       - 1password-cli
@@ -128,6 +142,7 @@ packages:
       - blisk-browser-stable
   flathub:
     - com.usebottles.bottles
+    - org.kde.kdenlive
   cargo:
     # - tauri-cli@2.0.0-rc.4
     # - trunk

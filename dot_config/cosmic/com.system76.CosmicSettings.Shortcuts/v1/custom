@@ -1,0 +1,110 @@
+{
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "q",
+        description: Some("Alacritty"),
+    ): Spawn("bash /home/toms/.config/system_resources/alacritty.sh"),
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "r",
+    ): System(Launcher),
+    (
+        modifiers: [
+            Super,
+        ],
+    ): Disable,
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "f",
+    ): NextWorkspace,
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "slash",
+    ): Disable,
+    (
+        modifiers: [
+            Super,
+            Shift,
+        ],
+        key: "minus",
+    ): Resizing(Inwards),
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "e",
+    ): PreviousWorkspace,
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "t",
+    ): Disable,
+    (
+        modifiers: [
+            Super,
+            Shift,
+        ],
+        key: "e",
+    ): MoveToPreviousWorkspace,
+    (
+        modifiers: [
+            Super,
+            Shift,
+        ],
+        key: "r",
+    ): Disable,
+    (
+        modifiers: [
+            Super,
+            Shift,
+        ],
+        key: "g",
+    ): ToggleSticky,
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "c",
+    ): Close,
+    (
+        modifiers: [
+            Super,
+            Shift,
+        ],
+        key: "equal",
+    ): Resizing(Outwards),
+    (
+        modifiers: [
+            Super,
+            Shift,
+        ],
+        key: "f",
+    ): MoveToNextWorkspace,
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "bracketright",
+    ): System(PlayNext),
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "p",
+    ): System(PlayPause),
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "bracketleft",
+    ): System(PlayPrev),
+}
