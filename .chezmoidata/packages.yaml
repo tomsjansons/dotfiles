@@ -95,6 +95,7 @@ packages:
       - cpio
       # quemu stuff end 
       - cosmic-session
+      - dconf
     yay:
       - 1password
       - 1password-cli
@@ -140,6 +141,8 @@ packages:
       - anyrun-git 
       - lazysql
       - blisk-browser-stable
+      - zellij
+      - power-profiles-daemon
   flathub:
     - com.usebottles.bottles
     - org.kde.kdenlive
