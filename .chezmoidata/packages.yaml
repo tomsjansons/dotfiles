@@ -13,8 +13,6 @@ packages:
       - playerctl   #for controlling playback
       - polkit-gnome
       - libnotify
-      - cosmic-files
-      - cosmic-text-editor
       - zsh
       - alacritty
       - go
@@ -96,6 +94,14 @@ packages:
       # quemu stuff end 
       - cosmic-session
       - dconf
+      - valgrind
+      - atac
+      - loupe
+      - nautilus
+      - gnome-text-editor
+      - totem
+      - evince
+      - watchexec
     yay:
       - 1password
       - 1password-cli
@@ -138,11 +144,13 @@ packages:
       # - evil-helix-bin
       - anytype-bin
       - hl-log-viewer-bin
-      - anyrun-git 
       - lazysql
       - blisk-browser-stable
       - zellij
       - power-profiles-daemon
+      - evolution
+      - google-chrome
+      - postman-bin
   flathub:
     - com.usebottles.bottles
     - org.kde.kdenlive
