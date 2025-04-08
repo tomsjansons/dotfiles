@@ -1,2 +1,4 @@
+Host *
+  HashKnownHosts yes
 Host github.com
-	ForwardAgent yes
+  ForwardAgent yes
