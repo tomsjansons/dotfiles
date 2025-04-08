@@ -1,5 +1,49 @@
 packages:
-  arch:
+  devserver:
+    pacman:
+      - zsh
+      - zsh-completions
+      - zsh-syntax-highlighting
+      - rustup
+      - neovim
+      - bat
+      - eza # ls replacement
+      - jq
+      - just
+      - yazi
+      - docker
+      - docker-compose
+      - postgresql
+      - sqlc
+      - rclone
+      - lazygit
+      - tailwindcss-language-server
+      - tailscale
+      - k9s
+    yay:
+      - oh-my-posh-bin
+      - mise-bin      # version manager for node and other envs
+      - ripgrep
+      - xclip         # copy-paste for nvim in xorg
+      - wl-clipboard  # copy-paste for nvim in wayland
+      - bitwarden-ssh-agent-git
+      - supabase-bin
+      - lazydocker
+      - mprocs-bin
+      - pmtiles
+      - zellij
+    cargo:
+      - bacon 
+      - zizmor
+    mise:
+      - node@22
+      - python@3
+    pnpm:
+      - eas-cli
+      - wrangler@latest
+      - vscode-langservers-extracted@4.8.0
+      - "@bitwarden/cli"
+  devlocal:
     pacman:
       - greetd
       - greetd-tuigreet
@@ -154,23 +198,23 @@ packages:
       - evolution
       - google-chrome
       - postman-bin
-  flathub:
-    - com.usebottles.bottles
-    - org.kde.kdenlive
-  cargo:
-    # - tauri-cli@2.0.0-rc.4
-    # - trunk
-    - bacon 
-    - zizmor
-    - typeshare-cli
-  mise:
-    - node@22
-    - python@3
-    - bun
-    - deno@latest
-  pnpm:
-    # - nativescript
-    - eas-cli
-    - wrangler@latest
-    - vscode-langservers-extracted@4.8.0
-    - "@bitwarden/cli"
+    flathub:
+      - com.usebottles.bottles
+      - org.kde.kdenlive
+    cargo:
+      # - tauri-cli@2.0.0-rc.4
+      # - trunk
+      - bacon 
+      - zizmor
+      - typeshare-cli
+    mise:
+      - node@22
+      - python@3
+      - bun
+      - deno@latest
+    pnpm:
+      # - nativescript
+      - eas-cli
+      - wrangler@latest
+      - vscode-langservers-extracted@4.8.0
+      - "@bitwarden/cli"

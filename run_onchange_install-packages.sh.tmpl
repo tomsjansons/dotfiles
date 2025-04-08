@@ -7,39 +7,33 @@ if ! command -v yay &> /dev/null; then
 	cd /tmp && sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm
 fi
 
-{{ if eq .chezmoi.osRelease.id "arch" }}
+{{ if eq .chezmoi.hostname "arch-l13" }}
 
-{{ range .packages.arch.pacman }}
+{{ range .packages.devlocal.pacman }}
 sudo pacman -S --noconfirm --needed {{ . | quote }}
 {{ end -}}
 
-{{ range .packages.arch.yay }}
+{{ range .packages.devlocal.yay }}
 yay -S --noconfirm --needed {{ . | quote }}
 {{ end -}}
 
-{{ range .packages.flathub }}
+{{ range .packages.devlocal.flathub }}
 flatpak install --assumeyes --noninteractive --or-update flathub {{ . | quote }}
 {{ end -}}
 
-{{ range .packages.cargo }}
+{{ range .packages.devlocal.cargo }}
 cargo install {{ . | quote }}
 {{ end -}}
 
-{{ range .packages.pnpm }}
+{{ range .packages.devlocal.pnpm }}
 pnpm install -g {{ . | quote }}
 {{ end -}}
 
-{{ range .packages.mise }}
+{{ range .packages.devlocal.mise }}
 mise use -g {{ . | quote }}
 {{ end -}}
 
 rustup component add rust-analyzer
-
-## if command -v turso &> /dev/null; then
-## 	turso update
-## else
-## 	curl -sSfL https://get.tur.so/install.sh | bash
-## fi
 
 if [ $SHELL != '/usr/bin/zsh' ]; then
 	sudo chsh --shell /usr/bin/zsh toms
@@ -82,5 +76,40 @@ sudo systemctl is-active --quiet battery-check.service || sudo systemctl enable 
 sudo systemctl start battery-check.service
 
 ## curl https://raw.githubusercontent.com/Lifailon/lazyjournal/main/install.sh | bash
+
+{{ end -}}
+
+{{ if eq .chezmoi.hostname "ridi-dev-olive" }}
+
+{{ range .packages.devserver.pacman }}
+sudo pacman -S --noconfirm --needed {{ . | quote }}
+{{ end -}}
+
+{{ range .packages.devserver.yay }}
+yay -S --noconfirm --needed {{ . | quote }}
+{{ end -}}
+
+{{ range .packages.devserver.cargo }}
+cargo install {{ . | quote }}
+{{ end -}}
+
+{{ range .packages.devserver.pnpm }}
+pnpm install -g {{ . | quote }}
+{{ end -}}
+
+{{ range .packages.devserver.mise }}
+mise use -g {{ . | quote }}
+{{ end -}}
+
+rustup component add rust-analyzer
+
+if [ $SHELL != '/usr/bin/zsh' ]; then
+	sudo chsh --shell /usr/bin/zsh toms
+fi
+
+if ! groups | grep -q 'docker'; then
+	echo "Adding docker to user groups"
+	sudo usermod -aG docker toms
+fi
 
 {{ end -}}

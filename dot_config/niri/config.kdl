@@ -355,7 +355,7 @@ binds {
   // shows a list of important hotkeys.
   Mod+Shift+Slash { show-hotkey-overlay; }
 
-  Mod+T { spawn "/home/toms/.config/system_resources/alacritty.sh" "-e" "numbat"; }
+  Mod+T { spawn "/home/toms/.config/system_resources/alacritty.sh" "-T" "numbat" "-e" "numbat"; }
   Mod+Q { spawn "/home/toms/.config/system_resources/alacritty.sh"; }
   Mod+W { spawn "nautilus"; }
   // Mod+R { spawn "anyrun"; }
