@@ -19,7 +19,13 @@ bindkey "^[[3~" delete-char
 bindkey "^[[1;5D" backward-word
 bindkey "^[[1;5C" forward-word
 
+
+{{ if eq .chezmoi.hostname "arch-l13" }}
 eval "$(oh-my-posh init zsh --config /home/toms/.config/oh-my-posh/amro.omp.json)"
+{{ end -}}
+{{ if eq .chezmoi.hostname "ridi-dev-olive" }}
+eval "$(oh-my-posh init zsh --config /home/toms/.config/oh-my-posh/atomicBit.omp.json)"
+{{ end -}}
 eval "$(/usr/bin/mise activate zsh)"
 
 export EDITOR='nvim'
