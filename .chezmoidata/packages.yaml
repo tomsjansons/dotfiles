@@ -20,6 +20,7 @@ packages:
       - tailwindcss-language-server
       - tailscale
       - k9s
+      - pnpm
     yay:
       - oh-my-posh-bin
       - mise-bin      # version manager for node and other envs
