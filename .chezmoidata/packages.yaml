@@ -102,6 +102,9 @@ packages:
       - totem
       - evince
       - watchexec
+      - gnome-calculator
+      - snapshot
+      - git-filter-repo
     yay:
       - 1password
       - 1password-cli
