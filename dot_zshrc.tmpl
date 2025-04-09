@@ -86,3 +86,7 @@ esac
 # pnpm end
 
 export ANTHROPIC_API_KEY={{ (bitwarden "item" "ANTHROPIC_API_KEY").notes }}
+
+{{ if eq .chezmoi.hostname "ridi-dev-olive" }}
+source ./.ssh_zshrc
+{{ end -}}
