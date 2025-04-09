@@ -21,9 +21,9 @@ packages:
       - tailscale
       - k9s
       - pnpm
+      - mise
     yay:
       - oh-my-posh-bin
-      - mise-bin      # version manager for node and other envs
       - ripgrep
       - xclip         # copy-paste for nvim in xorg
       - wl-clipboard  # copy-paste for nvim in wayland
@@ -150,6 +150,7 @@ packages:
       - gnome-calculator
       - snapshot
       - git-filter-repo
+      - mise
     yay:
       - 1password
       - 1password-cli
@@ -158,7 +159,6 @@ packages:
       - neovide-git
       - oh-my-posh-bin
       - rambox-pro-bin
-      - mise-bin      # version manager for node and other envs
       - spotify
       - slack-desktop
       # - pnpm-shell-completion
