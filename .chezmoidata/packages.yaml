@@ -23,6 +23,8 @@ packages:
       - k9s
       - pnpm
       - mise
+      - pulumi
+      - kubectl
     yay:
       - oh-my-posh-bin
       - ripgrep
@@ -152,6 +154,8 @@ packages:
       - snapshot
       - git-filter-repo
       - mise
+      - pulumi
+      - kubectl
     yay:
       - 1password
       - 1password-cli
