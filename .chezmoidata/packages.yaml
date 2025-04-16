@@ -204,6 +204,7 @@ packages:
       - evolution
       - google-chrome
       - postman-bin
+      - zig-bin
     flathub:
       - com.usebottles.bottles
       - org.kde.kdenlive
