@@ -156,6 +156,7 @@ packages:
       - mise
       - pulumi
       - kubectl
+      - xfce4
     yay:
       - 1password
       - 1password-cli
