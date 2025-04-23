@@ -157,6 +157,10 @@ packages:
       - pulumi
       - kubectl
       - xfce4
+      - batsignal
+      - xdg-desktop-portal
+      - xdg-desktop-portal-gtk
+      - xdg-desktop-portal-gnome
     yay:
       - 1password
       - 1password-cli
@@ -206,6 +210,7 @@ packages:
       - google-chrome
       - postman-bin
       - zig-bin
+      - zoom
     flathub:
       - com.usebottles.bottles
       - org.kde.kdenlive

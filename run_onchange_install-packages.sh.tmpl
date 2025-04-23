@@ -66,14 +66,14 @@ if [ ! -L $greetdconf ]; then
 	sudo ln -sf /home/toms/.local/share/chezmoi/etc-greetd-config.toml /etc/greetd/config.toml
 fi
 
-batterycheck='/etc/systemd/system/battery-check.service'
-if [ ! -L $batterycheck ]; then
-	sudo ln -sf /home/toms/.local/share/chezmoi/etc-systemd-system-battery-check.service /etc/systemd/system/battery-check.service
-	sudo systemctl daemon-reload
-fi
+## batterycheck='/etc/systemd/system/battery-check.service'
+## if [ ! -L $batterycheck ]; then
+## 	sudo ln -sf /home/toms/.local/share/chezmoi/etc-systemd-system-battery-check.service /etc/systemd/system/battery-check.service
+## 	sudo systemctl daemon-reload
+## fi
 
-sudo systemctl is-active --quiet battery-check.service || sudo systemctl enable battery-check.service
-sudo systemctl start battery-check.service
+## sudo systemctl is-active --quiet battery-check.service || sudo systemctl enable battery-check.service
+## sudo systemctl start battery-check.service
 
 ## curl https://raw.githubusercontent.com/Lifailon/lazyjournal/main/install.sh | bash
 

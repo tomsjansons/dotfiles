@@ -57,20 +57,21 @@ cz-cd() {
 	cd $(chezmoi source-path)
 }
 cz-edit() {
-	cd $(chezmoi source-path)
+	cz-cd
   nvim
 }
-cz-apply() {
+bw-session() {
   if [[ -z "${BW_SESSION}" ]]; then
 	  export BW_SESSION=$(bw unlock --raw)
   fi
+}
+cz-apply() {
+  bw-session
   chezmoi apply
 }
 
 bw-agent() {
-  if [[ -z "${BW_SESSION}" ]]; then
-	  export BW_SESSION=$(bw unlock --raw)
-  fi
+  bw-session
 
   eval $(ssh-agent -s -t 1h)
 
@@ -86,6 +87,7 @@ esac
 # pnpm end
 
 export ANTHROPIC_API_KEY={{ (bitwarden "item" "ANTHROPIC_API_KEY").notes }}
+export TAVILY_API_KEY={{ (bitwarden "item" "TAVILY_API_KEY").notes }}
 
 {{ if eq .chezmoi.hostname "ridi-dev-olive" }}
 source ~/.ssh_zshrc

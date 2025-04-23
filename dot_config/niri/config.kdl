@@ -7,15 +7,11 @@
 // Find the full list of options on the wiki:
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Input
 
-spawn-at-startup "pueue"
+spawn-at-startup "batsignal -b"
 spawn-at-startup "waybar"
 spawn-at-startup "swaync"
 spawn-at-startup "bash" "-c" "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
-// spawn-at-startup "wl-paste" "--type" "text" "--watch" "cliphist" "store" //Stores only text data
-// spawn-at-startup "wl-paste" "--type" "image" "--watch" "cliphist" "store" //Stores only image data
-spawn-at-startup "systemctl" "--user" "start" "blueman-applet"
-spawn-at-startup "systemctl" "--user" "start" "network-manager-applet"
-// spawn-at-startup "xwayland-satellite"
+spawn-at-startup "bash" "-c" "\"xwayland-satellite || libnotify --wait --urgency critical xwayland-crashed\""
 spawn-at-startup "bash" "/home/toms/.config/system_resources/swaybg.sh"
 spawn-at-startup "bash" "/home/toms/.config/system_resources/swayidle.sh"
 
