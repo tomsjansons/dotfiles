@@ -161,6 +161,7 @@ packages:
       - xdg-desktop-portal
       - xdg-desktop-portal-gtk
       - xdg-desktop-portal-gnome
+      - noto-fonts-emoji
     yay:
       - 1password
       - 1password-cli
@@ -211,6 +212,7 @@ packages:
       - postman-bin
       - zig-bin
       - zoom
+      - noto-color-emoji-fontconfig
     flathub:
       - com.usebottles.bottles
       - org.kde.kdenlive

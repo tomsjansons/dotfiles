@@ -311,6 +311,11 @@ window-rule {
 }
 
 window-rule {
+  match title="bluetui"
+  open-floating true
+}
+
+window-rule {
   geometry-corner-radius 6
   clip-to-geometry true
 }
@@ -358,6 +363,7 @@ binds {
 
   Mod+T { spawn "/home/toms/.config/system_resources/alacritty.sh" "-T" "numbat" "-e" "numbat"; }
   Mod+Y { spawn "/home/toms/.config/system_resources/alacritty.sh" "-T" "impala" "-e" "impala"; }
+  Mod+Shift+Y { spawn "/home/toms/.config/system_resources/bluetui.sh"; }
   Mod+Q { spawn "/home/toms/.config/system_resources/alacritty.sh"; }
   Mod+W { spawn "nautilus"; }
   // Mod+R { spawn "anyrun"; }
