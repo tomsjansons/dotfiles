@@ -162,6 +162,7 @@ packages:
       - xdg-desktop-portal-gtk
       - xdg-desktop-portal-gnome
       - noto-fonts-emoji
+      - rofi-wayland
     yay:
       - 1password
       - 1password-cli
@@ -213,6 +214,8 @@ packages:
       - zig-bin
       - zoom
       - noto-color-emoji-fontconfig
+      - ungoogled-chromium-bin
+      - cromite-bin
     flathub:
       - com.usebottles.bottles
       - org.kde.kdenlive

@@ -1,6 +1,8 @@
 #!/bin/bash
 
+echo "==== OMG ==== pacman update"
 sudo pacman -Syu --noconfirm --needed
+echo "==== OMG ==== yay update"
 yay -Syu --noconfirm --needed
 
 if ! command -v yay &> /dev/null; then
@@ -10,26 +12,32 @@ fi
 {{ if eq .chezmoi.hostname "arch-l13" }}
 
 {{ range .packages.devlocal.pacman }}
+echo "==== OMG ==== pacman {{ . | quote }}"
 sudo pacman -S --noconfirm --needed {{ . | quote }}
 {{ end -}}
 
 {{ range .packages.devlocal.yay }}
+echo "==== OMG ==== yay {{ . | quote }}"
 yay -S --noconfirm --needed {{ . | quote }}
 {{ end -}}
 
 {{ range .packages.devlocal.flathub }}
+echo "==== OMG ==== flatpak {{ . | quote }}"
 flatpak install --assumeyes --noninteractive --or-update flathub {{ . | quote }}
 {{ end -}}
 
 {{ range .packages.devlocal.cargo }}
+echo "==== OMG ==== cargo {{ . | quote }}"
 cargo install {{ . | quote }}
 {{ end -}}
 
 {{ range .packages.devlocal.pnpm }}
+echo "==== OMG ==== pnpm {{ . | quote }}"
 pnpm install -g {{ . | quote }}
 {{ end -}}
 
 {{ range .packages.devlocal.mise }}
+echo "==== OMG ==== mise {{ . | quote }}"
 mise use -g {{ . | quote }}
 {{ end -}}
 
@@ -82,22 +90,27 @@ fi
 {{ if eq .chezmoi.hostname "ridi-dev-olive" }}
 
 {{ range .packages.devserver.pacman }}
+echo "==== OMG ==== pacman {{ . | quote }}"
 sudo pacman -S --noconfirm --needed {{ . | quote }}
 {{ end -}}
 
 {{ range .packages.devserver.yay }}
+echo "==== OMG ==== yay {{ . | quote }}"
 yay -S --noconfirm --needed {{ . | quote }}
 {{ end -}}
 
 {{ range .packages.devserver.cargo }}
+echo "==== OMG ==== cargo {{ . | quote }}"
 cargo install {{ . | quote }}
 {{ end -}}
 
 {{ range .packages.devserver.pnpm }}
+echo "==== OMG ==== pnpm {{ . | quote }}"
 pnpm install -g {{ . | quote }}
 {{ end -}}
 
 {{ range .packages.devserver.mise }}
+echo "==== OMG ==== mise {{ . | quote }}"
 mise use -g {{ . | quote }}
 {{ end -}}
 
