@@ -216,6 +216,7 @@ packages:
       - noto-color-emoji-fontconfig
       - ungoogled-chromium-bin
       - cromite-bin
+      - joplin-desktop
     flathub:
       - com.usebottles.bottles
       - org.kde.kdenlive
