@@ -22,6 +22,7 @@ gsettings set org.gnome.desktop.interface color-scheme prefer-light
 
 sed -i 's/cdd6f4/7287fd/g' /home/toms/.config/niri/config.kdl
 sed -i 's/f5e0dc/dc8a78/g' /home/toms/.config/niri/config.kdl
+sed -i 's/515151/bdbdbd/g' /home/toms/.config/niri/config.kdl
 
 echo '@import url("latte.css");' >/home/toms/.config/swaync/style.css
 swaync-client -rs

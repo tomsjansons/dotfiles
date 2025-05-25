@@ -163,6 +163,7 @@ packages:
       - xdg-desktop-portal-gnome
       - noto-fonts-emoji
       - rofi-wayland
+      - ncspot
     yay:
       - 1password
       - 1password-cli
@@ -217,6 +218,7 @@ packages:
       - ungoogled-chromium-bin
       - cromite-bin
       - joplin-desktop
+      - watchman-bin
     flathub:
       - com.usebottles.bottles
       - org.kde.kdenlive
