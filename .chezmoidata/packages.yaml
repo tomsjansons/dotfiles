@@ -78,12 +78,9 @@ packages:
       - fd # find replacement
       - fzf
       - jq
-      - helix
       - steam
-      - pnpm
       - just
       - yazi
-      - kdeconnect
       - kcharselect
       - cups
       - cups-pdf
@@ -95,7 +92,6 @@ packages:
       - docker-compose
       - postgresql
       - thunderbird
-      - zed
       - acpi
       - pulumi
       - sqlc
@@ -105,26 +101,17 @@ packages:
       - libreoffice-fresh
       - discord
       - lazygit
-      - nushell
       - imagemagick
       - libvips
-      - pueue
-      - notmuch
-      - astroid
       - ghostty
       - flatpak
       - remmina
       - proton-vpn-gtk-app
       - lldb
       - ueberzugpp
-      - evolution
       - tailwindcss-language-server
-      - vivaldi
       - tailscale
-      - podman
       - k9s
-      - ansible
-      - geary
       - bluetui
       - gsettings-desktop-schemas
       # qemu stuff
@@ -154,7 +141,6 @@ packages:
       - snapshot
       - git-filter-repo
       - mise
-      - pulumi
       - kubectl
       - xfce4
       - batsignal
@@ -165,13 +151,9 @@ packages:
       - rofi-wayland
       - ncspot
     yay:
-      - 1password
-      - 1password-cli
-      - bottom-git    # top replacement
       - brave-bin
       - neovide-git
       - oh-my-posh-bin
-      - rambox-pro-bin
       - spotify
       - slack-desktop
       # - pnpm-shell-completion
@@ -201,30 +183,23 @@ packages:
       - lazydocker
       - mprocs-bin
       - pmtiles
-      - onlyoffice-bin
-      # - evil-helix-bin
-      - anytype-bin
-      - hl-log-viewer-bin
-      - lazysql
-      - blisk-browser-stable
+      - evil-helix-bin
       - zellij
       - power-profiles-daemon
-      - evolution
       - google-chrome
       - postman-bin
       - zig-bin
       - zoom
       - noto-color-emoji-fontconfig
       - ungoogled-chromium-bin
-      - cromite-bin
       - joplin-desktop
       - watchman-bin
+      - celeste-client-bin
     flathub:
       - com.usebottles.bottles
       - org.kde.kdenlive
+      - be.alexandervanhee.gradia
     cargo:
-      # - tauri-cli@2.0.0-rc.4
-      # - trunk
       - bacon 
       - zizmor
       - typeshare-cli

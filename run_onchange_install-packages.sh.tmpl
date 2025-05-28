@@ -1,5 +1,15 @@
 #!/bin/bash
 
+{{ range .pacremove.yay }}
+echo "==== REM ==== yay {{ . | quote }}"
+yay -Runs --noconfirm {{ . | quote }}
+{{ end -}}
+
+{{ range .pacremove.pacman }}
+echo "==== REM ==== yay {{ . | quote }}"
+sudo pacman -Runs --noconfirm {{ . | quote }}
+{{ end -}}
+
 echo "==== OMG ==== pacman update"
 sudo pacman -Syu --noconfirm --needed
 echo "==== OMG ==== yay update"
@@ -84,6 +94,7 @@ fi
 ## sudo systemctl start battery-check.service
 
 ## curl https://raw.githubusercontent.com/Lifailon/lazyjournal/main/install.sh | bash
+
 
 {{ end -}}
 
