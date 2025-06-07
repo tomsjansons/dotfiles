@@ -9,6 +9,11 @@ yay -Runs --noconfirm {{ . | quote }}
 echo "==== REM ==== yay {{ . | quote }}"
 sudo pacman -Runs --noconfirm {{ . | quote }}
 {{ end -}}
+  
+{{ range .pacremove.flathub }}
+echo "==== rem ==== flatpak {{ . | quote }}"
+flatpak uninstall --assumeyes --noninteractive --delete-data {{ . | quote }}
+{{ end -}}
 
 echo "==== OMG ==== pacman update"
 sudo pacman -Syu --noconfirm --needed

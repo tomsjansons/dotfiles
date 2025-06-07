@@ -12,6 +12,7 @@ shape = "Block"
 
 [window]
 option_as_alt = "Both"
+decorations_theme_variant = "Dark"
 
 [keyboard]
 bindings = [{ key = "M", mods = "Control", action = "CreateNewWindow" }]

@@ -41,3 +41,5 @@ sed -i 's/catppuccin_latte/catppuccin_mocha/g' /home/toms/.config/helix/config.t
 sed -i 's/catppuccin-latte/catppuccin-mocha/g' /home/toms/.config/k9s/config.yaml
 
 sed -i 's/catppuccin-latte/catppuccin-mocha/g' /home/toms/.config/rofi/config.rasi
+
+sed -i 's/Light/Dark/g' /home/toms/.config/alacritty/alacritty.toml
