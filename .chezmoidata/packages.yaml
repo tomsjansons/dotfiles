@@ -195,6 +195,7 @@ packages:
       - joplin-desktop
       - watchman-bin
       - celeste-client-bin
+      - osmium-tool
     flathub:
       - com.usebottles.bottles
       - org.kde.kdenlive
