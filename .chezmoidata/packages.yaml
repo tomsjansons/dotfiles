@@ -25,6 +25,7 @@ packages:
       - mise
       - pulumi
       - kubectl
+      - rclone
     yay:
       - oh-my-posh-bin
       - ripgrep
@@ -150,6 +151,7 @@ packages:
       - noto-fonts-emoji
       - rofi-wayland
       - ncspot
+      - pnpm
     yay:
       - brave-bin
       - neovide-git
@@ -200,6 +202,7 @@ packages:
       - com.usebottles.bottles
       - org.kde.kdenlive
       - be.alexandervanhee.gradia
+      - io.kapsa.drive
     cargo:
       - bacon 
       - zizmor

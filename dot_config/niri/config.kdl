@@ -305,25 +305,26 @@ animations {
   // slowdown 3.0
 }
 
-window-rule {
-  match is-focused=false
-  draw-border-with-background false
-  opacity 0.8
-}
-window-rule {
-  match is-focused=true
-  draw-border-with-background false
-  opacity 0.9
-}
-window-rule {
-  match title="YouTube"
-  match title="Disney"
-  match title="Netflix"
-  match title="Floatplane"
-  match title="Nebula"
-  match title="tet.plus"
-  opacity 1.0
-}
+// window-rule {
+//   match is-focused=false
+//   draw-border-with-background false
+//   opacity 0.8
+// }
+// window-rule {
+//   match is-focused=true
+//   draw-border-with-background false
+//   opacity 0.9
+// }
+// window-rule {
+//   match title="YouTube"
+//   match title="Disney"
+//   match title="Netflix"
+//   match title="Floatplane"
+//   match title="Nebula"
+//   match title="tet.plus"
+//   match title="Meeting"
+//   opacity 1.0
+// }
 
 window-rule {
   match title="numbat"

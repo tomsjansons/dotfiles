@@ -14,5 +14,9 @@ shape = "Block"
 option_as_alt = "Both"
 decorations_theme_variant = "Dark"
 
+[window.padding]
+x = 10
+y = 10
+
 [keyboard]
 bindings = [{ key = "M", mods = "Control", action = "CreateNewWindow" }]
