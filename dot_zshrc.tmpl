@@ -92,5 +92,5 @@ export ANTHROPIC_API_KEY={{ (bitwarden "item" "ANTHROPIC_API_KEY").notes }}
 export TAVILY_API_KEY={{ (bitwarden "item" "TAVILY_API_KEY").notes }}
 
 {{ if eq .chezmoi.hostname "ridi-dev-olive" }}
-source ~/.ssh_zshrc
+source ~/.devserver_zshrc
 {{ end -}}
