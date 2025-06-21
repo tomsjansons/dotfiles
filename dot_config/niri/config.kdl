@@ -15,6 +15,11 @@ spawn-at-startup "bash" "-c" "\"xwayland-satellite || libnotify --wait --urgency
 spawn-at-startup "bash" "/home/toms/.config/system_resources/swaybg.sh"
 spawn-at-startup "bash" "/home/toms/.config/system_resources/swayidle.sh"
 
+
+hotkey-overlay {
+    skip-at-startup
+}
+
 workspace "1" {
     open-on-output "DP-3"
 }
@@ -398,9 +403,7 @@ binds {
   Mod+Q { spawn "/home/toms/.config/system_resources/alacritty.sh"; }
   Mod+W { spawn "nautilus"; }
   Mod+Shift+W { spawn "/home/toms/.config/system_resources/alacritty.sh" "-T" "yazi" "-e" "yazi"; }
-  // Mod+R { spawn "anyrun"; }
-  // Mod+R { spawn "bash" "/home/toms/.config/system_resources/wofi.sh" "--show" "drun"; }
-  Mod+R { spawn "/home/toms/.config/rofi/launchers/type-6/launcher.sh"; }
+  Mod+R { spawn "rofi" "-show" "drun"; }
   Mod+B { spawn "/home/toms/.config/system_resources/power-menu.sh"; }
 
   // You can also use a shell. Do this if you need pipes, multiple commands, etc.

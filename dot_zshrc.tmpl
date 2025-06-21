@@ -27,9 +27,10 @@ eval "$(oh-my-posh init zsh --config /home/toms/.config/oh-my-posh/amro.omp.json
 eval "$(oh-my-posh init zsh --config /home/toms/.config/oh-my-posh/emodipt.omp.json)"
 {{ end -}}
 eval "$(/usr/bin/mise activate zsh)"
+source <(fzf --zsh)
 
 export EDITOR='nvim'
-export VISUAL='alacritty -e nvim'
+export VISUAL='/home/toms/.config/system_resources/alacritty.sh -e nvim'
 
 # export NDK_HOME='/opt/android-ndk/'
 # export PATH=$PATH:/opt/android-sdk/cmdline-tools/latest/bin
@@ -47,13 +48,12 @@ export XDG_DATA_DIRS=$XDG_DATA_DIRS:/usr/share
 export KUBECONFIG=/home/toms/.kube/config
 export TERMINAL=/home/toms/.config/system_resources/alacritty.sh
 
-# alias gnome_settings_dump="dconf dump / > ~/.local/share/chezmoi/dconf.ini"
 alias source-me="source ~/.zshrc"
 alias lsa="eza --long --all --icons=always --git --time-style=long-iso --octal-permissions --no-user"
 alias lsas="eza --long --all --icons=always --git --time-style=long-iso --octal-permissions --no-user --total-size"
 alias ls="eza"
 alias cat="bat"
-alias cdz="z"
+alias nvim-new="/home/toms/.config/system_resources/alacritty.sh -e nvim"
 
 cz-cd() {
 	cd $(chezmoi source-path)
@@ -63,6 +63,7 @@ cz-edit() {
   nvim
 }
 bw-session() {
+  echo "BW_SESSION=${BW_SESSION}"
   if [[ -z "${BW_SESSION}" ]]; then
 	  export BW_SESSION=$(bw unlock --raw)
   fi

@@ -152,6 +152,7 @@ packages:
       - rofi-wayland
       - ncspot
       - pnpm
+      - qgis
     yay:
       - brave-bin
       - neovide-git
@@ -198,6 +199,7 @@ packages:
       - watchman-bin
       - celeste-client-bin
       - osmium-tool
+      - martin
     flathub:
       - com.usebottles.bottles
       - org.kde.kdenlive
