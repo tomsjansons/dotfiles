@@ -2,4 +2,4 @@
 
 systemctl is-active --quiet bluetooth.service || systemctl start bluetooth.service
 
-/home/toms/.config/system_resources/alacritty.sh -T bluetui -e bluetui
+wezterm start --always-new-process --class wez.bluetui -- bluetui

@@ -36,8 +36,8 @@
             Super,
         ],
         key: "q",
-        description: Some("Alacritty"),
-    ): Spawn("bash /home/toms/.config/system_resources/alacritty.sh"),
+        description: Some("Wezterm"),
+    ): Spawn("wezterm"),
     (
         modifiers: [
             Super,

@@ -2,9 +2,8 @@
 Type=Application
 Name=ncspot a
 Comment=Cross-platform ncurses Spotify client written in Rust
-TryExec=/home/toms/.config/system_resources/alacritty.sh -e ncspot
-Exec=/home/toms/.config/system_resources/alacritty.sh -e ncspot
+TryExec=wezterm start -- ncspot
+Exec=wezterm start -- ncspot
 Icon=ncspot
-Terminal=true
 Categories=AudioVideo;Audio;Player;ConsoleOnly
 Keywords=spotify;music;player

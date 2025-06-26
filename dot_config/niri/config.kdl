@@ -280,11 +280,6 @@ layout {
   }
 }
 
-// Add lines like this to spawn processes at startup.
-// Note that running niri as a session supports xdg-desktop-autostart,
-// which may be more convenient to use.
-// See the binds section below for more spawn examples.
-// spawn-at-startup "alacritty" "-e" "fish"
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
 // If the client will specifically ask for CSD, the request will be honored.
@@ -332,22 +327,22 @@ animations {
 // }
 
 window-rule {
-  match title="numbat"
+  match app-id="wez.numbat"
   open-floating true
 }
 
 window-rule {
-  match title="impala"
+  match app-id="wez.impala"
   open-floating true
 }
 
 window-rule {
-  match title="bluetui"
+  match app-id="wez.bluetui"
   open-floating true
 }
 
 window-rule {
-  match title="yazi"
+  match app-id="wez.yazi"
   open-floating true
 }
 
@@ -397,18 +392,14 @@ binds {
   // shows a list of important hotkeys.
   Mod+Shift+Slash { show-hotkey-overlay; }
 
-  Mod+T { spawn "/home/toms/.config/system_resources/alacritty.sh" "-T" "numbat" "-e" "numbat"; }
-  Mod+Y { spawn "/home/toms/.config/system_resources/alacritty.sh" "-T" "impala" "-e" "impala"; }
-  Mod+Shift+Y { spawn "/home/toms/.config/system_resources/bluetui.sh"; }
-  Mod+Q { spawn "/home/toms/.config/system_resources/alacritty.sh"; }
+  Mod+T { spawn "/home/toms/.config/system_resources/float-numbat.sh"; }
+  Mod+Y { spawn "/home/toms/.config/system_resources/float-impala.sh"; }
+  Mod+Shift+Y { spawn "/home/toms/.config/system_resources/float-bluetui.sh"; }
+  Mod+Q { spawn "wezterm"; }
   Mod+W { spawn "nautilus"; }
-  Mod+Shift+W { spawn "/home/toms/.config/system_resources/alacritty.sh" "-T" "yazi" "-e" "yazi"; }
+  Mod+Shift+W { spawn "/home/toms/.config/system_resources/float-yazi.sh"; }
   Mod+R { spawn "rofi" "-show" "drun"; }
   Mod+B { spawn "/home/toms/.config/system_resources/power-menu.sh"; }
-
-  // You can also use a shell. Do this if you need pipes, multiple commands, etc.
-  // Note: the entire command goes as a single argument in the end.
-  // Mod+T { spawn "bash" "-c" "notify-send hello && exec alacritty"; }
 
   // Example volume keys mappings for PipeWire & WirePlumber.
   // The allow-when-locked=true property makes them work even when the session is locked.

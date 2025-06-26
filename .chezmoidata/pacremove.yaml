@@ -1,4 +1,5 @@
 pacremove:
   pacman:
   yay:
+    - martin
   flathub:

@@ -153,6 +153,7 @@ packages:
       - ncspot
       - pnpm
       - qgis
+      - wezterm
     yay:
       - brave-bin
       - neovide-git
@@ -199,7 +200,7 @@ packages:
       - watchman-bin
       - celeste-client-bin
       - osmium-tool
-      - martin
+      - nmail
     flathub:
       - com.usebottles.bottles
       - org.kde.kdenlive

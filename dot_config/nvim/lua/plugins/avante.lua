@@ -12,7 +12,8 @@ return {
 
       ---@alias AvanteProvider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
       provider = "claude", -- Recommend using Claude
-      auto_suggestions_provider = "claude", -- Since auto-suggestions are a high-frequency operation and therefore expensive, it is recommended to specify an inexpensive provider or even a free provider: copilot
+      mode = "legacy",
+      auto_suggestions_provider = "claude",
       providers = {
         claude = {
           endpoint = "https://api.anthropic.com",
