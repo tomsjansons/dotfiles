@@ -1,6 +1,7 @@
 return {
   {
     "yetone/avante.nvim",
+    enabled = false,
     event = "VeryLazy",
     dependencies = {
       "stevearc/dressing.nvim",

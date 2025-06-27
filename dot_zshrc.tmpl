@@ -76,7 +76,7 @@ cz-apply() {
 bw-agent() {
   bw-session
 
-  eval $(ssh-agent -s -t 1h)
+  eval $(ssh-agent -s)
 
   bw_add_sshkeys
 }
