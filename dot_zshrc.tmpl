@@ -30,7 +30,7 @@ eval "$(/usr/bin/mise activate zsh)"
 source <(fzf --zsh)
 
 export EDITOR='nvim'
-export VISUAL='wezterm -e nvim'
+export VISUAL='ghostty -e nvim'
 
 # export NDK_HOME='/opt/android-ndk/'
 # export PATH=$PATH:/opt/android-sdk/cmdline-tools/latest/bin
@@ -46,14 +46,14 @@ export XDG_DATA_DIRS=/var/lib/flatpak/exports/share
 export XDG_DATA_DIRS=$XDG_DATA_DIRS:/home/toms/.local/share/flatpak/exports/share
 export XDG_DATA_DIRS=$XDG_DATA_DIRS:/usr/share
 export KUBECONFIG=/home/toms/.kube/config
-export TERMINAL=wezterm
+export TERMINAL=ghostty
 
 alias source-me="source ~/.zshrc"
 alias lsa="eza --long --all --icons=always --git --time-style=long-iso --octal-permissions --no-user"
 alias lsas="eza --long --all --icons=always --git --time-style=long-iso --octal-permissions --no-user --total-size"
 alias ls="eza"
 alias cat="bat"
-alias nvim-new="wezterm -e nvim"
+alias nvim-new="ghostty -e nvim"
 
 cz-cd() {
 	cd $(chezmoi source-path)

@@ -2,4 +2,4 @@
 
 systemctl is-active --quiet bluetooth.service || systemctl start bluetooth.service
 
-wezterm start --always-new-process --class wez.bluetui -- bluetui
+ghostty --title ghostty.bluetui -e bluetui

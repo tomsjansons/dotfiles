@@ -37,7 +37,7 @@
         ],
         key: "q",
         description: Some("Wezterm"),
-    ): Spawn("wezterm"),
+    ): Spawn("ghostty"),
     (
         modifiers: [
             Super,

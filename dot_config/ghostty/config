@@ -1,6 +1,4 @@
 font-size = 11
-gtk-titlebar = false
-command = /usr/bin/nu
 click-repeat-interval = 500
 auto-update-channel = tip
 theme = catppuccin-mocha
@@ -8,4 +6,14 @@ theme = catppuccin-mocha
 keybind = ctrl+shift+j=write_screen_file:paste
 keybind = ctrl+j=scroll_page_down
 keybind = ctrl+k=scroll_page_up
-keybind = ctrl+c=clear_screen
+
+keybind = alt+1=unbind
+keybind = alt+2=unbind
+keybind = alt+3=unbind
+keybind = alt+4=unbind
+keybind = alt+5=unbind
+keybind = alt+6=unbind
+keybind = alt+7=unbind
+keybind = alt+8=unbind
+keybind = alt+9=unbind
+keybind = alt+0=unbind

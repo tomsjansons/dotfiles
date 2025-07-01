@@ -10,6 +10,6 @@
     "tooltip-format-ethernet": "{ifname} ",
     "tooltip-format-disconnected": "Disconnected",
     "max-length": 50,
-    "on-click": "wezterm start -- impala"
+    "on-click": "ghostty -e impala"
   }
 }

@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-wezterm start --always-new-process --class wez.yazi -- yazi
+ghostty --title ghostty.yazi -e yazi

@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-wezterm start --always-new-process --class wez.impala -- impala
+ghostty --title ghostty.impala -e impala

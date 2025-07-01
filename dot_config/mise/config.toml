@@ -1,6 +1,6 @@
 [tools]
 yarn = "latest"
-node = "22"
+node = "latest"
 python = "3"
 bun = "latest"
 deno = "latest"

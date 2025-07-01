@@ -47,7 +47,28 @@ return {
       table.insert(opts.right, {
         ft = "codecompanion",
         title = "CodeCompanion Chat",
-        size = { width = 50 },
+        size = { width = 150 },
+      })
+    end,
+  },
+  {
+    "HakonHarnes/img-clip.nvim",
+    opts = {
+      filetypes = {
+        codecompanion = {
+          prompt_for_file_name = false,
+          template = "[Image]($FILE_PATH)",
+          use_absolute_path = true,
+        },
+      },
+    },
+  },
+  {
+    "echasnovski/mini.diff",
+    config = function()
+      local diff = require("mini.diff")
+      diff.setup({
+        source = diff.gen_source.none(),
       })
     end,
   },

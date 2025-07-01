@@ -187,6 +187,7 @@ layout {
     // Proportion sets the width as a fraction of the output width, taking gaps into account.
     // For example, you can perfectly fit four windows sized "proportion 0.25" on an output.
     // The default preset widths are 1/3, 1/2 and 2/3 of the output.
+    proportion 0.25
     proportion 0.33333
     proportion 0.5
     proportion 0.66667
@@ -327,22 +328,22 @@ animations {
 // }
 
 window-rule {
-  match app-id="wez.numbat"
+  match app-id="ghostty.numbat"
   open-floating true
 }
 
 window-rule {
-  match app-id="wez.impala"
+  match app-id="ghostty.impala"
   open-floating true
 }
 
 window-rule {
-  match app-id="wez.bluetui"
+  match app-id="ghostty.bluetui"
   open-floating true
 }
 
 window-rule {
-  match app-id="wez.yazi"
+  match app-id="ghostty.yazi"
   open-floating true
 }
 
@@ -395,7 +396,7 @@ binds {
   Mod+T { spawn "/home/toms/.config/system_resources/float-numbat.sh"; }
   Mod+Y { spawn "/home/toms/.config/system_resources/float-impala.sh"; }
   Mod+Shift+Y { spawn "/home/toms/.config/system_resources/float-bluetui.sh"; }
-  Mod+Q { spawn "wezterm"; }
+  Mod+Q { spawn "ghostty"; }
   Mod+W { spawn "nautilus"; }
   Mod+Shift+W { spawn "/home/toms/.config/system_resources/float-yazi.sh"; }
   Mod+R { spawn "rofi" "-show" "drun"; }
@@ -591,6 +592,11 @@ binds {
   // set-column-width "100" will make the column occupy 200 physical screen pixels.
   Mod+Minus { set-column-width "-10%"; }
   Mod+Equal { set-column-width "+10%"; }
+  Mod+Ctrl+2 { set-column-width "25%"; }
+  Mod+Ctrl+3 { set-column-width "33.333%"; }
+  Mod+Ctrl+5 { set-column-width "50%"; }
+  Mod+Ctrl+6 { set-column-width "66.667%"; }
+  Mod+Ctrl+7 { set-column-width "75%"; }
 
   // Finer height adjustments when in column with other windows.
   Mod+Shift+Minus { set-window-height "-10%"; }
