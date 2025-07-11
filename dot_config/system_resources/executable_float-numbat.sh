@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-ghostty --title ghostty.numbat -e numbat
+ghostty --class=ghostty.numbat -e numbat

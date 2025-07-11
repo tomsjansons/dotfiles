@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-ghostty --title ghostty.yazi -e yazi
+ghostty --class=ghostty.yazi -e yazi

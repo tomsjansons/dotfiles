@@ -2,4 +2,4 @@
 
 systemctl is-active --quiet bluetooth.service || systemctl start bluetooth.service
 
-ghostty --title ghostty.bluetui -e bluetui
+ghostty --class=ghostty.bluetui -e bluetui

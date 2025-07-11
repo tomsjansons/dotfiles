@@ -1,5 +1,5 @@
 pacremove:
   pacman:
   yay:
-    - martin
+    - python-detect-secrets
   flathub:

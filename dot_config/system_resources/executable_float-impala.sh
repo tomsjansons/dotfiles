@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-ghostty --title ghostty.impala -e impala
+rhostty --class=ghostty.impala -e impala

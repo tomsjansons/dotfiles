@@ -37,6 +37,7 @@ packages:
       - mprocs-bin
       - pmtiles
       - zellij
+      - ggshield
     cargo:
       - bacon 
       - zizmor
@@ -155,6 +156,7 @@ packages:
       - qgis
       - wezterm
       - obsidian
+      - wev
     yay:
       - brave-bin
       - neovide-git
@@ -202,6 +204,7 @@ packages:
       - celeste-client-bin
       - osmium-tool
       - nmail
+      - ggshield
     flathub:
       - com.usebottles.bottles
       - org.kde.kdenlive
@@ -222,3 +225,4 @@ packages:
       - wrangler@latest
       - vscode-langservers-extracted@4.8.0
       - "@bitwarden/cli"
+      - pretty-ts-errors-markdown
