@@ -14,6 +14,8 @@
   ],
   "modules-right": [
     "pulseaudio",
+    "temperature",
+    "cpu",
     "backlight",
     "battery",
     "custom/theme",
@@ -21,6 +23,27 @@
     "custom/notification",
     "clock"
   ],
+  "temperature": {
+    // "thermal-zone": 2,
+    // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+    // "critical-threshold": 80,
+    // "format-critical": "{temperatureC}°C ",
+    "format": "{temperatureC}°C "
+  },
+  "cpu": {
+    "interval": 1,
+    "format": "{icon0}{icon1}{icon2}{icon3}{icon4}{icon5}{icon6}{icon7}",
+    "format-icons": [
+      "<span color='#69ff94'>▁</span>", // green
+      "<span color='#2aa9ff'>▂</span>", // blue
+      "<span color='#f8f8f2'>▃</span>", // white
+      "<span color='#f8f8f2'>▄</span>", // white
+      "<span color='#ffffa5'>▅</span>", // yellow
+      "<span color='#ffffa5'>▆</span>", // yellow
+      "<span color='#ff9977'>▇</span>", // orange
+      "<span color='#dd532e'>█</span>" // red
+    ]
+  },
   "idle_inhibitor": {
     "format": "{icon}",
     "format-icons": {

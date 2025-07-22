@@ -36,6 +36,8 @@
 
 #custom-music,
 #tray,
+#temperature,
+#cpu,
 #backlight,
 #clock,
 #battery,
@@ -78,6 +80,8 @@
 
 #backlight,
 #custom-theme,
+#temperature,
+#cpu,
 #idle_inhibitor,
 #custom-notification,
 #battery {

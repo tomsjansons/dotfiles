@@ -157,6 +157,7 @@ packages:
       - wezterm
       - obsidian
       - wev
+      - perf
     yay:
       - brave-bin
       - neovide-git
@@ -205,17 +206,20 @@ packages:
       - osmium-tool
       - nmail
       - ggshield
+      - quickshell
     flathub:
       - com.usebottles.bottles
       - org.kde.kdenlive
       - be.alexandervanhee.gradia
       - io.kapsa.drive
+      - com.rustdesk.RustDesk
     cargo:
       - bacon 
       - zizmor
       - typeshare-cli
+      - flamegraph
     mise:
-      - node@22
+      - node@latest
       - python@3
       - bun
       - deno@latest
