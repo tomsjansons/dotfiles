@@ -26,6 +26,7 @@ packages:
       - pulumi
       - kubectl
       - rclone
+      - htop
     yay:
       - oh-my-posh-bin
       - ripgrep
