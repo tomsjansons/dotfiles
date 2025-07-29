@@ -1,8 +1,8 @@
 [Default Applications]
-x-scheme-handler/http=zen.desktop
-x-scheme-handler/https=zen.desktop
+x-scheme-handler/http=vivaldi-stable.desktop
+x-scheme-handler/https=vivaldi-stable.desktop
 x-scheme-handler/chrome=zen.desktop
-text/html=zen.desktop
+text/html=vivaldi-stable.desktop
 application/x-extension-htm=zen.desktop
 application/x-extension-html=zen.desktop
 application/x-extension-shtml=zen.desktop
@@ -24,8 +24,8 @@ application/rss+xml=userapp-Thunderbird-OL7PT2.desktop
 application/x-extension-rss=userapp-Thunderbird-OL7PT2.desktop
 x-scheme-handler/anytype=anytype.desktop
 x-scheme-handler/mailspring=Mailspring.desktop
-x-scheme-handler/about=cromite.desktop
-x-scheme-handler/unknown=cromite.desktop
+x-scheme-handler/about=vivaldi-stable.desktop
+x-scheme-handler/unknown=vivaldi-stable.desktop
 x-scheme-handler/postman=Postman.desktop
 image/png=org.gnome.Loupe.desktop
 application/pdf=org.gnome.Evince.desktop

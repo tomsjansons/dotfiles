@@ -1,6 +1,10 @@
 {
   "layer": "top", // Waybar at top layer
   "position": "top", // Waybar position (top|bottom|left|right)
+  "margin-top": 6,
+  "margin-right": 0,
+  "margin-bottom": 0,
+  "margin-left": 0,
   // "width": 1280, // Waybar width
   // Choose the order of the modules
   "modules-left": [
@@ -33,6 +37,7 @@
   "cpu": {
     "interval": 1,
     "format": "{icon0}{icon1}{icon2}{icon3}{icon4}{icon5}{icon6}{icon7}",
+    "on-click": "sh /home/toms/.config/system_resources/float-htop.sh",
     "format-icons": [
       "<span color='#69ff94'>▁</span>", // green
       "<span color='#2aa9ff'>▂</span>", // blue

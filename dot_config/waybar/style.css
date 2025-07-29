@@ -2,36 +2,37 @@
 
 * {
   font-family: FiraCode Nerd Font;
-  font-size: 14px;
+  font-size: 12px;
   min-height: 0;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  min-height: 0;
+  box-shadow: none;
 }
 
 #waybar {
-  background: transparent;
+  background-color: @base;
   color: @text;
-  margin: 5px 5px;
 }
 
 #workspaces {
-  border-radius: 1rem;
-  margin: 5px;
   background-color: @base;
+  color: @text;
 }
 
 #workspaces button {
   color: @lavender;
-  border-radius: 1rem;
   padding: 0.4rem;
 }
 
 #workspaces button.active {
   color: @sky;
-  border-radius: 1rem;
 }
 
 #workspaces button:hover {
   color: @sapphire;
-  border-radius: 1rem;
 }
 
 #custom-music,
@@ -47,9 +48,8 @@
 #custom-notification,
 #custom-lock,
 #custom-power {
-  background-color: @base;
+  /* background-color: @base; */
   padding: 0.5rem 1rem;
-  margin: 5px 0;
 }
 
 #custom-lock {
@@ -58,7 +58,6 @@
 
 #clock {
   color: @blue;
-  border-radius: 0px 1rem 1rem 0px;
   margin-right: 1rem;
 }
 
@@ -78,34 +77,20 @@
   color: @yellow;
 }
 
-#backlight,
-#custom-theme,
-#temperature,
-#cpu,
-#idle_inhibitor,
-#custom-notification,
-#battery {
-  border-radius: 0;
-}
-
 #pulseaudio {
   color: @maroon;
-  border-radius: 1rem 0px 0px 1rem;
   margin-left: 1rem;
 }
 
 #custom-music {
   color: @mauve;
-  border-radius: 1rem;
 }
 
 #custom-lock {
-  border-radius: 1rem 0px 0px 1rem;
   color: @lavender;
 }
 
 #custom-power {
-  border-radius: 0px 1rem 1rem 0px;
   margin-right: 5px;
   color: @red;
 }
@@ -122,8 +107,4 @@
 
 #custom-notification {
   color: @lavender;
-}
-
-#tray {
-  border-radius: 1rem;
 }
