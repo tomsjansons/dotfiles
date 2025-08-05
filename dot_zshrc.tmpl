@@ -95,6 +95,7 @@ esac
 # pnpm end
 
 export ANTHROPIC_API_KEY={{ (bitwarden "item" "ANTHROPIC_API_KEY").notes }}
+export GEMINI_API_KEY={{ (bitwarden "item" "GEMINI_API_KEY").notes }}
 export TAVILY_API_KEY={{ (bitwarden "item" "TAVILY_API_KEY").notes }}
 
 {{ if eq .chezmoi.hostname "ridi-dev-olive" }}

@@ -8,27 +8,18 @@ return {
     opts = {
       strategies = {
         chat = {
-          adapter = "anthropic",
+          adapter = "gemini",
         },
         inline = {
-          adapter = "anthropic",
+          adapter = "gemini",
         },
         cmd = {
-          adapter = "anthropic",
+          adapter = "gemini",
         },
       },
       opts = {
         -- Set debug logging
         log_level = "DEBUG",
-      },
-      adapters = {
-        anthropic = function()
-          return require("codecompanion.adapters").extend("anthropic", {
-            env = {
-              api_key = "ANTHROPIC_API_KEY",
-            },
-          })
-        end,
       },
     },
     keys = {

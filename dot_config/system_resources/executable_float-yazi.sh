@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-ghostty --class=ghostty.yazi -e yazi
+ghostty --class=ghostty.float.yazi -e yazi

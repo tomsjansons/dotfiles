@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-ghostty --class=ghostty.htop -e htop
+ghostty --class=ghostty.float.htop -e htop

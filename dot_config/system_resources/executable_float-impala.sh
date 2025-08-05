@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-rhostty --class=ghostty.impala -e impala
+rhostty --class=ghostty.float.impala -e impala

@@ -328,27 +328,7 @@ animations {
 // }
 
 window-rule {
-  match app-id="ghostty.numbat"
-  open-floating true
-}
-
-window-rule {
-  match app-id="ghostty.impala"
-  open-floating true
-}
-
-window-rule {
-  match app-id="ghostty.bluetui"
-  open-floating true
-}
-
-window-rule {
-  match app-id="ghostty.yazi"
-  open-floating true
-}
-
-window-rule {
-  match app-id="ghostty.htop"
+  match app-id=r#".*\.float\..*"#
   open-floating true
 }
 
@@ -400,6 +380,7 @@ binds {
   Mod+Shift+Slash { show-hotkey-overlay; }
 
   Mod+T { spawn "/home/toms/.config/system_resources/float-numbat.sh"; }
+  Mod+Shift+T { spawn "/home/toms/.config/system_resources/float-htop.sh"; }
   Mod+Y { spawn "/home/toms/.config/system_resources/float-impala.sh"; }
   Mod+Shift+Y { spawn "/home/toms/.config/system_resources/float-bluetui.sh"; }
   Mod+Q { spawn "ghostty"; }
