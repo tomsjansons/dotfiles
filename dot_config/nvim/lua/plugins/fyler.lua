@@ -1,16 +1,25 @@
 return {
   {
     "A7Lavinraj/fyler.nvim",
+    branch = "stable",
     dependencies = { "echasnovski/mini.icons" },
     keys = {
       {
         "<leader>e",
-        "<cmd>Fyler.nvim<cr>",
+        function()
+          local fyler = require("fyler")
+          -- fyler.open({ cwd = vim.fn.expand("%:p:h") })
+          fyler.open()
+        end,
         desc = "Explorer Fyler",
       },
       {
         "<leader>fe",
-        "<cmd>Fyler.nvim<cr>",
+        function()
+          local fyler = require("fyler")
+          -- fyler.open({ cwd = vim.fn.expand("%:p:h") })
+          fyler.open()
+        end,
         desc = "Explorer Fyler",
       },
       -- {
@@ -28,6 +37,17 @@ return {
       --   desc = "Buffer Explorer",
       -- },
     },
-    opts = {},
+    opts = {
+      views = {
+        explorer = {
+          default_explorer = true,
+          -- win = {
+          --   buf_opts = {
+          --     buflisted = true,
+          --   },
+          -- },
+        },
+      },
+    },
   },
 }
