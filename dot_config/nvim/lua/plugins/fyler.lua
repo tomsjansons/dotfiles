@@ -1,7 +1,7 @@
 return {
   {
     "A7Lavinraj/fyler.nvim",
-    branch = "stable",
+    branch = "main",
     dependencies = { "echasnovski/mini.icons" },
     keys = {
       {
