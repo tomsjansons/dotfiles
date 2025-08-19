@@ -1,27 +1,28 @@
 return {
   {
     "A7Lavinraj/fyler.nvim",
+    enabled = false,
     branch = "main",
     dependencies = { "echasnovski/mini.icons" },
     keys = {
-      {
-        "<leader>e",
-        function()
-          local fyler = require("fyler")
-          -- fyler.open({ cwd = vim.fn.expand("%:p:h") })
-          fyler.open()
-        end,
-        desc = "Explorer Fyler",
-      },
-      {
-        "<leader>fe",
-        function()
-          local fyler = require("fyler")
-          -- fyler.open({ cwd = vim.fn.expand("%:p:h") })
-          fyler.open()
-        end,
-        desc = "Explorer Fyler",
-      },
+      -- {
+      --   "<leader>e",
+      --   function()
+      --     local fyler = require("fyler")
+      --     -- fyler.open({ cwd = vim.fn.expand("%:p:h") })
+      --     fyler.open()
+      --   end,
+      --   desc = "Explorer Fyler",
+      -- },
+      -- {
+      --   "<leader>fe",
+      --   function()
+      --     local fyler = require("fyler")
+      --     -- fyler.open({ cwd = vim.fn.expand("%:p:h") })
+      --     fyler.open()
+      --   end,
+      --   desc = "Explorer Fyler",
+      -- },
       -- {
       --   "<leader>fE",
       --   function()

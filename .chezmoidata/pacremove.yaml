@@ -1,4 +1,6 @@
 pacremove:
   pacman:
   yay:
+    - lemonade-bin
+    - mysql
   flathub:

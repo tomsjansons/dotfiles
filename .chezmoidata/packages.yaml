@@ -27,6 +27,7 @@ packages:
       - kubectl
       - rclone
       - htop
+      - traceroute
     yay:
       - oh-my-posh-bin
       - ripgrep
@@ -39,6 +40,7 @@ packages:
       - pmtiles
       - zellij
       - ggshield
+      - opencode-bin
     cargo:
       - bacon 
       - zizmor
@@ -160,6 +162,9 @@ packages:
       - wev
       - perf
       - vivaldi
+      - traceroute
+      - go
+      - zstd
     yay:
       - brave-bin
       - neovide-git
@@ -209,6 +214,9 @@ packages:
       - nmail
       - ggshield
       - quickshell
+      - cursor-bin
+      - opencode-bin
+      - goose
     flathub:
       - com.usebottles.bottles
       - org.kde.kdenlive

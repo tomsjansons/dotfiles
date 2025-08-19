@@ -21,6 +21,17 @@ return {
         -- Set debug logging
         log_level = "DEBUG",
       },
+      adapters = {
+        openai = function()
+          return require("codecompanion.adapters").extend("openai", {
+            schema = {
+              model = {
+                default = "gpt-5",
+              },
+            },
+          })
+        end,
+      },
     },
     keys = {
       { "<leader>a", "", desc = "+ai", mode = { "n", "v" } },

@@ -42,6 +42,7 @@ export PATH=$PATH:/home/toms/.local/share/nvim/mason/bin/
 export PATH=$PATH:/home/toms/.deno/bin
 export PATH=$PATH:/var/lib/flatpak/exports/share
 export PATH=$PATH:/home/toms/.local/share/flatpak/exports/share
+export PATH="$PATH:$(go env GOBIN):$(go env GOPATH)/bin"
 export XDG_DATA_DIRS=/var/lib/flatpak/exports/share
 export XDG_DATA_DIRS=$XDG_DATA_DIRS:/home/toms/.local/share/flatpak/exports/share
 export XDG_DATA_DIRS=$XDG_DATA_DIRS:/usr/share
@@ -97,6 +98,7 @@ esac
 export ANTHROPIC_API_KEY={{ (bitwarden "item" "ANTHROPIC_API_KEY").notes }}
 export GEMINI_API_KEY={{ (bitwarden "item" "GEMINI_API_KEY").notes }}
 export TAVILY_API_KEY={{ (bitwarden "item" "TAVILY_API_KEY").notes }}
+export OPENAI_API_KEY={{ (bitwarden "item" "OPENAI_API_KEY").notes }}
 
 {{ if eq .chezmoi.hostname "ridi-dev-olive" }}
 source ~/.devserver_zshrc
