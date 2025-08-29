@@ -1,6 +1,6 @@
 pacremove:
   pacman:
   yay:
-    - lemonade-bin
-    - mysql
+    - codename-goose-bin
+    - cursor-bin
   flathub:

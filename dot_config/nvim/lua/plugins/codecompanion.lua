@@ -8,13 +8,13 @@ return {
     opts = {
       strategies = {
         chat = {
-          adapter = "gemini",
+          adapter = "openrouter_qwen",
         },
         inline = {
-          adapter = "gemini",
+          adapter = "openrouter_qwen",
         },
         cmd = {
-          adapter = "gemini",
+          adapter = "openrouter_qwen",
         },
       },
       opts = {
@@ -22,6 +22,20 @@ return {
         log_level = "DEBUG",
       },
       adapters = {
+        openrouter_qwen = function()
+          return require("codecompanion.adapters").extend("openai_compatible", {
+            env = {
+              url = "https://openrouter.ai/api",
+              api_key = "OPENROUTER_API_KEY",
+              chat_url = "/v1/chat/completions",
+            },
+            schema = {
+              model = {
+                default = "@preset/qwen3-coder-preset",
+              },
+            },
+          })
+        end,
         openai = function()
           return require("codecompanion.adapters").extend("openai", {
             schema = {
