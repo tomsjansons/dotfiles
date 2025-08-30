@@ -5,7 +5,6 @@ packages:
       - zsh-completions
       - zsh-syntax-highlighting
       - rustup
-      - neovim
       - bat
       - eza # ls replacement
       - fzf
@@ -41,6 +40,7 @@ packages:
       - zellij
       - ggshield
       - opencode-bin
+      - neovim-git
     cargo:
       - bacon
       - zizmor
@@ -73,7 +73,6 @@ packages:
       - rustup
       - zsh-completions
       - zsh-syntax-highlighting
-      - neovim
       - bc
       - ttf-firacode-nerd
       - gpxsee
@@ -169,7 +168,6 @@ packages:
       - lnav
     yay:
       - brave-bin
-      - neovide-git
       - oh-my-posh-bin
       - spotify
       - slack-desktop
@@ -188,7 +186,6 @@ packages:
       - wl-clipboard # copy-paste for nvim in wayland
       - xwayland-satellite
       - brillo # controls brightness
-      # - neovim-remote
       - impala
       - numbat-bin
       - zen-browser-bin
@@ -218,6 +215,7 @@ packages:
       - quickshell
       - opencode-bin
       - goose
+      - neovim-git
     flathub:
       - com.usebottles.bottles
       - org.kde.kdenlive

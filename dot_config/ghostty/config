@@ -17,3 +17,7 @@ keybind = alt+7=unbind
 keybind = alt+8=unbind
 keybind = alt+9=unbind
 keybind = alt+0=unbind
+
+keybind = ctrl+j=unbind
+keybind = ctrl+k=unbind
+keybind = ctrl+tab=unbind

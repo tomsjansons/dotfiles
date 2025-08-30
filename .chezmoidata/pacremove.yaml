@@ -1,5 +1,6 @@
 pacremove:
   pacman:
+    - neovim
   yay:
     - codename-goose-bin
     - cursor-bin

@@ -31,8 +31,9 @@ source <(fzf --zsh)
 
 source <(jj util completion zsh)
 
+alias tjnvim='NVIM_APPNAME=nvimtj nvim'
 export EDITOR='nvim'
-export VISUAL='ghostty -e nvim'
+export VISUAL='ghostty -e $EDITOR'
 
 # export NDK_HOME='/opt/android-ndk/'
 # export PATH=$PATH:/opt/android-sdk/cmdline-tools/latest/bin
@@ -63,7 +64,7 @@ cz-cd() {
 }
 cz-edit() {
 	cz-cd
-  nvim
+	$EDITOR
 }
 bw-reset() {
   export BW_SESSION=
@@ -89,7 +90,7 @@ bw-agent() {
 
 ob-edit() {
     cd ~/obsidian/tomstoms/
-    nvim
+    $EDITOR
   }
 
 # pnpm
