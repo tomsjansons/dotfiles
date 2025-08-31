@@ -10,6 +10,10 @@ ls "/run/user/1000/" | grep 'nvim' | while read socket; do
   nvim --server "/run/user/1000/$socket" --remote-send "<esc>:colorscheme catppuccin-mocha<cr>"
 done
 
+ls "/run/user/1000/" | grep 'nvimtj.' | while read socket; do
+  nvim --server "/run/user/1000/$socket" --remote-send "<esc>:set background=dark<cr>"
+done
+
 ls "/run/user/1000/" | grep 'Alacritty' | while read socket; do
   alacritty msg -s "/run/user/1000/$socket" config "$(cat ~/.config/alacritty/catppuccin-mocha.toml)" -w -1
 done

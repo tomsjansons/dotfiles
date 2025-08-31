@@ -7,6 +7,27 @@ require("formatter").setup({
 		lua = {
 			require("formatter.filetypes.lua").stylua,
 		},
+		typescript = {
+			require("formatter.filetypes.typescript"),
+		},
+		typescriptreact = {
+			require("formatter.filetypes.typescriptreact"),
+		},
+		javascript = {
+			require("formatter.filetypes.javascript"),
+		},
+		javascriptreact = {
+			require("formatter.filetypes.javascriptreact"),
+			rust = {
+				require("formatter.filetypes.rust"),
+			},
+			go = {
+				require("formatter.filetypes.go"),
+			},
+			html = {
+				require("formatter.filetypes.html"),
+			},
+		},
 	},
 })
 

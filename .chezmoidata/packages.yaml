@@ -166,6 +166,7 @@ packages:
       - zstd
       - jujutsu
       - lnav
+      - git-delta
     yay:
       - brave-bin
       - oh-my-posh-bin

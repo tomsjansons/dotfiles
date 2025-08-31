@@ -4,21 +4,27 @@ vim.pack.add({
 })
 
 require("mini.pick").setup({})
+
+local pick = require("mini.pick")
 local extra = require("mini.extra")
+vim.ui.select = pick.ui_select
 
 vim.keymap.set("n", "<leader>f", "<cmd>Pick files<cr>")
 vim.keymap.set("n", "<leader>b", "<cmd>Pick buffers<cr>")
 vim.keymap.set("n", "gr", function()
 	extra.pickers.lsp({ scope = "references" })
-end)
+end, { desc = "Pick references" })
 vim.keymap.set("n", "<leader>cd", function()
 	extra.pickers.diagnostic({
 		scope = "current",
 	})
-end)
+end, { desc = "Pick diagnostic" })
 vim.keymap.set("n", "<leader>cD", function()
 	extra.pickers.diagnostic({
 		scope = "all",
 	})
-end)
+end, { desc = "Pick diagnostic all" })
 vim.keymap.set("n", "<leader>g", "<cmd>Pick grep_live<cr>")
+vim.keymap.set("n", "<leader>o", function()
+	extra.pickers.visit_paths({})
+end, { desc = "Treesitter nodes" })

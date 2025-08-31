@@ -11,6 +11,13 @@ require("mason-tool-installer").setup({
 	ensure_installed = {
 		"lua_ls",
 		"stylua",
+		"eslint_d",
+		"prettierd",
+		"vtsls",
+		"gopls",
+		"gofumpt",
+		"rust_analyzer",
+		-- "bacon_ls",
 	},
 })
 
