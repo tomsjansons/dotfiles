@@ -9,11 +9,13 @@ local pick = require("mini.pick")
 local extra = require("mini.extra")
 vim.ui.select = pick.ui_select
 
-vim.keymap.set("n", "<leader>f", "<cmd>Pick files<cr>")
 vim.keymap.set("n", "<leader>b", "<cmd>Pick buffers<cr>")
 vim.keymap.set("n", "gr", function()
 	extra.pickers.lsp({ scope = "references" })
 end, { desc = "Pick references" })
+vim.keymap.set("n", "gs", function()
+	extra.pickers.lsp({ scope = "document_symbol" })
+end, { desc = "Pick symbols" })
 vim.keymap.set("n", "<leader>cd", function()
 	extra.pickers.diagnostic({
 		scope = "current",

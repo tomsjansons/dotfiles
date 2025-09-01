@@ -14,3 +14,21 @@ vim.api.nvim_create_user_command("QA", "qa", {})
 
 -- vim.keymap.set("n", "<leader>e", "<cmd>Explore<cr>")
 vim.keymap.set("n", "<leader>d", "<cmd>bdelete<cr>")
+
+-- for nimi.completion to do enter for select
+_G.cr_action = function()
+	if vim.fn.complete_info()["selected"] ~= -1 then
+		return "\25"
+	end
+	return MiniPairs.cr()
+end
+
+vim.keymap.set("i", "<CR>", "v:lua.cr_action()", { expr = true })
+
+vim.api.nvim_create_user_command("R", function(args)
+	local cz_nvimtj = os.getenv("HOME") .. "/.local/share/chezmoi/dot_config/nvimtj"
+	local cnf_nvimtj = os.getenv("HOME") .. "/.config/nvimtj"
+	vim.cmd("!rm -rf " .. cz_nvimtj)
+	vim.cmd("!cp -r " .. cnf_nvimtj .. " " .. cz_nvimtj)
+	vim.cmd("restart")
+end, { desc = "Update cz and restart" })
