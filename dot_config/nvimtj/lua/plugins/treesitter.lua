@@ -1,6 +1,13 @@
-vim.pack.add({ { src = "https://github.com/nvim-treesitter/nvim-treesitter" } })
+vim.pack.add({
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+	{ src = "https://github.com/nvim-treesitter/nvim-treesitter-textobjects" },
+	{ src = "https://github.com/mawkler/jsx-element.nvim" },
+})
+
+require("nvim-treesitter").setup()
 
 require("nvim-treesitter.configs").setup({
+	modules = {},
 	-- A list of parser names, or "all" (the listed parsers MUST always be installed)
 	ensure_installed = {
 		"lua",
@@ -12,6 +19,7 @@ require("nvim-treesitter.configs").setup({
 		"go",
 		"rust",
 		"zig",
+		"yaml",
 	},
 
 	-- Install parsers synchronously (only applied to `ensure_installed`)
@@ -49,5 +57,25 @@ require("nvim-treesitter.configs").setup({
 		-- Using this option may slow down your editor, and you may see some duplicate highlights.
 		-- Instead of true it can also be a list of languages
 		additional_vim_regex_highlighting = false,
+	},
+	textobjects = {
+		select = {
+			enable = true,
+			-- Automatically jump forward to textobj, similar to targets.vim
+			lookahead = true,
+
+			keymaps = {
+				["af"] = "@function.outer",
+				["if"] = "@function.inner",
+			},
+			include_surrounding_whitespace = true,
+		},
+	},
+})
+
+require("jsx-element").setup({
+	keymaps = {
+		enable = true,
+		jsx_element = "t",
 	},
 })

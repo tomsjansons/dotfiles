@@ -1,6 +1,6 @@
 vim.pack.add({ { src = "https://github.com/dmtrKovalenko/fff.nvim" } })
 
-local function build_blink(params)
+local function build_fff(params)
 	vim.notify("Building fff", vim.log.levels.INFO)
 	local obj = vim.system({ "cargo", "build", "--release" }, { cwd = params.path }):wait()
 	if obj.code == 0 then
@@ -15,7 +15,7 @@ vim.api.nvim_create_autocmd("PackChanged", {
 	callback = function(ev)
 		vim.notify(ev.data.spec.name .. " has been updated.")
 		if ev.data.spec.name == "fff.nvim" then
-			build_blink({ path = ev.data.path })
+			build_fff({ path = ev.data.path })
 		end
 	end,
 })

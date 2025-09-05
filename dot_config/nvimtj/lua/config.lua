@@ -3,8 +3,9 @@ vim.opt.tabstop = 2
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.clipboard = "unnamed,unnamedplus"
+vim.opt.ignorecase = true
 vim.opt.smartcase = true
-vim.opt.completeopt = "menuone,noinsert"
+vim.opt.completeopt = "menuone,noinsert,fuzzy"
 
 vim.g.netrw_keepdir = 1
 vim.g.netrw_winsize = 30

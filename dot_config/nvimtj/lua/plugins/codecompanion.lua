@@ -40,3 +40,5 @@ require("codecompanion").setup({
 		},
 	},
 })
+
+vim.keymap.set({ "n", "v" }, "<leader>aa", "<cmd>CodeCompanionChat<cr>", { desc = "CodeCompanionChat" })

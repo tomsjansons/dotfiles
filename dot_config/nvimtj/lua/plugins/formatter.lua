@@ -7,26 +7,30 @@ require("formatter").setup({
 		lua = {
 			require("formatter.filetypes.lua").stylua,
 		},
+		go = {
+			require("formatter.filetypes.go").gofumpt,
+		},
+		rust = {
+			require("formatter.filetypes.rust").rustfmt,
+		},
 		typescript = {
-			require("formatter.filetypes.typescript"),
+			require("formatter.filetypes.typescript").eslint_d,
+			require("formatter.filetypes.typescript").biome,
 		},
 		typescriptreact = {
-			require("formatter.filetypes.typescriptreact"),
+			require("formatter.filetypes.typescript").eslint_d,
+			require("formatter.filetypes.typescript").biome,
 		},
 		javascript = {
-			require("formatter.filetypes.javascript"),
+			require("formatter.filetypes.typescript").eslint_d,
+			require("formatter.filetypes.typescript").biome,
 		},
 		javascriptreact = {
-			require("formatter.filetypes.javascriptreact"),
-			rust = {
-				require("formatter.filetypes.rust"),
-			},
-			go = {
-				require("formatter.filetypes.go"),
-			},
-			html = {
-				require("formatter.filetypes.html"),
-			},
+			require("formatter.filetypes.typescript").eslint_d,
+			require("formatter.filetypes.typescript").biome,
+		},
+		html = {
+			require("formatter.filetypes.html").prettierd,
 		},
 	},
 })

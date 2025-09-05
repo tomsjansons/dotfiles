@@ -42,3 +42,6 @@ vim.lsp.config("lua_ls", {
 		},
 	},
 })
+
+-- vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
+vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename" })
