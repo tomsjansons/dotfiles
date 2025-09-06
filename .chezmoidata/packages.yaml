@@ -239,23 +239,21 @@ packages:
       - jujutsu
       - lnav
       - git-delta
+      - tree-sitter-cli
+      - qt5-wayland
     yay:
       - brave-bin
       - oh-my-posh-bin
       - spotify
-      - slack-desktop
-      # - pnpm-shell-completion
-      # - android-sdk-cmdline-tools-latest
-      # - android-sdk-build-tools
-      # - android-sdk-platform-tools
-      # - android-platform
-      # - android-tools
-      # - android-emulator
-      # - android-google-apis-playstore-x86-64-system-image
-      # - android-ndk
-      # - zsh-timer-git # ommand execution time in zsh
+      - android-sdk-cmdline-tools-latest
+      - android-sdk-build-tools
+      - android-sdk-platform-tools
+      - android-platform
+      - android-tools
+      - android-emulator
+      - android-google-apis-playstore-x86-64-system-image
+      - android-ndk
       - ripgrep
-      - xclip # copy-paste for nvim in xorg
       - wl-clipboard # copy-paste for nvim in wayland
       - xwayland-satellite
       - brillo # controls brightness
@@ -279,13 +277,11 @@ packages:
       - zoom
       - noto-color-emoji-fontconfig
       - ungoogled-chromium-bin
-      - joplin-desktop
       - watchman-bin
       - celeste-client-bin
       - osmium-tool
       - nmail
       - ggshield
-      - quickshell
       - opencode-bin
       - goose
       - neovim-git

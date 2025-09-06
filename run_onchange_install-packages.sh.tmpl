@@ -54,6 +54,14 @@ if ! command -v yay &> /dev/null; then
 	cd /tmp && sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm
 fi
 
+{{ if eq .chezmoi.hostname "arch-l13" }}
+
+{{ if eq .chezmoi.hostname "arch-l13" }}
+
+if command -v cargo &> /dev/null; then
+	cd /tmp && git clone https://github.com/wasabeef/emu && cd emu && cargo install --path .
+fi
+
 {{ range .packages.devlocal.pacman }}
 echo "==== OMG ==== pacman {{ . | quote }}"
 sudo pacman -S --noconfirm --needed {{ . | quote }}
