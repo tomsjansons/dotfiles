@@ -1,5 +1,5 @@
 packages:
-  macbook:
+  macos:
     brew:
       - go
       - man-db
@@ -36,6 +36,23 @@ packages:
       - zstd
       - jujutsu
       - git-delta
+      - oh-my-posh-bin
+      - spotify
+      - ripgrep
+      - ngrok
+      - supabase-bin
+      - lazydocker
+      - mprocs
+      - pmtiles
+      - zellij
+      - postman
+      - zig
+      - zoom
+      - ungoogled-chromium
+      - watchman
+      - osmium-tool
+      - opencode
+      - goose
     cargo:
       - bacon
       - zizmor

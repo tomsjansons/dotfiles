@@ -26,7 +26,7 @@ eval "$(oh-my-posh init zsh --config /home/toms/.config/oh-my-posh/amro.omp.json
 {{ if eq .chezmoi.hostname "ridi-dev-olive" }}
 eval "$(oh-my-posh init zsh --config /home/toms/.config/oh-my-posh/emodipt.omp.json)"
 {{ end -}}
-eval "$(/usr/bin/mise activate zsh)"
+eval "$(mise activate zsh)"
 source <(fzf --zsh)
 
 source <(jj util completion zsh)
@@ -37,7 +37,8 @@ export VISUAL='ghostty -e $EDITOR'
 
 export PATH="$PATH:$(go env GOBIN):$(go env GOPATH)/bin"
 
-{{ if not eq .chezmoi.hostname "Tomss-MacBook-Pro" }}
+{{ if not ( eq .chezmoi.hostname "Tomss-MacBook-Pro" ) }}
+export PATH="/home/toms/.bun/bin:$PATH"
 export PATH=$PATH:/home/toms/.turso
 export PATH=$PATH:/home/toms/.local/bin/
 export PATH=$PATH:/home/toms/.local/share/pnpm/
@@ -54,6 +55,8 @@ export TERMINAL=ghostty
 export RIPGREP_CONFIG_PATH=/home/toms/.config/ripgrep/config
 {{ end -}}
 {{ if eq .chezmoi.hostname "Tomss-MacBook-Pro" }}
+export PATH="/Users/tomsjansons/.bun/bin:$PATH"
+export PATH=$PATH:/Users/tomsjansons/.local/bin
 export PATH=$PATH:/Users/tomsjansons/.turso
 export PATH=$PATH:/Users/tomsjansons/.local/bin/
 export PATH=$PATH:/Users/tomsjansons/.local/share/pnpm/
@@ -100,7 +103,7 @@ bw-agent() {
 
   eval $(ssh-agent -s)
 
-	{{ if not eq .chezmoi.hostname "Tomss-MacBook-Pro" }}
+	{{ if not ( eq .chezmoi.hostname "Tomss-MacBook-Pro" ) }}
   bw_add_sshkeys
 	{{ end }}
 	{{ if eq .chezmoi.hostname "Tomss-MacBook-Pro" }}
@@ -114,7 +117,7 @@ ob-edit() {
   }
 
 # pnpm
-{{ if not eq .chezmoi.hostname "Tomss-MacBook-Pro" }}
+{{ if not ( eq .chezmoi.hostname "Tomss-MacBook-Pro" ) }}
 export PNPM_HOME="/home/toms/.local/share/pnpm"
 {{ end }}
 {{ if eq .chezmoi.hostname "Tomss-MacBook-Pro" }}

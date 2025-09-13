@@ -1,6 +1,8 @@
 #!/bin/bash
 
 {{ if eq .chezmoi.hostname "Tomss-MacBook-Pro" }}
+ 
+echo "test"
 
 {{ range .packages.macos.brew }}
 echo "==== OMG ==== brew {{ . | quote }}"
@@ -26,7 +28,7 @@ rustup component add rust-analyzer
 
 {{ end -}}
 
-{{ if eq .chezmoi.hostname "arch-l13" || eq .chezmoi.hostname "ridi-dev-olive" }}
+{{ if or ( eq .chezmoi.hostname "arch-l13" )  ( eq .chezmoi.hostname "ridi-dev-olive" ) }}
 
 {{ range .pacremove.yay }}
 echo "==== REM ==== yay {{ . | quote }}"
