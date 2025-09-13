@@ -1,5 +1,33 @@
 #!/bin/bash
 
+{{ if eq .chezmoi.hostname "Tomss-MacBook-Pro" }}
+
+{{ range .packages.macos.brew }}
+echo "==== OMG ==== brew {{ . | quote }}"
+brew install {{ . | quote }}
+{{ end -}}
+
+{{ range .packages.macos.cargo }}
+echo "==== OMG ==== cargo {{ . | quote }}"
+cargo install {{ . | quote }}
+{{ end -}}
+
+{{ range .packages.macos.bun }}
+echo "==== OMG ==== bun {{ . | quote }}"
+bun -g add {{ . | quote }}
+{{ end -}}
+
+{{ range .packages.macos.mise }}
+echo "==== OMG ==== mise {{ . | quote }}"
+mise use -g {{ . | quote }}
+{{ end -}}
+
+rustup component add rust-analyzer
+
+{{ end -}}
+
+{{ if eq .chezmoi.hostname "arch-l13" || eq .chezmoi.hostname "ridi-dev-olive" }}
+
 {{ range .pacremove.yay }}
 echo "==== REM ==== yay {{ . | quote }}"
 yay -Runs --noconfirm {{ . | quote }}
@@ -23,8 +51,6 @@ yay -Syu --noconfirm --needed
 if ! command -v yay &> /dev/null; then
 	cd /tmp && sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm
 fi
-
-{{ if eq .chezmoi.hostname "arch-l13" }}
 
 {{ range .packages.devlocal.pacman }}
 echo "==== OMG ==== pacman {{ . | quote }}"

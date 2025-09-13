@@ -1,4 +1,57 @@
 packages:
+  macbook:
+    brew:
+      - go
+      - man-db
+      - rustup
+      - zsh-completions
+      - zsh-syntax-highlighting
+      - bc
+      - tealdeer
+      - bat
+      - eza # ls replacement
+      - fd # find replacement
+      - fzf
+      - jq
+      - just
+      - yazi
+      - bitwarden
+      - docker
+      - docker-compose
+      - postgresql
+      - pulumi
+      - sqlc
+      - lazygit
+      - ghostty
+      - lldb
+      - tailwindcss-language-server
+      - tailscale
+      - k9s
+      - watchexec
+      - mise
+      - kubectl
+      - qgis
+      - obsidian
+      - go
+      - zstd
+      - jujutsu
+      - git-delta
+    cargo:
+      - bacon
+      - zizmor
+      - typeshare-cli
+      - flamegraph
+    mise:
+      - node@latest
+      - python@3
+      - bun
+      - deno@latest
+    bun:
+      - eas-cli
+      - wrangler@latest
+      - vscode-langservers-extracted@4.8.0
+      - "@bitwarden/cli"
+      - pretty-ts-errors-markdown
   devserver:
     pacman:
       - zsh
