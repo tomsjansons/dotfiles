@@ -23,7 +23,6 @@ packages:
       - sqlc
       - lazygit
       - ghostty
-      - lldb
       - tailwindcss-language-server
       - tailscale
       - k9s
@@ -36,11 +35,11 @@ packages:
       - zstd
       - jujutsu
       - git-delta
-      - oh-my-posh-bin
+      - oh-my-posh
       - spotify
       - ripgrep
       - ngrok
-      - supabase-bin
+      - supabase
       - lazydocker
       - mprocs
       - pmtiles
@@ -53,11 +52,13 @@ packages:
       - osmium-tool
       - opencode
       - goose
+      - android-studio
     cargo:
       - bacon
       - zizmor
       - typeshare-cli
       - flamegraph
+      - cargo-ndk
     mise:
       - node@latest
       - python@3
@@ -69,6 +70,7 @@ packages:
       - vscode-langservers-extracted@4.8.0
       - "@bitwarden/cli"
       - pretty-ts-errors-markdown
+      - opencode-ai
   devserver:
     pacman:
       - zsh
@@ -298,6 +300,7 @@ packages:
       - zizmor
       - typeshare-cli
       - flamegraph
+      - cargo-ndk
     mise:
       - node@latest
       - python@3

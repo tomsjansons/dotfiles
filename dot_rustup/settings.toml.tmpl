@@ -1,0 +1,13 @@
+{{ if not ( eq .chezmoi.hostname "MacBookPro" ) }}
+default_toolchain = "nightly-x86_64-unknown-linux-gnu"
+profile = "default"
+version = "12"
+{{ end -}}
+
+{{ if eq .chezmoi.hostname "MacBookPro" }}
+default_toolchain = "nightly-x86_64-apple-darwin"
+profile = "default"
+version = "12"
+{{ end -}}
+
+[overrides]

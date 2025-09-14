@@ -32,12 +32,13 @@ source <(fzf --zsh)
 source <(jj util completion zsh)
 
 alias lazynvim='NVIM_APPNAME=nvimlazy nvim'
-export EDITOR='tjnvim'
+export EDITOR='nvim'
 export VISUAL='ghostty -e $EDITOR'
 
 export PATH="$PATH:$(go env GOBIN):$(go env GOPATH)/bin"
 
-{{ if not ( eq .chezmoi.hostname "Tomss-MacBook-Pro" ) }}
+echo "{{ .chezmoi.hostname }}"
+{{ if not ( eq .chezmoi.hostname "MacBookPro" ) }}
 export PATH="/home/toms/.bun/bin:$PATH"
 export PATH=$PATH:/home/toms/.turso
 export PATH=$PATH:/home/toms/.local/bin/
@@ -54,8 +55,10 @@ export KUBECONFIG=/home/toms/.kube/config
 export TERMINAL=ghostty
 export RIPGREP_CONFIG_PATH=/home/toms/.config/ripgrep/config
 {{ end -}}
-{{ if eq .chezmoi.hostname "Tomss-MacBook-Pro" }}
+
+{{ if eq .chezmoi.hostname "MacBookPro" }}
 export PATH="/Users/tomsjansons/.bun/bin:$PATH"
+export PATH="$(brew --prefix rustup)/bin:$PATH"
 export PATH=$PATH:/Users/tomsjansons/.local/bin
 export PATH=$PATH:/Users/tomsjansons/.turso
 export PATH=$PATH:/Users/tomsjansons/.local/bin/
@@ -64,6 +67,8 @@ export PATH=$PATH:/Users/tomsjansons/.cargo/bin/
 export PATH=$PATH:/Users/tomsjansons/.local/share/nvim/mason/bin/
 export PATH=$PATH:/Users/tomsjansons/.deno/bin
 export XDG_DATA_DIRS=$XDG_DATA_DIRS:/Users/tomsjansons/.local/share/flatpak/exports/share
+
+export ANDROID_NDK_HOME=/Users/tomsjansons/Library/Android/sdk/ndk/29.0.14033849
 export XDG_DATA_DIRS=$XDG_DATA_DIRS:/usr/share
 export KUBECONFIG=/Users/tomsjansons/.kube/config
 export TERMINAL=ghostty
@@ -103,10 +108,10 @@ bw-agent() {
 
   eval $(ssh-agent -s)
 
-	{{ if not ( eq .chezmoi.hostname "Tomss-MacBook-Pro" ) }}
+	{{ if not ( eq .chezmoi.hostname "MacBookPro" ) }}
   bw_add_sshkeys
 	{{ end }}
-	{{ if eq .chezmoi.hostname "Tomss-MacBook-Pro" }}
+	{{ if eq .chezmoi.hostname "MacBookPro" }}
   bw_add_sshkeys.py
 	{{ end }}
 }
@@ -117,10 +122,10 @@ ob-edit() {
   }
 
 # pnpm
-{{ if not ( eq .chezmoi.hostname "Tomss-MacBook-Pro" ) }}
+{{ if not ( eq .chezmoi.hostname "MacBookPro" ) }}
 export PNPM_HOME="/home/toms/.local/share/pnpm"
 {{ end }}
-{{ if eq .chezmoi.hostname "Tomss-MacBook-Pro" }}
+{{ if eq .chezmoi.hostname "MacBookPro" }}
 export PNPM_HOME="/Users/tomsjansons/.local/share/pnpm"
 {{ end }}
 case ":$PATH:" in
