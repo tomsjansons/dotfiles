@@ -41,8 +41,6 @@ export PATH="$PATH:$(go env GOBIN):$(go env GOPATH)/bin"
 echo "{{ .chezmoi.hostname }}"
 {{ if not ( eq .chezmoi.hostname "MacBookPro" ) }}
 export PATH="/home/toms/.bun/bin:$PATH"
-# export NDK_HOME='/opt/android-ndk/'
-# export PATH=$PATH:/opt/android-sdk/cmdline-tools/latest/bin
 export ANDROID_HOME='/opt/android-sdk/'
 export NDK_HOME='/opt/android-ndk/'
 export PATH=$PATH:/opt/android-sdk/cmdline-tools/latest/bin
@@ -51,6 +49,7 @@ export PATH=$PATH:/home/toms/.local/bin/
 export PATH=$PATH:/home/toms/.local/share/pnpm/
 export PATH=$PATH:/home/toms/.cargo/bin/
 export PATH=$PATH:/home/toms/.local/share/nvim/mason/bin/
+export PATH=$PATH:/home/toms/.local/share/nvimtj/mason/bin/
 export PATH=$PATH:/home/toms/.deno/bin
 export PATH=$PATH:/var/lib/flatpak/exports/share
 export PATH=$PATH:/home/toms/.local/share/flatpak/exports/share

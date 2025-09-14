@@ -218,7 +218,6 @@ packages:
       - git-filter-repo
       - mise
       - kubectl
-      - xfce4
       - batsignal
       - xdg-desktop-portal
       - xdg-desktop-portal-gtk

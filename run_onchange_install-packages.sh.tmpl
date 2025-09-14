@@ -56,12 +56,10 @@ fi
 
 {{ if eq .chezmoi.hostname "arch-l13" }}
 
-{{ if eq .chezmoi.hostname "arch-l13" }}
-
-if command -v cargo &> /dev/null; then
-	cd /tmp && git clone https://github.com/wasabeef/emu && cd emu && cargo install --path .
-fi
-
+ if command -v cargo &> /dev/null; then
+ 	cd /tmp && git clone https://github.com/wasabeef/emu && cd emu && cargo install --path .
+ fi
+ 
 {{ range .packages.devlocal.pacman }}
 echo "==== OMG ==== pacman {{ . | quote }}"
 sudo pacman -S --noconfirm --needed {{ . | quote }}
@@ -106,6 +104,14 @@ fi
 if ! groups | grep -q 'docker'; then
 	echo "Adding docker to user groups"
 	sudo usermod -aG docker toms
+fi
+
+if ! groups | grep -q 'android-sdk'; then
+	echo "Adding android-sdk to user groups"
+	sudo groupadd android-sdk
+	sudo usermod -aG android-sdk toms
+	sudo setfacl -R -m g:android-sdk:rwx /opt/android-sdk
+	sudo setfacl -d -m g:android-sdk:rwX /opt/android-sdk
 fi
 
 if ! fc-list | grep -i "FiraCode" > /dev/null; then

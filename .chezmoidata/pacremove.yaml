@@ -1,11 +1,5 @@
 pacremove:
   pacman:
-    - neovim
+    - xfce4
   yay:
-    - codename-goose-bin
-    - cursor-bin
-    - joplin-desktop
-    - quickshell
-    - slack-desktop
-    - xclip # copy-paste for nvim in xorg
   flathub:
