@@ -19,18 +19,22 @@ bindkey "^[[3~" delete-char
 bindkey "^[[1;5D" backward-word
 bindkey "^[[1;5C" forward-word
 
+{{ if eq .chezmoi.hostname "MacBookPro" }}
+	eval "$(oh-my-posh init zsh --config /home/toms/.config/oh-my-posh/atomicBit.omp.json)"
+{{ end -}}
 
 {{ if eq .chezmoi.hostname "arch-l13" }}
-eval "$(oh-my-posh init zsh --config /home/toms/.config/oh-my-posh/amro.omp.json)"
+	eval "$(oh-my-posh init zsh --config /home/toms/.config/oh-my-posh/amro.omp.json)"
 {{ end -}}
+
 {{ if eq .chezmoi.hostname "ridi-dev-olive" }}
-eval "$(oh-my-posh init zsh --config /home/toms/.config/oh-my-posh/emodipt.omp.json)"
+	eval "$(oh-my-posh init zsh --config /home/toms/.config/oh-my-posh/emodipt.omp.json)"
 {{ end -}}
+
 eval "$(mise activate zsh)"
 source <(fzf --zsh)
 
 source <(jj util completion zsh)
-source <(niri completions zsh)
 
 alias lazynvim='NVIM_APPNAME=nvimlazy nvim'
 export EDITOR='nvim'
@@ -39,45 +43,47 @@ export VISUAL='ghostty -e $EDITOR'
 export PATH="$PATH:$(go env GOBIN):$(go env GOPATH)/bin"
 
 {{ if not ( eq .chezmoi.hostname "MacBookPro" ) }}
-export PATH="/home/toms/.bun/bin:$PATH"
-export ANDROID_HOME='/opt/android-sdk/'
-export NDK_HOME='/opt/android-ndk/'
-export PATH=$PATH:/opt/android-sdk/cmdline-tools/latest/bin
-export PATH="/home/toms/.bun/bin:$PATH"
-export PATH=$PATH:/home/toms/.turso
-export PATH=$PATH:/home/toms/.local/bin/
-export PATH=$PATH:/home/toms/.local/share/pnpm/
-export PATH=$PATH:/home/toms/.cargo/bin/
-export PATH=$PATH:/home/toms/.local/share/nvim/mason/bin/
-export PATH=$PATH:/home/toms/.local/share/nvimtj/mason/bin/
-export PATH=$PATH:/home/toms/.deno/bin
-export PATH=$PATH:/var/lib/flatpak/exports/share
-export PATH=$PATH:/home/toms/.local/share/flatpak/exports/share
-export XDG_DATA_DIRS=/var/lib/flatpak/exports/share
-export XDG_DATA_DIRS=$XDG_DATA_DIRS:/home/toms/.local/share/flatpak/exports/share
-export XDG_DATA_DIRS=$XDG_DATA_DIRS:/usr/share
-export KUBECONFIG=/home/toms/.kube/config
-export TERMINAL=ghostty
-export RIPGREP_CONFIG_PATH=/home/toms/.config/ripgrep/config
+	source <(niri completions zsh)
+
+	export PATH="/home/toms/.bun/bin:$PATH"
+	export ANDROID_HOME='/opt/android-sdk/'
+	export NDK_HOME='/opt/android-ndk/'
+	export PATH=$PATH:/opt/android-sdk/cmdline-tools/latest/bin
+	export PATH="/home/toms/.bun/bin:$PATH"
+	export PATH=$PATH:/home/toms/.turso
+	export PATH=$PATH:/home/toms/.local/bin/
+	export PATH=$PATH:/home/toms/.local/share/pnpm/
+	export PATH=$PATH:/home/toms/.cargo/bin/
+	export PATH=$PATH:/home/toms/.local/share/nvim/mason/bin/
+	export PATH=$PATH:/home/toms/.local/share/nvimtj/mason/bin/
+	export PATH=$PATH:/home/toms/.deno/bin
+	export PATH=$PATH:/var/lib/flatpak/exports/share
+	export PATH=$PATH:/home/toms/.local/share/flatpak/exports/share
+	export XDG_DATA_DIRS=/var/lib/flatpak/exports/share
+	export XDG_DATA_DIRS=$XDG_DATA_DIRS:/home/toms/.local/share/flatpak/exports/share
+	export XDG_DATA_DIRS=$XDG_DATA_DIRS:/usr/share
+	export KUBECONFIG=/home/toms/.kube/config
+	export TERMINAL=ghostty
+	export RIPGREP_CONFIG_PATH=/home/toms/.config/ripgrep/config
 {{ end -}}
 
 {{ if eq .chezmoi.hostname "MacBookPro" }}
-export PATH="/Users/tomsjansons/.bun/bin:$PATH"
-export PATH="$(brew --prefix rustup)/bin:$PATH"
-export PATH=$PATH:/Users/tomsjansons/.local/bin
-export PATH=$PATH:/Users/tomsjansons/.turso
-export PATH=$PATH:/Users/tomsjansons/.local/bin/
-export PATH=$PATH:/Users/tomsjansons/.local/share/pnpm/
-export PATH=$PATH:/Users/tomsjansons/.cargo/bin/
-export PATH=$PATH:/Users/tomsjansons/.local/share/nvim/mason/bin/
-export PATH=$PATH:/Users/tomsjansons/.deno/bin
-export XDG_DATA_DIRS=$XDG_DATA_DIRS:/Users/tomsjansons/.local/share/flatpak/exports/share
+	export PATH="/Users/tomsjansons/.bun/bin:$PATH"
+	export PATH="$(brew --prefix rustup)/bin:$PATH"
+	export PATH=$PATH:/Users/tomsjansons/.local/bin
+	export PATH=$PATH:/Users/tomsjansons/.turso
+	export PATH=$PATH:/Users/tomsjansons/.local/bin/
+	export PATH=$PATH:/Users/tomsjansons/.local/share/pnpm/
+	export PATH=$PATH:/Users/tomsjansons/.cargo/bin/
+	export PATH=$PATH:/Users/tomsjansons/.local/share/nvim/mason/bin/
+	export PATH=$PATH:/Users/tomsjansons/.deno/bin
+	export XDG_DATA_DIRS=$XDG_DATA_DIRS:/Users/tomsjansons/.local/share/flatpak/exports/share
 
-export ANDROID_NDK_HOME=/Users/tomsjansons/Library/Android/sdk/ndk/29.0.14033849
-export XDG_DATA_DIRS=$XDG_DATA_DIRS:/usr/share
-export KUBECONFIG=/Users/tomsjansons/.kube/config
-export TERMINAL=ghostty
-export RIPGREP_CONFIG_PATH=/Users/tomsjansons/.config/ripgrep/config
+	export ANDROID_NDK_HOME=/Users/tomsjansons/Library/Android/sdk/ndk/29.0.14033849
+	export XDG_DATA_DIRS=$XDG_DATA_DIRS:/usr/share
+	export KUBECONFIG=/Users/tomsjansons/.kube/config
+	export TERMINAL=ghostty
+	export RIPGREP_CONFIG_PATH=/Users/tomsjansons/.config/ripgrep/config
 {{ end -}}
 
 alias source-me="source ~/.zshrc"
@@ -128,11 +134,13 @@ ob-edit() {
 
 # pnpm
 {{ if not ( eq .chezmoi.hostname "MacBookPro" ) }}
-export PNPM_HOME="/home/toms/.local/share/pnpm"
+	export PNPM_HOME="/home/toms/.local/share/pnpm"
 {{ end }}
+
 {{ if eq .chezmoi.hostname "MacBookPro" }}
-export PNPM_HOME="/Users/tomsjansons/.local/share/pnpm"
+	export PNPM_HOME="/Users/tomsjansons/.local/share/pnpm"
 {{ end }}
+
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
@@ -146,5 +154,5 @@ export OPENAI_API_KEY={{ (bitwarden "item" "OPENAI_API_KEY").notes }}
 export OPENROUTER_API_KEY={{ (bitwarden "item" "OPENROUTER_API_KEY").notes }}
 
 {{ if eq .chezmoi.hostname "ridi-dev-olive" }}
-source ~/.devserver_zshrc
+	source ~/.devserver_zshrc
 {{ end -}}

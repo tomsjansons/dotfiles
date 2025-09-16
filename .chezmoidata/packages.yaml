@@ -53,12 +53,14 @@ packages:
       - opencode
       - goose
       - android-studio
+      - tree-sitter-cli
     cargo:
       - bacon
       - zizmor
       - typeshare-cli
       - flamegraph
       - cargo-ndk
+      - cbindgen
     mise:
       - node@latest
       - python@3
@@ -296,6 +298,7 @@ packages:
       - typeshare-cli
       - flamegraph
       - cargo-ndk
+      - cbindgen
     mise:
       - node@latest
       - python@3

@@ -1,58 +1,58 @@
 #!/bin/bash
 
 {{ if eq .chezmoi.hostname "MacBookPro" }}
- 
-echo "test"
 
-{{ range .packages.macos.brew }}
-echo "==== OMG ==== brew {{ . | quote }}"
-brew install {{ . | quote }}
-{{ end -}}
+	{{ range .packages.macos.brew }}
+		echo "==== OMG ==== brew {{ . | quote }}"
+		brew install {{ . | quote }}
+	{{ end -}}
 
-{{ range .packages.macos.cargo }}
-echo "==== OMG ==== cargo {{ . | quote }}"
-cargo install {{ . | quote }}
-{{ end -}}
+	{{ range .packages.macos.cargo }}
+		echo "==== OMG ==== cargo {{ . | quote }}"
+		cargo install {{ . | quote }}
+	{{ end -}}
 
-{{ range .packages.macos.bun }}
-echo "==== OMG ==== bun {{ . | quote }}"
-bun -g add {{ . | quote }}
-{{ end -}}
+	{{ range .packages.macos.bun }}
+		echo "==== OMG ==== bun {{ . | quote }}"
+		bun -g add {{ . | quote }}
+	{{ end -}}
 
-{{ range .packages.macos.mise }}
-echo "==== OMG ==== mise {{ . | quote }}"
-mise use -g {{ . | quote }}
-{{ end -}}
+	{{ range .packages.macos.mise }}
+		echo "==== OMG ==== mise {{ . | quote }}"
+		mise use -g {{ . | quote }}
+	{{ end -}}
 
-rustup component add rust-analyzer
+	rustup component add rust-analyzer
 
 {{ end -}}
 
 {{ if or ( eq .chezmoi.hostname "arch-l13" )  ( eq .chezmoi.hostname "ridi-dev-olive" ) }}
 
-{{ range .pacremove.yay }}
-echo "==== REM ==== yay {{ . | quote }}"
-yay -Runs --noconfirm {{ . | quote }}
-{{ end -}}
+	{{ range .pacremove.yay }}
+		echo "==== REM ==== yay {{ . | quote }}"
+		yay -Runs --noconfirm {{ . | quote }}
+	{{ end -}}
 
-{{ range .pacremove.pacman }}
-echo "==== REM ==== yay {{ . | quote }}"
-sudo pacman -Runs --noconfirm {{ . | quote }}
-{{ end -}}
+	{{ range .pacremove.pacman }}
+		echo "==== REM ==== yay {{ . | quote }}"
+		sudo pacman -Runs --noconfirm {{ . | quote }}
+	{{ end -}}
   
-{{ range .pacremove.flathub }}
-echo "==== rem ==== flatpak {{ . | quote }}"
-flatpak uninstall --assumeyes --noninteractive --delete-data {{ . | quote }}
+	{{ range .pacremove.flathub }}
+		echo "==== rem ==== flatpak {{ . | quote }}"
+		flatpak uninstall --assumeyes --noninteractive --delete-data {{ . | quote }}
+	{{ end -}}
+
+	echo "==== OMG ==== pacman update"
+	sudo pacman -Syu --noconfirm --needed
+	echo "==== OMG ==== yay update"
+	yay -Syu --noconfirm --needed
+
+	if ! command -v yay &> /dev/null; then
+		cd /tmp && sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm
+	fi
+
 {{ end -}}
-
-echo "==== OMG ==== pacman update"
-sudo pacman -Syu --noconfirm --needed
-echo "==== OMG ==== yay update"
-yay -Syu --noconfirm --needed
-
-if ! command -v yay &> /dev/null; then
-	cd /tmp && sudo pacman -S --needed git base-devel && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm
-fi
 
 {{ if eq .chezmoi.hostname "arch-l13" }}
 
@@ -60,127 +60,115 @@ fi
  	cd /tmp && git clone https://github.com/wasabeef/emu && cd emu && cargo install --path .
  fi
  
-{{ range .packages.devlocal.pacman }}
-echo "==== OMG ==== pacman {{ . | quote }}"
-sudo pacman -S --noconfirm --needed {{ . | quote }}
-{{ end -}}
+	{{ range .packages.devlocal.pacman }}
+		echo "==== OMG ==== pacman {{ . | quote }}"
+		sudo pacman -S --noconfirm --needed {{ . | quote }}
+	{{ end -}}
 
-{{ range .packages.devlocal.yay }}
-echo "==== OMG ==== yay {{ . | quote }}"
-yay -S --noconfirm --needed {{ . | quote }}
-{{ end -}}
+	{{ range .packages.devlocal.yay }}
+		echo "==== OMG ==== yay {{ . | quote }}"
+		yay -S --noconfirm --needed {{ . | quote }}
+	{{ end -}}
 
-{{ range .packages.devlocal.flathub }}
-echo "==== OMG ==== flatpak {{ . | quote }}"
-flatpak install --assumeyes --noninteractive --or-update flathub {{ . | quote }}
-{{ end -}}
+	{{ range .packages.devlocal.flathub }}
+		echo "==== OMG ==== flatpak {{ . | quote }}"
+		flatpak install --assumeyes --noninteractive --or-update flathub {{ . | quote }}
+	{{ end -}}
 
-{{ range .packages.devlocal.cargo }}
-echo "==== OMG ==== cargo {{ . | quote }}"
-cargo install {{ . | quote }}
-{{ end -}}
+	{{ range .packages.devlocal.cargo }}
+		echo "==== OMG ==== cargo {{ . | quote }}"
+		cargo install {{ . | quote }}
+	{{ end -}}
 
-{{ range .packages.devlocal.pnpm }}
-echo "==== OMG ==== pnpm {{ . | quote }}"
-pnpm install -g {{ . | quote }}
-{{ end -}}
+	{{ range .packages.devlocal.pnpm }}
+		echo "==== OMG ==== pnpm {{ . | quote }}"
+		pnpm install -g {{ . | quote }}
+	{{ end -}}
 
-{{ range .packages.devlocal.mise }}
-echo "==== OMG ==== mise {{ . | quote }}"
-mise use -g {{ . | quote }}
-{{ end -}}
+	{{ range .packages.devlocal.mise }}
+		echo "==== OMG ==== mise {{ . | quote }}"
+		mise use -g {{ . | quote }}
+	{{ end -}}
 
-rustup component add rust-analyzer
+	rustup component add rust-analyzer
 
-if [ $SHELL != '/usr/bin/zsh' ]; then
-	sudo chsh --shell /usr/bin/zsh toms
-fi
-
-if ! groups | grep -q 'video'; then
-	echo "Adding video to user groups"
-	sudo usermod -aG video toms
-fi
-
-if ! groups | grep -q 'docker'; then
-	echo "Adding docker to user groups"
-	sudo usermod -aG docker toms
-fi
-
-if ! groups | grep -q 'android-sdk'; then
-	echo "Adding android-sdk to user groups"
-	sudo groupadd android-sdk
-	sudo usermod -aG android-sdk toms
-	sudo setfacl -R -m g:android-sdk:rwx /opt/android-sdk
-	sudo setfacl -d -m g:android-sdk:rwX /opt/android-sdk
-fi
-
-if ! fc-list | grep -i "FiraCode" > /dev/null; then
-    echo "Installing FiraCode font..."
-    sudo oh-my-posh font install firacode
-else
-    echo "FiraCode font is already installed"
-fi
-
-sudo systemctl is-active --quiet greetd.service || sudo systemctl enable greetd.service
-
-greetdconf='/etc/greetd/config.toml'
-if [ ! -L $greetdconf ]; then
-	if [ -f $greetdconf ]; then
-		sudo rm /etc/greetd/config.toml
+	if [ $SHELL != '/usr/bin/zsh' ]; then
+		sudo chsh --shell /usr/bin/zsh toms
 	fi
-	sudo ln -sf /home/toms/.local/share/chezmoi/etc-greetd-config.toml /etc/greetd/config.toml
-fi
 
-## batterycheck='/etc/systemd/system/battery-check.service'
-## if [ ! -L $batterycheck ]; then
-## 	sudo ln -sf /home/toms/.local/share/chezmoi/etc-systemd-system-battery-check.service /etc/systemd/system/battery-check.service
-## 	sudo systemctl daemon-reload
-## fi
+	if ! groups | grep -q 'video'; then
+		echo "Adding video to user groups"
+		sudo usermod -aG video toms
+	fi
 
-## sudo systemctl is-active --quiet battery-check.service || sudo systemctl enable battery-check.service
-## sudo systemctl start battery-check.service
+	if ! groups | grep -q 'docker'; then
+		echo "Adding docker to user groups"
+		sudo usermod -aG docker toms
+	fi
 
-## curl https://raw.githubusercontent.com/Lifailon/lazyjournal/main/install.sh | bash
+	if ! groups | grep -q 'android-sdk'; then
+		echo "Adding android-sdk to user groups"
+		sudo groupadd android-sdk
+		sudo usermod -aG android-sdk toms
+		sudo setfacl -R -m g:android-sdk:rwx /opt/android-sdk
+		sudo setfacl -d -m g:android-sdk:rwX /opt/android-sdk
+	fi
 
+	if ! fc-list | grep -i "FiraCode" > /dev/null; then
+			echo "Installing FiraCode font..."
+			sudo oh-my-posh font install firacode
+	else
+			echo "FiraCode font is already installed"
+	fi
+
+	sudo systemctl is-active --quiet greetd.service || sudo systemctl enable greetd.service
+
+	greetdconf='/etc/greetd/config.toml'
+	if [ ! -L $greetdconf ]; then
+		if [ -f $greetdconf ]; then
+			sudo rm /etc/greetd/config.toml
+		fi
+		sudo ln -sf /home/toms/.local/share/chezmoi/etc-greetd-config.toml /etc/greetd/config.toml
+	fi
 
 {{ end -}}
 
 {{ if eq .chezmoi.hostname "ridi-dev-olive" }}
 
-{{ range .packages.devserver.pacman }}
-echo "==== OMG ==== pacman {{ . | quote }}"
-sudo pacman -S --noconfirm --needed {{ . | quote }}
-{{ end -}}
+	{{ range .packages.devserver.pacman }}
+		echo "==== OMG ==== pacman {{ . | quote }}"
+		sudo pacman -S --noconfirm --needed {{ . | quote }}
+	{{ end -}}
 
-{{ range .packages.devserver.yay }}
-echo "==== OMG ==== yay {{ . | quote }}"
-yay -S --noconfirm --needed {{ . | quote }}
-{{ end -}}
+	{{ range .packages.devserver.yay }}
+		echo "==== OMG ==== yay {{ . | quote }}"
+		yay -S --noconfirm --needed {{ . | quote }}
+	{{ end -}}
 
-{{ range .packages.devserver.cargo }}
-echo "==== OMG ==== cargo {{ . | quote }}"
-cargo install {{ . | quote }}
-{{ end -}}
+	{{ range .packages.devserver.cargo }}
+		echo "==== OMG ==== cargo {{ . | quote }}"
+		cargo install {{ . | quote }}
+	{{ end -}}
 
-{{ range .packages.devserver.pnpm }}
-echo "==== OMG ==== pnpm {{ . | quote }}"
-pnpm install -g {{ . | quote }}
-{{ end -}}
+	{{ range .packages.devserver.pnpm }}
+		echo "==== OMG ==== pnpm {{ . | quote }}"
+		pnpm install -g {{ . | quote }}
+	{{ end -}}
 
-{{ range .packages.devserver.mise }}
-echo "==== OMG ==== mise {{ . | quote }}"
-mise use -g {{ . | quote }}
-{{ end -}}
+	{{ range .packages.devserver.mise }}
+		echo "==== OMG ==== mise {{ . | quote }}"
+		mise use -g {{ . | quote }}
+	{{ end -}}
 
-rustup component add rust-analyzer
+	rustup component add rust-analyzer
 
-if [ $SHELL != '/usr/bin/zsh' ]; then
-	sudo chsh --shell /usr/bin/zsh toms
-fi
+	if [ $SHELL != '/usr/bin/zsh' ]; then
+		sudo chsh --shell /usr/bin/zsh toms
+	fi
 
-if ! groups | grep -q 'docker'; then
-	echo "Adding docker to user groups"
-	sudo usermod -aG docker toms
-fi
+	if ! groups | grep -q 'docker'; then
+		echo "Adding docker to user groups"
+		sudo usermod -aG docker toms
+	fi
 
 {{ end -}}

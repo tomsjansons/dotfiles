@@ -24,3 +24,4 @@ keybind = ctrl+k=unbind
 keybind = ctrl+tab=unbind
 keybind = ctrl+shift+t=unbind
 keybind = cmd+w=unbind
+keybind = shift+enter=unbind
