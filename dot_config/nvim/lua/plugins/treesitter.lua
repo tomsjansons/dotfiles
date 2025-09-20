@@ -20,6 +20,8 @@ require("nvim-treesitter.configs").setup({
 		"rust",
 		"zig",
 		"yaml",
+		"kotlin",
+		"swift",
 	},
 
 	-- Install parsers synchronously (only applied to `ensure_installed`)

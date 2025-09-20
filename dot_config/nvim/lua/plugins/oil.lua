@@ -3,7 +3,6 @@ vim.pack.add({ { src = "https://github.com/stevearc/oil.nvim" } })
 require("oil").setup({
 	keymaps = {
 		["q"] = { "actions.close", mode = "n" },
-		["<esc>"] = { "actions.close", mode = "n" },
 		["H"] = { "actions.toggle_hidden", mode = "n" },
 	},
 })

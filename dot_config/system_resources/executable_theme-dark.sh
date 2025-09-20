@@ -38,7 +38,7 @@ disown
 
 sed -i 's/ansi/TwoDark/g' /home/toms/.config/bat/config
 
-sed -i 's/latte/mocha/g' /home/toms/.config/ghostty/config
+sed -i 's/Latte/Mocha/g' /home/toms/.config/ghostty/config
 
 sed -i 's/catppuccin_latte/catppuccin_mocha/g' /home/toms/.config/helix/config.toml
 

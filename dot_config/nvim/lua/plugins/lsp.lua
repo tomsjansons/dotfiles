@@ -17,6 +17,8 @@ require("mason-tool-installer").setup({
 		"gopls",
 		"gofumpt",
 		"rust_analyzer",
+		"kotlin_lsp",
+		"ktlint",
 		-- "bacon_ls",
 	},
 })
