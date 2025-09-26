@@ -61,6 +61,7 @@ packages:
       - flamegraph
       - cargo-ndk
       - cbindgen
+      - lsp-ai
     mise:
       - node@latest
       - python@3
@@ -118,6 +119,7 @@ packages:
     cargo:
       - bacon
       - zizmor
+      - lsp-ai
     mise:
       - node@22
       - python@3
@@ -242,6 +244,11 @@ packages:
       - git-delta
       - tree-sitter-cli
       - qt5-wayland
+      - helix
+      - gofumpt
+      - golangci-lint
+      - ansible
+      - mpv
     yay:
       - brave-bin
       - oh-my-posh-bin
@@ -269,7 +276,6 @@ packages:
       - lazydocker
       - mprocs-bin
       - pmtiles
-      - evil-helix-bin
       - zellij
       - power-profiles-daemon
       - google-chrome
@@ -286,12 +292,15 @@ packages:
       - opencode-bin
       - goose
       - neovim-git
+      - youtube-tui
+      - yourube-dl
     flathub:
       - com.usebottles.bottles
       - org.kde.kdenlive
       - be.alexandervanhee.gradia
       - io.kapsa.drive
       - com.rustdesk.RustDesk
+      - rocks.shy.VacuumTube
     cargo:
       - bacon
       - zizmor
@@ -299,6 +308,7 @@ packages:
       - flamegraph
       - cargo-ndk
       - cbindgen
+      - lsp-ai
     mise:
       - node@latest
       - python@3

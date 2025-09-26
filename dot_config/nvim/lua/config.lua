@@ -20,3 +20,9 @@ if f ~= nil then
 else
 	vim.opt.background = "dark"
 end
+
+vim.api.nvim_create_autocmd("TextYankPost", {
+	callback = function()
+		vim.highlight.on_yank()
+	end,
+})

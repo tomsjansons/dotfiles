@@ -31,3 +31,8 @@ C-h = "jump_view_left"
 C-l = "jump_view_right"
 C-j = "jump_view_down"
 C-k = "jump_view_up"
+S-x = "select_line_above"
+x = "select_line_below"
+
+[keys.insert]
+C-space = "completion"

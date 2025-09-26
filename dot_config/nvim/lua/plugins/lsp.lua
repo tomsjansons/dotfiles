@@ -23,6 +23,15 @@ require("mason-tool-installer").setup({
 	},
 })
 
+local nvim_lsp = require("lspconfig")
+
+vim.lsp.config("denols", {
+	filetypes = { "typescript", "typescriptreact" },
+	root_dir = function(...)
+		return nvim_lsp.util.root_pattern("deno.jsonc", "deno.json")(...)
+	end,
+})
+
 vim.lsp.config("lua_ls", {
 	settings = {
 		Lua = {
@@ -45,5 +54,4 @@ vim.lsp.config("lua_ls", {
 	},
 })
 
--- vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
 vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename" })

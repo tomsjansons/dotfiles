@@ -17,24 +17,35 @@ vim.api.nvim_create_user_command("Q", "q", {})
 vim.api.nvim_create_user_command("Qa", "qa", {})
 vim.api.nvim_create_user_command("QA", "qa", {})
 
--- vim.keymap.set("n", "<leader>d", "<cmd>bn<cr><cmd>bd #<cr>")
-vim.keymap.set("n", "<leader>d", function()
-	local original_buf = vim.api.nvim_get_current_buf()
-
+-- E211: File "~/adv-server-config/ansible/roles/adv_config/tasks/main.yml" no longer available
+-- E5108: Lua: /home/toms/.config/nvim/lua/keymaps.lua:28: Vim:E211: File "~/adv-server-config/ansible/roles/adv_config/tasks/crontab.yml" no longer available
+-- stack traceback:
+-- 	[C]: in function 'nvim_win_set_buf'
+-- 	/home/toms/.config/nvim/lua/keymaps.lua:28: in function 'StepBackJumplist'
+-- 	/home/toms/.config/nvim/lua/keymaps.lua:39: in function </home/toms/.config/nvim/lua/keymaps.lua:36>
+function StepBackJumplist(original_buf)
 	local jumplist = vim.fn.getjumplist()
 	local jumps = jumplist[1]
 	local jumpPos = jumplist[2]
 
 	for i = jumpPos, 1, -1 do
 		local jump = jumps[i]
-		if jump.bufnr ~= original_buf then
+		if jump.bufnr ~= original_buf and vim.api.nvim_buf_is_valid(jump.bufnr) then
+			vim.api.nvim_win_set_buf(0, jump.bufnr)
 			vim.api.nvim_win_set_cursor(0, { jump.lnum, jump.col })
 			break
 		end
 	end
+end
+
+-- vim.keymap.set("n", "<leader>d", "<cmd>bn<cr><cmd>bd #<cr>")
+vim.keymap.set("n", "<leader>d", function()
+	local original_buf = vim.api.nvim_get_current_buf()
+
+	StepBackJumplist(original_buf)
 
 	vim.api.nvim_buf_delete(original_buf, { force = true })
-end)
+end, { desc = "Delete buffer" })
 
 -- for nimi.completion to do enter for select
 _G.cr_action = function()
@@ -47,10 +58,10 @@ end
 vim.keymap.set("i", "<CR>", "v:lua.cr_action()", { expr = true })
 
 vim.api.nvim_create_user_command("R", function(args)
-	local cz_nvimtj = os.getenv("HOME") .. "/.local/share/chezmoi/dot_config/nvimtj"
-	local cnf_nvimtj = os.getenv("HOME") .. "/.config/nvimtj"
-	vim.cmd("!rm -rf " .. cz_nvimtj)
-	vim.cmd("!cp -r " .. cnf_nvimtj .. " " .. cz_nvimtj)
+	local cz_nvim = os.getenv("HOME") .. "/.local/share/chezmoi/dot_config/nvim"
+	local cnf_nvim = os.getenv("HOME") .. "/.config/nvim"
+	vim.cmd("!rm -rf " .. cz_nvim)
+	vim.cmd("!cp -r " .. cnf_nvim .. " " .. cz_nvim)
 	vim.cmd("restart")
 end, { desc = "Update cz and restart" })
 
