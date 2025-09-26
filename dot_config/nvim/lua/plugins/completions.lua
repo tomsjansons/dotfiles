@@ -29,6 +29,22 @@ vim.api.nvim_create_autocmd("PackChanged", {
 })
 
 require("blink.cmp").setup({
+	sources = {
+		default = {
+			-- other sources
+			"codecompanion",
+		},
+		providers = {
+			-- other providers
+			codecompanion = {
+				name = "CodeCompanion",
+				module = "codecompanion.providers.completion.blink",
+				enabled = true,
+				score_offset = 10,
+				async = true,
+			},
+		},
+	},
 	keymap = { preset = "enter" },
 	signature = {
 		enabled = true,

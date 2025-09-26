@@ -35,6 +35,7 @@ image/jpeg=org.gnome.Loupe.desktop
 text/plain=nvim.desktop
 image/webp=org.gnome.Loupe.desktop
 text/vnd.trolltech.linguist=org.gnome.TextEditor.desktop
+application/xml=vivaldi-stable.desktop
 
 [Added Associations]
 x-scheme-handler/http=zen.desktop;zen-browser.desktop;zen-alpha.desktop;zen-beta.desktop;
@@ -67,3 +68,4 @@ text/x-log=org.gnome.TextEditor.desktop;
 text/plain=org.gnome.TextEditor.desktop;
 image/webp=org.gnome.Loupe.desktop;
 text/vnd.trolltech.linguist=org.gnome.TextEditor.desktop;
+application/xml=vivaldi-stable.desktop;

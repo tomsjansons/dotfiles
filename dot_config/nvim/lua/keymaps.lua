@@ -17,12 +17,6 @@ vim.api.nvim_create_user_command("Q", "q", {})
 vim.api.nvim_create_user_command("Qa", "qa", {})
 vim.api.nvim_create_user_command("QA", "qa", {})
 
--- E211: File "~/adv-server-config/ansible/roles/adv_config/tasks/main.yml" no longer available
--- E5108: Lua: /home/toms/.config/nvim/lua/keymaps.lua:28: Vim:E211: File "~/adv-server-config/ansible/roles/adv_config/tasks/crontab.yml" no longer available
--- stack traceback:
--- 	[C]: in function 'nvim_win_set_buf'
--- 	/home/toms/.config/nvim/lua/keymaps.lua:28: in function 'StepBackJumplist'
--- 	/home/toms/.config/nvim/lua/keymaps.lua:39: in function </home/toms/.config/nvim/lua/keymaps.lua:36>
 function StepBackJumplist(original_buf)
 	local jumplist = vim.fn.getjumplist()
 	local jumps = jumplist[1]
@@ -38,8 +32,7 @@ function StepBackJumplist(original_buf)
 	end
 end
 
--- vim.keymap.set("n", "<leader>d", "<cmd>bn<cr><cmd>bd #<cr>")
-vim.keymap.set("n", "<leader>d", function()
+vim.keymap.set("n", "<leader>D", function()
 	local original_buf = vim.api.nvim_get_current_buf()
 
 	StepBackJumplist(original_buf)

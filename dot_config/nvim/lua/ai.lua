@@ -1,15 +1,21 @@
 vim.pack.add({ { src = "https://github.com/olimorris/codecompanion.nvim" } })
 
 require("codecompanion").setup({
+	opts = {
+		log_level = "TRACE",
+	},
 	strategies = {
 		chat = {
-			adapter = "openrouter_qwen",
+			adapter = "openai",
+			opts = {
+				completion_provider = "blink", -- blink|cmp|coc|default
+			},
 		},
 		inline = {
-			adapter = "openrouter_qwen",
+			adapter = "openai",
 		},
 		cmd = {
-			adapter = "openrouter_qwen",
+			adapter = "openai",
 		},
 	},
 	adapters = {

@@ -32,6 +32,9 @@ require("formatter").setup({
 		html = {
 			require("formatter.filetypes.html").prettierd,
 		},
+		zig = {
+			require("formatter.filetypes.zig").zigfmt,
+		},
 	},
 })
 

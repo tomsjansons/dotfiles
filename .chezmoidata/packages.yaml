@@ -54,6 +54,7 @@ packages:
       - goose
       - android-studio
       - tree-sitter-cli
+      - github-cli
     cargo:
       - bacon
       - zizmor
@@ -116,6 +117,7 @@ packages:
       - ggshield
       - opencode-bin
       - neovim-git
+      - github-cli
     cargo:
       - bacon
       - zizmor
@@ -249,6 +251,8 @@ packages:
       - golangci-lint
       - ansible
       - mpv
+      - github-cli
+      - valkey
     yay:
       - brave-bin
       - oh-my-posh-bin

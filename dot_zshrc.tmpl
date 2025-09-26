@@ -114,6 +114,32 @@ cz-apply() {
   chezmoi apply
 }
 
+
+get_age_keys() {
+    if ! command -v bw &> /dev/null; then
+        echo "Bitwarden CLI (bw) not found"
+        return 1
+    fi
+
+    if ! bw status | grep -q '"status":"unlocked"'; then
+        echo "Bitwarden vault is locked. Please unlock with: bw unlock"
+        return 1
+    fi
+
+    local note_id
+    note_id=$(bw list items --search AGE_SECRET_KEY | jq -r '.[0].id')
+    
+    if [ "$note_id" = "null" ] || [ -z "$note_id" ]; then
+        echo "Note AGE_SECRET_KEY not found in Bitwarden vault"
+        return 1
+    fi
+
+    export AGE_PRIVATE_KEY=$(bw get notes "$note_id")
+    export AGE_PUBLIC_KEY=$(bw get item "$note_id" | jq -r '.fields[] | select(.name=="public-key") .value')
+    
+    echo "AGE keys loaded from Bitwarden"
+}
+
 bw-agent() {
   bw-session
 
@@ -125,6 +151,8 @@ bw-agent() {
 	{{ if eq .chezmoi.hostname "MacBookPro" }}
   bw_add_sshkeys.py
 	{{ end }}
+
+	get_age_keys
 }
 
 ob-edit() {

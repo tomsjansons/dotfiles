@@ -9,4 +9,4 @@ tree.setup({
 
 vim.keymap.set("n", "<leader>u", function()
 	tree.toggle()
-end, { desc = "Treesitter nodes" })
+end, { desc = "Undo tree" })

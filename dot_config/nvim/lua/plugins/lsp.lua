@@ -54,4 +54,13 @@ vim.lsp.config("lua_ls", {
 	},
 })
 
+vim.lsp.config("zls", {
+	settings = {
+		zls = {
+			enable_build_on_save = true,
+			semantic_tokens = "partial",
+		},
+	},
+})
+
 vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename" })
