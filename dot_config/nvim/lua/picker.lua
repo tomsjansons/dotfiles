@@ -90,3 +90,7 @@ end, { desc = "Diagnostic" })
 vim.keymap.set("n", "<leader>sg", function()
 	require("telescope.builtin").live_grep()
 end, { desc = "Grep" })
+
+vim.keymap.set("n", "<leader>sR", function()
+	require("telescope.builtin").resume()
+end, { desc = "Resume" })

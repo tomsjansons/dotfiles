@@ -7,6 +7,8 @@ vim.pack.add({
 
 local dap = require("dap")
 
+require("dapui").setup()
+
 -- configure codelldb adapter
 dap.adapters.codelldb = {
 	type = "server",
@@ -30,6 +32,24 @@ dap.configurations.zig = {
 		args = {},
 	},
 }
+
+dap.adapters["go-remote"] = {
+	type = "server",
+	host = "127.0.0.1",
+	port = 38697, -- must match ./dev.sh esg-dlv
+}
+
+dap.configurations.go = dap.configurations.go or {}
+table.insert(dap.configurations.go, {
+	type = "go-remote",
+	name = "Launch ESG (via external dlv dap)",
+	request = "launch",
+	program = "${workspaceFolder}/esg/cmd/be",
+	cwd = "${workspaceFolder}",
+	args = { "--env", "./.env.local" }, -- ensures backend loads .env.local
+	stopOnEntry = false,
+	-- Optional: buildFlags = {"-gcflags", "all=-N -l"},
+})
 
 vim.keymap.set("n", "<leader>db", function()
 	require("dap").toggle_breakpoint()

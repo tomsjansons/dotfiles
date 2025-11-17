@@ -10,6 +10,12 @@ vim.keymap.set("n", "<c-s-t>", "<cmd>tabnew<cr>")
 vim.keymap.set("n", "<c-s-h>", "<cmd>tabprevious<cr>")
 vim.keymap.set("n", "<c-s-l>", "<cmd>tabnext<cr>")
 
+vim.keymap.set("v", "<", "<gv")
+vim.keymap.set("v", ">", ">gv")
+
+vim.keymap.set({ "n", "v" }, "j", "gj")
+vim.keymap.set({ "n", "v" }, "k", "gk")
+
 vim.api.nvim_create_user_command("W", "w", {})
 vim.api.nvim_create_user_command("Wa", "wa", {})
 vim.api.nvim_create_user_command("WA", "wa", {})

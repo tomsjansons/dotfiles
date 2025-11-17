@@ -65,6 +65,7 @@ export PATH="$PATH:$(go env GOBIN):$(go env GOPATH)/bin"
 	export KUBECONFIG=/home/toms/.kube/config
 	export TERMINAL=ghostty
 	export RIPGREP_CONFIG_PATH=/home/toms/.config/ripgrep/config
+	export VCPKG_ROOT="/home/toms/vcpkg"
 {{ end -}}
 
 {{ if eq .chezmoi.hostname "MacBookPro" }}

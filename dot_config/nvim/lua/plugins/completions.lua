@@ -1,11 +1,3 @@
--- vim.pack.add({ { src = "https://github.com/nvim-mini/mini.completion" } })
---
--- require("mini.completion").setup({
--- 	window = {
--- 		info = { height = 25, width = 80, border = "single" },
--- 		signature = { height = 25, width = 80, border = "single" },
--- 	},
--- })
 vim.pack.add({ { src = "https://github.com/Saghen/blink.cmp" } })
 
 function Build_blink(params)
@@ -31,11 +23,16 @@ vim.api.nvim_create_autocmd("PackChanged", {
 require("blink.cmp").setup({
 	sources = {
 		default = {
-			-- other sources
+			"lsp",
 			"codecompanion",
+			"buffer",
+			"path",
+		},
+		per_filetype = {
+			sql = { "dadbod" },
 		},
 		providers = {
-			-- other providers
+			dadbod = { module = "vim_dadbod_completion.blink" },
 			codecompanion = {
 				name = "CodeCompanion",
 				module = "codecompanion.providers.completion.blink",

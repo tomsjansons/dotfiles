@@ -253,6 +253,10 @@ packages:
       - mpv
       - github-cli
       - valkey
+      - clang
+      - make
+      - bind
+      - vcpkg
     yay:
       - brave-bin
       - oh-my-posh-bin
@@ -298,6 +302,7 @@ packages:
       - neovim-git
       - youtube-tui
       - yourube-dl
+      - trino-cli-bin
     flathub:
       - com.usebottles.bottles
       - org.kde.kdenlive

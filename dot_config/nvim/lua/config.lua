@@ -6,6 +6,9 @@ vim.opt.clipboard = "unnamed,unnamedplus"
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.completeopt = "menuone,noinsert,fuzzy"
+vim.opt.breakindent = true
+vim.opt.breakindentopt = { "shift:2", "sbr" }
+vim.opt.showbreak = "⮑"
 
 vim.g.netrw_keepdir = 1
 vim.g.netrw_winsize = 30

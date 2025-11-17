@@ -6,21 +6,25 @@ require("codecompanion").setup({
 	},
 	strategies = {
 		chat = {
-			adapter = "openai",
+			adapter = "or_qwen",
 			opts = {
 				completion_provider = "blink", -- blink|cmp|coc|default
 			},
 		},
 		inline = {
-			adapter = "openai",
+			adapter = "or_qwen",
 		},
 		cmd = {
-			adapter = "openai",
+			adapter = "or_qwen",
 		},
 	},
 	adapters = {
 		http = {
-			openrouter_qwen = function()
+			opts = {
+				show_model_choices = false,
+				show_defaults = false,
+			},
+			or_qwen = function()
 				return require("codecompanion.adapters").extend("openai_compatible", {
 					env = {
 						url = "https://openrouter.ai/api",
@@ -29,16 +33,35 @@ require("codecompanion").setup({
 					},
 					schema = {
 						model = {
-							default = "@preset/qwen3-coder-preset",
+							default = "@preset/qwen3-coder",
 						},
 					},
 				})
 			end,
-			openai = function()
-				return require("codecompanion.adapters").extend("openai", {
+			or_gemini = function()
+				return require("codecompanion.adapters").extend("openai_compatible", {
+					env = {
+						url = "https://openrouter.ai/api",
+						api_key = "OPENROUTER_API_KEY",
+						chat_url = "/v1/chat/completions",
+					},
 					schema = {
 						model = {
-							default = "gpt-5",
+							default = "@preset/gemini-2-5-pro",
+						},
+					},
+				})
+			end,
+			or_gpt = function()
+				return require("codecompanion.adapters").extend("openai_compatible", {
+					env = {
+						url = "https://openrouter.ai/api",
+						api_key = "OPENROUTER_API_KEY",
+						chat_url = "/v1/chat/completions",
+					},
+					schema = {
+						model = {
+							default = "@preset/gpt-5-1-codex",
 						},
 					},
 				})

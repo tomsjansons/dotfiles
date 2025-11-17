@@ -4,6 +4,15 @@ require("formatter").setup({
 	logging = true,
 	log_level = vim.log.levels.WARN,
 	filetype = {
+		yaml = {
+			require("formatter.filetypes.yaml").prettierd,
+		},
+		json = {
+			require("formatter.filetypes.json").biome,
+		},
+		c = {
+			require("formatter.filetypes.c").clangformat,
+		},
 		lua = {
 			require("formatter.filetypes.lua").stylua,
 		},

@@ -153,6 +153,13 @@ output "eDP-1" {
   position x=3440 y=0
 }
 
+output "Microstep MSI MP245 PC1M034700358" {
+	mode "1920x1080@60"
+	scale 1.0
+	transform "normal"
+	position x=3440 y=-1080
+}
+
 // output "HDMI-A-1" {
 // 	mode "1920x1080@60"
 // 	scale 1.0
