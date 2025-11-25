@@ -6,6 +6,8 @@ vim.keymap.set("n", "<c-l>", "<C-w>l")
 vim.keymap.set("n", "<c-j>", "<C-w>j")
 vim.keymap.set("n", "<c-k>", "<C-w>k")
 
+vim.keymap.set("n", "<leader>tn", "<cmd>tabnew<cr>", { desc = "Tab new" })
+vim.keymap.set("n", "<leader>tc", "<cmd>tabclose<cr>", { desc = "Tab close" })
 vim.keymap.set("n", "<c-s-t>", "<cmd>tabnew<cr>")
 vim.keymap.set("n", "<c-s-h>", "<cmd>tabprevious<cr>")
 vim.keymap.set("n", "<c-s-l>", "<cmd>tabnext<cr>")

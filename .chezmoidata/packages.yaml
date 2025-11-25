@@ -198,6 +198,7 @@ packages:
       - gsettings-desktop-schemas
       # qemu stuff
       - qemu
+      - qemu-desktop
       - virt-manager
       - virt-viewer
       - dnsmasq
@@ -208,7 +209,7 @@ packages:
       - iptables
       - libguestfs
       - cpio
-      # quemu stuff end
+      # qemu stuff end
       - cosmic-session
       - dconf
       - valgrind

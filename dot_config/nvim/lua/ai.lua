@@ -52,6 +52,20 @@ require("codecompanion").setup({
 					},
 				})
 			end,
+			or_gemini3 = function()
+				return require("codecompanion.adapters").extend("openai_compatible", {
+					env = {
+						url = "https://openrouter.ai/api",
+						api_key = "OPENROUTER_API_KEY",
+						chat_url = "/v1/chat/completions",
+					},
+					schema = {
+						model = {
+							default = "@preset/gemini-3-pro",
+						},
+					},
+				})
+			end,
 			or_gpt = function()
 				return require("codecompanion.adapters").extend("openai_compatible", {
 					env = {

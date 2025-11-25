@@ -15,6 +15,13 @@ keybinds clear-defaults=true {
         bind "Alt 9" { GoToTab 9; }
         bind "Alt c" { CloseFocus; }
         bind "Alt w" { ToggleFloatingPanes; }
+        bind "Alt q" {
+            LaunchOrFocusPlugin "zellij:session-manager" {
+                floating true
+                move_to_focused_tab true
+            }
+            SwitchToMode "normal"
+        }
     }
     locked {
         bind "Alt g" { SwitchToMode "normal"; }
