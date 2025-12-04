@@ -42,7 +42,11 @@ require("blink.cmp").setup({
 			},
 		},
 	},
-	keymap = { preset = "enter" },
+	keymap = {
+		preset = "default",
+		["<Tab>"] = { "select_and_accept", "fallback" },
+		["<CR>"] = { "fallback" },
+	},
 	signature = {
 		enabled = true,
 	},

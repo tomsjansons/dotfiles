@@ -6,7 +6,11 @@ vim.pack.add({
 })
 
 require("mason").setup()
-require("mason-lspconfig").setup()
+require("mason-lspconfig").setup({
+	automatic_enable = {
+		exclude = { "ts_ls" },
+	},
+})
 require("mason-tool-installer").setup({
 	ensure_installed = {
 		"lua_ls",
@@ -19,7 +23,6 @@ require("mason-tool-installer").setup({
 		"rust_analyzer",
 		"kotlin_lsp",
 		"ktlint",
-		-- "bacon_ls",
 	},
 })
 

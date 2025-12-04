@@ -31,6 +31,7 @@ bindkey "^[[1;5C" forward-word
 	eval "$(oh-my-posh init zsh --config /home/toms/.config/oh-my-posh/emodipt.omp.json)"
 {{ end -}}
 
+eval $(luarocks path)
 eval "$(mise activate zsh)"
 source <(fzf --zsh)
 
@@ -177,6 +178,7 @@ esac
 # pnpm end
 
 export ANTHROPIC_API_KEY={{ (bitwarden "item" "ANTHROPIC_API_KEY").notes }}
+export OPENCODE_ZEN_API_KEY={{ (bitwarden "item" "OPENCODE_ZEN_API_KEY").notes }}
 export GEMINI_API_KEY={{ (bitwarden "item" "GEMINI_API_KEY").notes }}
 export TAVILY_API_KEY={{ (bitwarden "item" "TAVILY_API_KEY").notes }}
 export OPENAI_API_KEY={{ (bitwarden "item" "OPENAI_API_KEY").notes }}

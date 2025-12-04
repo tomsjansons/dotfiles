@@ -188,7 +188,6 @@ packages:
       - ghostty
       - flatpak
       - remmina
-      - proton-vpn-gtk-app
       - lldb
       - ueberzugpp
       - tailwindcss-language-server
@@ -258,6 +257,9 @@ packages:
       - make
       - bind
       - vcpkg
+      - docker-buildx
+      - luarocks
+      - lua
     yay:
       - brave-bin
       - oh-my-posh-bin
@@ -304,6 +306,8 @@ packages:
       - youtube-tui
       - yourube-dl
       - trino-cli-bin
+      - proton-pass-cli-bin
+      - proton-pass-bin
     flathub:
       - com.usebottles.bottles
       - org.kde.kdenlive

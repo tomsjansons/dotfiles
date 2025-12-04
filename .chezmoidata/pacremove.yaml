@@ -1,5 +1,4 @@
 pacremove:
   pacman:
-    - xfce4
   yay:
   flathub:

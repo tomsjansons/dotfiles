@@ -1,5 +1,8 @@
 vim.pack.add({ { src = "https://github.com/olimorris/codecompanion.nvim" } })
 
+local log = require("codecompanion.utils.log")
+local utils = require("codecompanion.utils.adapters")
+
 require("codecompanion").setup({
 	opts = {
 		log_level = "TRACE",
@@ -24,8 +27,67 @@ require("codecompanion").setup({
 				show_model_choices = false,
 				show_defaults = false,
 			},
+			zen_grok = function()
+				return require("codecompanion.adapters").extend("openai_compatible", {
+					name = "Zen Grok",
+					env = {
+						url = "https://opencode.ai/zen/v1",
+						api_key = "OPENCODE_ZEN_API_KEY",
+						chat_url = "/chat/completions",
+					},
+					schema = {
+						model = {
+							default = "grok-code",
+						},
+					},
+				})
+			end,
+			zen_qwen3 = function()
+				return require("codecompanion.adapters").extend("openai_compatible", {
+					name = "Zen Qwen3",
+					env = {
+						url = "https://opencode.ai/zen/v1",
+						api_key = "OPENCODE_ZEN_API_KEY",
+						chat_url = "/chat/completions",
+					},
+					schema = {
+						model = {
+							default = "qwen3-coder",
+						},
+					},
+				})
+			end,
+			zen_pickle = function()
+				return require("codecompanion.adapters").extend("openai_compatible", {
+					name = "Zen Pickel",
+					env = {
+						api_key = "OPENCODE_ZEN_API_KEY",
+						chat_url = "/chat/completions",
+					},
+					schema = {
+						model = {
+							default = "big-pickle",
+						},
+					},
+				})
+			end,
+			zen_gpt51 = function()
+				return require("codecompanion.adapters").extend("openai_responses", {
+					name = "Zen GPT 5.1 Codex",
+					url = "https://opencode.ai/zen/v1/responses",
+					env = {
+						api_key = "OPENCODE_ZEN_API_KEY",
+					},
+					schema = {
+						model = {
+							default = "gpt-5.1-codex",
+						},
+					},
+				})
+			end,
 			or_qwen = function()
 				return require("codecompanion.adapters").extend("openai_compatible", {
+					name = "OpenRouter Qwen3",
 					env = {
 						url = "https://openrouter.ai/api",
 						api_key = "OPENROUTER_API_KEY",
@@ -40,6 +102,7 @@ require("codecompanion").setup({
 			end,
 			or_gemini = function()
 				return require("codecompanion.adapters").extend("openai_compatible", {
+					name = "OpenRouter Gemini 2.5 Pro",
 					env = {
 						url = "https://openrouter.ai/api",
 						api_key = "OPENROUTER_API_KEY",
@@ -54,6 +117,7 @@ require("codecompanion").setup({
 			end,
 			or_gemini3 = function()
 				return require("codecompanion.adapters").extend("openai_compatible", {
+					name = "OpenRouter Gemini 3 Pro",
 					env = {
 						url = "https://openrouter.ai/api",
 						api_key = "OPENROUTER_API_KEY",
@@ -68,6 +132,7 @@ require("codecompanion").setup({
 			end,
 			or_gpt = function()
 				return require("codecompanion.adapters").extend("openai_compatible", {
+					name = "OpenRouter GPT 5.1 Codex",
 					env = {
 						url = "https://openrouter.ai/api",
 						api_key = "OPENROUTER_API_KEY",

@@ -24,19 +24,19 @@ require("formatter").setup({
 		},
 		typescript = {
 			require("formatter.filetypes.typescript").eslint_d,
-			require("formatter.filetypes.typescript").biome,
+			require("formatter.filetypes.typescript").prettierd,
 		},
 		typescriptreact = {
 			require("formatter.filetypes.typescript").eslint_d,
-			require("formatter.filetypes.typescript").biome,
+			require("formatter.filetypes.typescript").prettierd,
 		},
 		javascript = {
 			require("formatter.filetypes.typescript").eslint_d,
-			require("formatter.filetypes.typescript").biome,
+			require("formatter.filetypes.typescript").prettierd,
 		},
 		javascriptreact = {
 			require("formatter.filetypes.typescript").eslint_d,
-			require("formatter.filetypes.typescript").biome,
+			require("formatter.filetypes.typescript").prettierd,
 		},
 		html = {
 			require("formatter.filetypes.html").prettierd,

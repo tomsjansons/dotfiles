@@ -12,7 +12,7 @@ application/x-extension-xht=zen.desktop
 x-scheme-handler/mailto=userapp-Evolution-6LXU32.desktop
 message/rfc822=userapp-Thunderbird-CD2BT2.desktop
 x-scheme-handler/mid=userapp-Thunderbird-CD2BT2.desktop
-x-scheme-handler/webcal=userapp-Thunderbird-K4HST2.desktop
+x-scheme-handler/webcal=vivaldi-stable.desktop
 text/calendar=userapp-Thunderbird-K4HST2.desktop
 application/x-extension-ics=userapp-Thunderbird-K4HST2.desktop
 x-scheme-handler/webcals=userapp-Thunderbird-K4HST2.desktop
@@ -36,6 +36,7 @@ text/plain=nvim.desktop
 image/webp=org.gnome.Loupe.desktop
 text/vnd.trolltech.linguist=org.gnome.TextEditor.desktop
 application/xml=vivaldi-stable.desktop
+video/webm=org.gnome.Totem.desktop
 
 [Added Associations]
 x-scheme-handler/http=zen.desktop;zen-browser.desktop;zen-alpha.desktop;zen-beta.desktop;
@@ -69,3 +70,4 @@ text/plain=org.gnome.TextEditor.desktop;
 image/webp=org.gnome.Loupe.desktop;
 text/vnd.trolltech.linguist=org.gnome.TextEditor.desktop;
 application/xml=vivaldi-stable.desktop;
+video/webm=org.gnome.Totem.desktop;
