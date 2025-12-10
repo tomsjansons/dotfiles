@@ -37,12 +37,18 @@ require("telescope").setup({
 			},
 		},
 	},
+	extensions = {
+		file_browser = {
+			hidden = { file_browser = true, folder_browser = true },
+			respect_gitignore = false,
+		},
+	},
 })
 require("telescope").load_extension("file_browser")
 require("telescope").load_extension("ui-select")
 
 vim.keymap.set("n", "<leader>b", function()
-	require("telescope.builtin").buffers()
+	require("telescope.builtin").buffers({ sort_lastused = true, ignore_current_buffer = true })
 end, { desc = "Find Buffers" })
 
 vim.keymap.set("n", "<leader>f", function()
@@ -59,22 +65,28 @@ vim.keymap.set("n", "<leader>F", function()
 	require("telescope.builtin").find_files()
 end, { desc = "Find Files All" })
 
-vim.keymap.set("n", "gri", function()
-	require("telescope.builtin").lsp_implementations()
-end, { desc = "LSP Implementation" })
+-- vim.keymap.del("n", "gri")
+-- vim.keymap.del("n", "gra")
+-- vim.keymap.del("n", "grn")
+-- vim.keymap.del("n", "grr")
+-- vim.keymap.del("n", "grt")
 
-vim.keymap.set("n", "grn", function()
-	require("telescope.builtin").lsp_references()
-end, { desc = "LSP References" })
-
-vim.keymap.set("n", "grr", function()
-	require("telescope.builtin").lsp_references()
-end, { desc = "LSP References" })
-
-vim.keymap.set("n", "grt", function()
-	require("telescope.builtin").lsp_type_definitions()
-end, { desc = "LSP Type Def" })
-
+-- vim.keymap.set("n", "gri", function()
+-- 	require("telescope.builtin").lsp_implementations()
+-- end, { desc = "LSP Implementation" })
+--
+-- vim.keymap.set("n", "grn", function()
+-- 	require("telescope.builtin").lsp_references()
+-- end, { desc = "LSP References" })
+--
+-- vim.keymap.set("n", "grr", function()
+-- 	require("telescope.builtin").lsp_references()
+-- end, { desc = "LSP References" })
+--
+-- vim.keymap.set("n", "grt", function()
+-- 	require("telescope.builtin").lsp_type_definitions()
+-- end, { desc = "LSP Type Def" })
+--
 vim.keymap.set("n", "gO", function()
 	require("telescope.builtin").lsp_document_symbols()
 end, { desc = "LSP Doc Symbols" })

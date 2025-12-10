@@ -4,6 +4,7 @@ local log = require("codecompanion.utils.log")
 local utils = require("codecompanion.utils.adapters")
 
 require("codecompanion").setup({
+	ignore_warnings = true,
 	opts = {
 		log_level = "TRACE",
 	},

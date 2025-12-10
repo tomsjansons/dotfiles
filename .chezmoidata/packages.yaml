@@ -260,6 +260,8 @@ packages:
       - docker-buildx
       - luarocks
       - lua
+      - notmuch
+      - isync
     yay:
       - brave-bin
       - oh-my-posh-bin
@@ -306,7 +308,6 @@ packages:
       - youtube-tui
       - yourube-dl
       - trino-cli-bin
-      - proton-pass-cli-bin
       - proton-pass-bin
     flathub:
       - com.usebottles.bottles

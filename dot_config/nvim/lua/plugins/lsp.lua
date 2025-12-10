@@ -3,6 +3,7 @@ vim.pack.add({
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/mason-org/mason-lspconfig.nvim" },
 	{ src = "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim" },
+	{ src = "https://github.com/nvimdev/lspsaga.nvim" },
 })
 
 require("mason").setup()
@@ -66,4 +67,35 @@ vim.lsp.config("zls", {
 	},
 })
 
-vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename" })
+require("lspsaga").setup({
+	code_action = {
+		extend_gitsigns = true,
+	},
+	lightbulb = {
+		enable = true,
+		sign = false,
+		virtual_text = true,
+		debounde = 0,
+	},
+})
+
+local wk = require("which-key")
+wk.add({
+	{ "<leader>c", group = "Code" },
+	{ "<leader>cc", group = "Calls" },
+})
+
+vim.keymap.del("n", "gri")
+vim.keymap.del("n", "gra")
+vim.keymap.del("n", "grn")
+vim.keymap.del("n", "grr")
+vim.keymap.del("n", "grt")
+
+vim.keymap.set("n", "<leader>ca", "<cmd>Lspsaga code_action<cr>", { desc = "Code Action" })
+vim.keymap.set("n", "<leader>cci", "<cmd>Lspsaga incoming_calls<cr>", { desc = "Calls Incoming" })
+vim.keymap.set("n", "<leader>cco", "<cmd>Lspsaga outgoing_calls<cr>", { desc = "Calls Outgoing" })
+vim.keymap.set("n", "<leader>cd", "<cmd>Lspsaga diagnostic_jump_next<cr>", { desc = "Diagnostic" })
+vim.keymap.set("n", "gr", "<cmd>Lspsaga finder<cr>", { desc = "References Finder" })
+vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<cr>")
+vim.keymap.set("n", "<leader>cr", "<cmd>Lspsaga rename<cr>", { desc = "Rename" })
+vim.keymap.set("n", "<leader>co", "<cmd>Lspsaga outline<cr>", { desc = "Outline" })

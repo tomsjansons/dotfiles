@@ -1,4 +1,6 @@
-vim.pack.add({ { src = "https://github.com/rest-nvim/rest.nvim" } })
+vim.pack.add({
+	{ src = "https://github.com/rest-nvim/rest.nvim" },
+})
 
 local function run_rest_if_http()
 	local filetype = vim.bo.filetype
