@@ -1,0 +1,53 @@
+CopyArrivalDate yes
+Create Both
+Expunge Both
+SyncState *
+
+IMAPAccount protonaccont
+Host 127.0.0.1
+Port 1143
+User {{ (secretJSON "item" "view" "--vault-name" "Personal" "--item-title"  "proton-me-local" "--output" "json").item.content.content.Login.email }}
+Pass {{ (secretJSON "item" "view" "--vault-name" "Personal" "--item-title"  "proton-me-local" "--output" "json").item.content.content.Login.password }}
+TLSType STARTTLS
+CertificateFile ~/protonbridge-certs/cert.pem
+
+IMAPStore protonremote
+Account protonaccont
+
+MaildirStore protonlocal
+Path ~/.mail/proton/
+Inbox ~/.mail/proton/Inbox
+SubFolders Verbatim
+
+Channel protonchannel
+Far :protonremote:
+Near :protonlocal:
+Patterns *
+Expunge Both
+Sync All
+Create Both
+Remove Both
+
+IMAPAccount advangridaccount
+Host {{ (index (secretJSON "item" "view" "--vault-name" "Personal" "--item-title" "advangrid-email" "--output" "json").item.content.extra_fields 0).content.Text }}
+Port 143
+User {{ (secretJSON "item" "view" "--vault-name" "Personal" "--item-title"  "advangrid-email" "--output" "json").item.content.content.Login.email }}
+Pass {{ (secretJSON "item" "view" "--vault-name" "Personal" "--item-title"  "advangrid-email" "--output" "json").item.content.content.Login.password }}
+TLSType STARTTLS
+
+IMAPStore advangridremote
+Account advangridaccount
+
+MaildirStore advangridlocal
+Path ~/.mail/advangrid/
+Inbox ~/.mail/advangrid/Inbox
+SubFolders Verbatim
+
+Channel advangridchannel
+Far :advangridremote:
+Near :advangridlocal:
+Patterns *
+Expunge Both
+Sync All
+Create Both
+Remove Both

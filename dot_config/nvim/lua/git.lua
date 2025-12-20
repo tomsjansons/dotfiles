@@ -3,7 +3,6 @@ vim.pack.add({
 	{ src = "https://github.com/nvim-tree/nvim-web-devicons" },
 	{ src = "https://github.com/lewis6991/gitsigns.nvim" },
 	{ src = "https://github.com/sindrets/diffview.nvim" },
-	{ src = "https://github.com/NeogitOrg/neogit" },
 })
 
 local wk = require("which-key")
@@ -14,9 +13,9 @@ wk.add({
 wk.add({
 	{ "<leader>gd", group = "Diff" },
 })
-vim.keymap.set("n", "<leader>gp", "<cmd>Neogit<cr>", { desc = "Git Project" })
 vim.keymap.set("n", "<leader>gdf", "<cmd>DiffviewFileHistory %<cr>", { desc = "Diff File" })
 vim.keymap.set("n", "<leader>gdh", "<cmd>DiffviewFileHistory<cr>", { desc = "Diff History" })
+vim.keymap.set("n", "<leader>gp", "<cmd>DiffviewOpen<cr>", { desc = "Project Diff Current" })
 
 require("gitsigns").setup({
 	current_line_blame = true,

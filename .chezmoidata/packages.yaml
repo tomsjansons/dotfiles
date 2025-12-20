@@ -55,6 +55,7 @@ packages:
       - android-studio
       - tree-sitter-cli
       - github-cli
+      - pass-cli
     cargo:
       - bacon
       - zizmor
@@ -262,6 +263,9 @@ packages:
       - lua
       - notmuch
       - isync
+      - neomutt
+      - cloudflared
+      - pass-cli
     yay:
       - brave-bin
       - oh-my-posh-bin

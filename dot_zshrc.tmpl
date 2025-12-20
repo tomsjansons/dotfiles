@@ -102,59 +102,23 @@ cz-edit() {
 	cz-cd
 	$EDITOR
 }
-bw-reset() {
-  export BW_SESSION=
-}
-bw-session() {
-  echo "BW_SESSION=${BW_SESSION}"
-  if [[ -z "${BW_SESSION}" ]]; then
-	  export BW_SESSION=$(bw unlock --raw)
-  fi
-}
 cz-apply() {
-  bw-session
+  pass-login
+
   chezmoi apply
 }
 
-
-get_age_keys() {
-    if ! command -v bw &> /dev/null; then
-        echo "Bitwarden CLI (bw) not found"
-        return 1
-    fi
-
-    if ! bw status | grep -q '"status":"unlocked"'; then
-        echo "Bitwarden vault is locked. Please unlock with: bw unlock"
-        return 1
-    fi
-
-    local note_id
-    note_id=$(bw list items --search AGE_SECRET_KEY | jq -r '.[0].id')
-    
-    if [ "$note_id" = "null" ] || [ -z "$note_id" ]; then
-        echo "Note AGE_SECRET_KEY not found in Bitwarden vault"
-        return 1
-    fi
-
-    export AGE_PRIVATE_KEY=$(bw get notes "$note_id")
-    export AGE_PUBLIC_KEY=$(bw get item "$note_id" | jq -r '.fields[] | select(.name=="public-key") .value')
-    
-    echo "AGE keys loaded from Bitwarden"
+pass-login() {
+  pass-cli login
 }
 
-bw-agent() {
-  bw-session
 
-  eval $(ssh-agent -s)
+pass-agent() {
+  pass-login
 
-	{{ if not ( eq .chezmoi.hostname "MacBookPro" ) }}
-  bw_add_sshkeys
-	{{ end }}
-	{{ if eq .chezmoi.hostname "MacBookPro" }}
-  bw_add_sshkeys.py
-	{{ end }}
+  eval "$(ssh-agent -s)"
 
-	get_age_keys
+  pass-cli item view --vault-name "Personal" --item-title "lenovo l13 private key" --output json | jq -r ".item.content.note" | ssh-add -
 }
 
 ob-edit() {
@@ -177,12 +141,12 @@ case ":$PATH:" in
 esac
 # pnpm end
 
-export ANTHROPIC_API_KEY={{ (bitwarden "item" "ANTHROPIC_API_KEY").notes }}
-export OPENCODE_ZEN_API_KEY={{ (bitwarden "item" "OPENCODE_ZEN_API_KEY").notes }}
-export GEMINI_API_KEY={{ (bitwarden "item" "GEMINI_API_KEY").notes }}
-export TAVILY_API_KEY={{ (bitwarden "item" "TAVILY_API_KEY").notes }}
-export OPENAI_API_KEY={{ (bitwarden "item" "OPENAI_API_KEY").notes }}
-export OPENROUTER_API_KEY={{ (bitwarden "item" "OPENROUTER_API_KEY").notes }}
+export ANTHROPIC_API_KEY={{ (secretJSON "item" "view" "--vault-name" "Personal" "--item-title"  "ANTHROPIC_API_KEY" "--output" "json").item.content.note }}
+export OPENCODE_ZEN_API_KEY={{ (secretJSON "item" "view" "--vault-name" "Personal" "--item-title"  "OPENCODE_ZEN_API_KEY" "--output" "json").item.content.note }}
+export GEMINI_API_KEY={{ (secretJSON "item" "view" "--vault-name" "Personal" "--item-title"  "GEMINI_API_KEY" "--output" "json").item.content.note }}
+export TAVILY_API_KEY={{ (secretJSON "item" "view" "--vault-name" "Personal" "--item-title"  "TAVILY_API_KEY" "--output" "json").item.content.note }}
+export OPENAI_API_KEY={{ (secretJSON "item" "view" "--vault-name" "Personal" "--item-title"  "OPENAI_API_KEY" "--output" "json").item.content.note }}
+export OPENROUTER_API_KEY={{ (secretJSON "item" "view" "--vault-name" "Personal" "--item-title"  "OPENROUTER_API_KEY" "--output" "json").item.content.note }}
 
 {{ if eq .chezmoi.hostname "ridi-dev-olive" }}
 	source ~/.devserver_zshrc

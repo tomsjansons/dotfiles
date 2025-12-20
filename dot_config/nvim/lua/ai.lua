@@ -10,6 +10,7 @@ require("codecompanion").setup({
 	},
 	strategies = {
 		chat = {
+			-- adapter = { name = "opencode", model = "big-pickle" },
 			adapter = "or_qwen",
 			opts = {
 				completion_provider = "blink", -- blink|cmp|coc|default

@@ -1,0 +1,22 @@
+[database]
+path=/home/toms/.mail/proton/ /home/toms/.mail/advangrid/
+
+[user]
+name=Toms Jansons
+primary_email {{ (index (secretJSON "item" "view" "--vault-name" "Personal" "--item-title" "not-much-conf" "--output" "json").item.content.extra_fields 0).content.Text }}
+other_email {{ (index (secretJSON "item" "view" "--vault-name" "Personal" "--item-title" "not-much-conf" "--output" "json").item.content.extra_fields 1).content.Text }}
+
+[new]
+# Tags to apply to new messages
+tags=unread;inbox;
+
+# Ignore these files/directories during new message processing
+ignore=
+
+[search]
+# Exclude these tags from search results by default
+exclude_tags=deleted;spam;
+
+[maildir]
+# Synchronize filesystem directories with tags
+synchronize_flags=true

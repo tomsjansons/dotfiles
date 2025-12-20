@@ -1,0 +1,23 @@
+defaults
+logfile ~/.msmtp.log
+tls on
+
+account proton
+host 127.0.0.1
+port 1025
+from {{ (secretJSON "item" "view" "--vault-name" "Personal" "--item-title"  "proton-me-local" "--output" "json").item.content.content.Login.email }}
+auth on
+user {{ (secretJSON "item" "view" "--vault-name" "Personal" "--item-title"  "proton-me-local" "--output" "json").item.content.content.Login.email }}
+password {{ (secretJSON "item" "view" "--vault-name" "Personal" "--item-title"  "proton-me-local" "--output" "json").item.content.content.Login.password }}
+tls_trust_file ~/protonbridge-certs/cert.pem
+
+account advangrid
+host {{ (index (secretJSON "item" "view" "--vault-name" "Personal" "--item-title" "advangrid-email" "--output" "json").item.content.extra_fields 0).content.Text }}
+port 587
+from {{ (secretJSON "item" "view" "--vault-name" "Personal" "--item-title"  "advangrid-email" "--output" "json").item.content.content.Login.email }}
+auth on
+user {{ (secretJSON "item" "view" "--vault-name" "Personal" "--item-title"  "advangrid-email" "--output" "json").item.content.content.Login.email }}
+password {{ (secretJSON "item" "view" "--vault-name" "Personal" "--item-title"  "advangrid-email" "--output" "json").item.content.content.Login.password }}
+tls_starttls on
+
+account default proton
