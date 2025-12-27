@@ -26,6 +26,7 @@ slider {
 	margin: 18px;
 	background-color: #1e1e2e;
 	color: #cdd6f4;
+  border: 1px #cdd6f4 solid;
 	padding: 0;
 }
 
