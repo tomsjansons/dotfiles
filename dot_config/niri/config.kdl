@@ -153,6 +153,12 @@ output "eDP-1" {
   position x=3440 y=0
 }
 
+output "Sony SONY TV  *30 0x01010101" {
+	mode "1920x1080@60"
+	scale 1.0
+	transform "normal"
+	position x=3440 y=-1080
+}
 output "Microstep MSI MP245 PC1M034700358" {
 	mode "1920x1080@60"
 	scale 1.0
@@ -393,6 +399,8 @@ binds {
   // Mod-Shift-/, which is usually the same as Mod-?,
   // shows a list of important hotkeys.
   Mod+Shift+Slash { show-hotkey-overlay; }
+
+  Mod+Ctrl+M { spawn "pkill" "-USR2" "-n" "handy"; }
 
   Mod+T { spawn "/home/toms/.config/system_resources/float-numbat.sh"; }
   Mod+Shift+T { spawn "/home/toms/.config/system_resources/float-htop.sh"; }

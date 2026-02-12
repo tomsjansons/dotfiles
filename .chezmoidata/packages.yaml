@@ -266,6 +266,7 @@ packages:
       - neomutt
       - cloudflared
       - pass-cli
+      - zed
     yay:
       - brave-bin
       - oh-my-posh-bin
@@ -306,13 +307,14 @@ packages:
       - osmium-tool
       - nmail
       - ggshield
-      - opencode-bin
       - goose
       - neovim-git
       - youtube-tui
       - yourube-dl
       - trino-cli-bin
       - proton-pass-bin
+      - flyctl-bin
+      - handy-bin
     flathub:
       - com.usebottles.bottles
       - org.kde.kdenlive
@@ -334,9 +336,11 @@ packages:
       - bun
       - deno@latest
     pnpm:
-      # - nativescript
       - eas-cli
       - wrangler@latest
       - vscode-langservers-extracted@4.8.0
       - "@bitwarden/cli"
       - pretty-ts-errors-markdown
+      - "@anthropic-ai/claude-code@latest"
+      - "@openai/codex"
+      - "opencode-ai"
