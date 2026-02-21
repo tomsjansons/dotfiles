@@ -1,0 +1,7 @@
+lastChangelogVersion: 12.15.1
+modelRoles: 
+  default: zai/glm-5
+  plan: zai/glm-5
+  slow: zai/glm-5
+  smol: zai/glm-5
+  commit: zai/glm-5

@@ -267,6 +267,7 @@ packages:
       - cloudflared
       - pass-cli
       - zed
+      - libguestfs
     yay:
       - brave-bin
       - oh-my-posh-bin
