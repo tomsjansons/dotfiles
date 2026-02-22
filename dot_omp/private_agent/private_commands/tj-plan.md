@@ -259,6 +259,8 @@ After structure approval:
 
 **File: `thoughts/plans/{descriptive_name}/01_{phase_name}.md`** (and `02_`, `03_`, etc. for each phase)
 
+
+**CRITICAL**: Each phase file MUST include explicit out-of-scope items to prevent scope creep and ensure execution agents stay focused:
 ```markdown
 # Phase 1: [Descriptive Name]
 
@@ -307,10 +309,25 @@ After structure approval:
 - **Risk**: [Potential issue]
   - **Mitigation**: [How to handle it]
 
+## Out of Scope for This Phase
+
+**CRITICAL**: The following items are explicitly NOT part of this phase. Do NOT implement these now:
+- [Item that belongs to a later phase]
+- [Related work that seems tempting but is not required]
+- [Optimizations or enhancements that can wait]
+
+## Phase Boundary Rules
+
+**IMPORTANT**: When executing this phase:
+1. **Stay within scope** - Only implement what is listed in "Changes Required" above
+2. **Do NOT rush ahead** - Even if you see an obvious next step, stop at this phase's boundary
+3. **Respect dependencies** - Later phases depend on this phase being complete and verified before they can begin
+4. **Do not optimize prematurely** - Resist the urge to improve code that will be changed in later phases
+5. **If you find blocked work** - Report it rather than attempting to work around it by expanding scope
+
 ## Notes
 
 [Any additional context, gotchas, or considerations for this phase]
-```
 
 ### Step 5: Review
 

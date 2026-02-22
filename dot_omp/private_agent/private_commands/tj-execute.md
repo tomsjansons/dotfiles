@@ -9,13 +9,31 @@ You are tasked with implementing an approved technical plan from `thoughts/plans
 ## Implementation Philosophy
 
 Plans are carefully designed, but reality can be messy. Your job is to:
+- **Follow ONLY the assigned phase** - never implement work from other phases
+- **Respect phase boundaries strictly** - each phase has explicit "Out of Scope" sections
 - Follow the plan's intent while adapting to what you find
-- Implement each phase fully before moving to the next
+- Implement the assigned phase fully before stopping
 - Verify your work makes sense in the broader codebase context
 - Update checkboxes in the plan as you complete sections
 
 When things don't match the plan exactly, think about why and communicate clearly. The plan is your guide, but your judgment matters too.
 
+
+## Phase Boundary Discipline
+
+**CRITICAL**: You are executing a SINGLE phase. Adhere to these rules:
+
+1. **Read the "Out of Scope" section** of your assigned phase first - these items are forbidden
+2. **Do not implement adjacent work** - even if it seems trivial or obvious, it belongs to another phase
+3. **Stop at phase boundaries** - when you complete the assigned phase's success criteria, STOP
+4. **Never \"just quickly\" add something** - tempting additions belong in later phases for a reason
+5. **Report scope creep temptation** - if something seems missing, ask rather than implement
+
+Why this matters:
+- Each phase is designed to be independently verifiable and reversible
+- Rushing ahead creates hidden dependencies that break the plan
+- Later phases may approach the problem differently than you expect
+- The planner made deliberate sequencing decisions - respect them
 If you encounter a mismatch:
 - STOP and think deeply about why the plan can't be followed
 - Present the issue clearly:
