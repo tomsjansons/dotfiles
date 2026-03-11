@@ -1,4 +1,7 @@
-vim.pack.add({ { src = "https://github.com/olimorris/codecompanion.nvim" } })
+vim.pack.add({
+	{ src = "https://github.com/olimorris/codecompanion.nvim" },
+	{ src = "https://github.com/dwood023/oh-my-pi.nvim" },
+})
 
 local log = require("codecompanion.utils.log")
 local utils = require("codecompanion.utils.adapters")
@@ -152,3 +155,8 @@ require("codecompanion").setup({
 })
 
 vim.keymap.set({ "n", "v" }, "<leader>aa", "<cmd>CodeCompanionChat<cr>", { desc = "CodeCompanionChat" })
+
+require("pi").setup()
+
+vim.keymap.set("n", "<leader>ao", ":PiAsk<CR>", { desc = "Ask pi" })
+vim.keymap.set("v", "<leader>ao", ":PiAskSelection<CR>", { desc = "Ask pi (selection)" })

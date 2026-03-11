@@ -188,7 +188,6 @@ packages:
       - libvips
       - ghostty
       - flatpak
-      - remmina
       - lldb
       - ueberzugpp
       - tailwindcss-language-server
