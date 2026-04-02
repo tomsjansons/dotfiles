@@ -42,6 +42,7 @@ export EDITOR='nvim'
 export VISUAL='ghostty -e $EDITOR'
 
 export PATH="$PATH:$(go env GOBIN):$(go env GOPATH)/bin"
+export PATH="$PATH:/home/toms/.lmstudio/bin"
 
 {{ if not ( eq .chezmoi.hostname "MacBookPro" ) }}
 	source <(niri completions zsh)
@@ -143,13 +144,20 @@ case ":$PATH:" in
 esac
 # pnpm end
 
-export ANTHROPIC_API_KEY={{ (secretJSON "item" "view" "--vault-name" "Personal" "--item-title"  "ANTHROPIC_API_KEY" "--output" "json").item.content.note }}
 export OPENCODE_ZEN_API_KEY={{ (secretJSON "item" "view" "--vault-name" "Personal" "--item-title"  "OPENCODE_ZEN_API_KEY" "--output" "json").item.content.note }}
-export GEMINI_API_KEY={{ (secretJSON "item" "view" "--vault-name" "Personal" "--item-title"  "GEMINI_API_KEY" "--output" "json").item.content.note }}
 export TAVILY_API_KEY={{ (secretJSON "item" "view" "--vault-name" "Personal" "--item-title"  "TAVILY_API_KEY" "--output" "json").item.content.note }}
-export OPENAI_API_KEY={{ (secretJSON "item" "view" "--vault-name" "Personal" "--item-title"  "OPENAI_API_KEY" "--output" "json").item.content.note }}
 export OPENROUTER_API_KEY={{ (secretJSON "item" "view" "--vault-name" "Personal" "--item-title"  "OPENROUTER_API_KEY" "--output" "json").item.content.note }}
+export MINIMAX_API_KEY={{ (secretJSON "item" "view" "--vault-name" "Personal" "--item-title"  "MINIMAX_API_KEY" "--output" "json").item.content.note }}
+export ZAI_API_KEY={{ (secretJSON "item" "view" "--vault-name" "Personal" "--item-title"  "ZAI_API_KEY" "--output" "json").item.content.note }}
 
 {{ if eq .chezmoi.hostname "ridi-dev-olive" }}
 	source ~/.devserver_zshrc
 {{ end -}}
+
+if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
+
+if command -v pulumi >/dev/null 2>&1; then eval "$(command pulumi completion zsh)"; fi
+
+
+
+

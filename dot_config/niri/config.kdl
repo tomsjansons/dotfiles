@@ -66,6 +66,7 @@ environment {
   DISPLAY ":0"
 	ELECTRON_OZONE_PLATFORM_HINT "auto"
 	MOZ_ENABLE_WAYLAND "1"
+  GTK_THEME "Adwaita:dark"
 }
 
 cursor {

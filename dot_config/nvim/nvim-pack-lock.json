@@ -160,6 +160,10 @@
       "rev": "fb072b0dd58c467ae81c7bec581fbc8f07418d7c",
       "src": "https://github.com/pwntester/octo.nvim"
     },
+    "oh-my-pi.nvim": {
+      "rev": "761cb109ebd466784f219e6e3a43a28f6187d627",
+      "src": "https://github.com/dwood023/oh-my-pi.nvim"
+    },
     "oil.nvim": {
       "rev": "07f80ad645895af849a597d1cac897059d89b686",
       "src": "https://github.com/stevearc/oil.nvim"

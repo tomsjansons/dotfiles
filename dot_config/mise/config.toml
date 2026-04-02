@@ -1,7 +1,7 @@
 [tools]
 yarn = "latest"
 node = "latest"
-python = "3"
+python = "latest"
 bun = "latest"
 deno = "latest"
 java = "latest"

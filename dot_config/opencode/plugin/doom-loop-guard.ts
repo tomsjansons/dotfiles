@@ -2,6 +2,8 @@ import type { Plugin } from "@opencode-ai/plugin";
 
 const DOOM_LOOP_THRESHOLD = 5;
 const LOOP_WINDOW = 1024;
+const MIN_REPEAT_LENGTH = 200;
+const MIN_REPEAT_COUNT = 3;
 
 const BREAKOUT_MESSAGE =
   "STOP. You are repeating the same content over and over. Take a different approach to solve this problem.";
@@ -40,6 +42,35 @@ const detectRepeatSnippet = (
   ) {
     return snippet;
   }
+  return undefined;
+};
+
+const detectSelfRepeating = (
+  text: string,
+  minLength = MIN_REPEAT_LENGTH,
+  minCount = MIN_REPEAT_COUNT,
+): string | undefined => {
+  const trimmed = text.trim();
+  if (trimmed.length < minLength * minCount) return undefined;
+
+  for (let len = Math.floor(trimmed.length / minCount); len >= minLength; len -= 50) {
+    const chunk = trimmed.slice(0, len);
+    if (chunk.trim().length < minLength) continue;
+
+    const signature = hashSnippet(chunk);
+    let count = 0;
+    for (let i = 0; i <= trimmed.length - len; i += len) {
+      const candidate = trimmed.slice(i, i + len);
+      if (hashSnippet(candidate) === signature && candidate === chunk) {
+        count++;
+      }
+    }
+
+    if (count >= minCount) {
+      return chunk.slice(0, 200);
+    }
+  }
+
   return undefined;
 };
 
@@ -133,6 +164,11 @@ export const DoomLoopGuard: Plugin = async ({ client }) => {
         const snippet = detectRepeatSnippet(state.reasoning.history, part.text);
         if (snippet && !state.reasoning.triggered) {
           await breakLoop(sessionId, "reasoning", snippet);
+        } else {
+          const selfRepeat = detectSelfRepeating(part.text);
+          if (selfRepeat && !state.reasoning.triggered) {
+            await breakLoop(sessionId, "reasoning", selfRepeat);
+          }
         }
       }
 
@@ -141,6 +177,11 @@ export const DoomLoopGuard: Plugin = async ({ client }) => {
         const snippet = detectRepeatSnippet(state.text.history, part.text);
         if (snippet && !state.text.triggered) {
           await breakLoop(sessionId, "text", snippet);
+        } else {
+          const selfRepeat = detectSelfRepeating(part.text);
+          if (selfRepeat && !state.text.triggered) {
+            await breakLoop(sessionId, "text", selfRepeat);
+          }
         }
       }
     },

@@ -8,7 +8,10 @@ import { randomUUID } from "node:crypto";
 const PLUGIN_NAME = "vision-fallback";
 const TEMP_DIR_NAME = "opencode-vision-temp";
 
-const INTERCEPT_MODELS: readonly string[] = ["openrouter/z-ai/glm-5"];
+const INTERCEPT_MODELS: readonly string[] = [
+  "openrouter/z-ai/glm-5",
+  "z-ai/glm-5",
+];
 
 const VISION_TOOL_NAME = "vision_analyzer";
 

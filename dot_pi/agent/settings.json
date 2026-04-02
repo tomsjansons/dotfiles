@@ -1,0 +1,14 @@
+{
+  "lastChangelogVersion": "0.64.0",
+  "defaultThinkingLevel": "high",
+  "theme": "dark",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.4",
+  "packages": [
+    "npm:pi-subagents",
+    "npm:pi-web-access",
+    "npm:@burneikis/pi-vim",
+    "npm:pi-mcp-adapter",
+    "npm:pi-notify"
+  ]
+}

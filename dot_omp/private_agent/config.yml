@@ -1,7 +1,20 @@
-lastChangelogVersion: 12.15.1
+lastChangelogVersion: 13.12.3
 modelRoles: 
-  default: zai/glm-5
-  plan: zai/glm-5
-  slow: zai/glm-5
-  smol: zai/glm-5
-  commit: zai/glm-5
+  default: openai-codex/gpt-5.4:high
+  plan: openai-codex/gpt-5.4:high
+  slow: zai/glm-5:high
+  smol: minimax-code/MiniMax-M2.5-lightning:high
+  commit: openai-codex/gpt-5.3-codex
+providers: 
+  webSearch: kagi
+lsp: 
+  formatOnWrite: true
+  diagnosticsOnEdit: true
+memories: 
+  enabled: true
+ask: 
+  timeout: 0
+astEdit: 
+  enabled: false
+todo: 
+  reminders: false

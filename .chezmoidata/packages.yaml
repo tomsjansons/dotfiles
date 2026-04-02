@@ -44,7 +44,6 @@ packages:
       - mprocs
       - pmtiles
       - zellij
-      - postman
       - zig
       - zoom
       - ungoogled-chromium
@@ -267,6 +266,11 @@ packages:
       - pass-cli
       - zed
       - libguestfs
+      - worktrunk
+      - libsecret
+      - papers
+      - evolution
+      - gnome-calendar
     yay:
       - brave-bin
       - oh-my-posh-bin
@@ -297,7 +301,6 @@ packages:
       - zellij
       - power-profiles-daemon
       - google-chrome
-      - postman-bin
       - zig-bin
       - zoom
       - noto-color-emoji-fontconfig
@@ -315,6 +318,9 @@ packages:
       - proton-pass-bin
       - flyctl-bin
       - handy-bin
+      - hoppscotch-bin
+      - lmstudio-bin
+      - forgecode
     flathub:
       - com.usebottles.bottles
       - org.kde.kdenlive
