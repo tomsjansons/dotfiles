@@ -8,7 +8,8 @@ Tiny pi extension for showing what the model is trying to do right now.
 - footer status line like `🎯 goal -> subgoal -> problem`
 - `/focus` command for a simple read-only detail view
 - tiny rolling history, max 3 entries
-- branch-safe reconstruction from tool result details
+- focus state is kept only for the current live session
+- focus state is cleared on session start, switch, fork, tree change, shutdown, and reload
 
 ## Files
 
@@ -22,6 +23,8 @@ Reload pi after changes:
 ```text
 /reload
 ```
+
+After reload, focus starts empty again.
 
 Then the model can call `focus_update` when the work meaningfully changes.
 

@@ -214,31 +214,17 @@ export default function focusTrackerExtension(pi: ExtensionAPI): void {
 		ctx.ui.setStatus(STATUS_KEY, formatStatus(current));
 	}
 
-	function reconstructState(ctx: ExtensionContext): void {
+	function clearFocusState(ctx: ExtensionContext): void {
 		current = {};
 		history = [];
-
-		for (const entry of ctx.sessionManager.getBranch()) {
-			if (entry.type !== "message") continue;
-			const message = entry.message;
-			if (message.role !== "toolResult" || message.toolName !== TOOL_NAME) continue;
-
-			const details = parseFocusDetails(message.details);
-			if (!details) continue;
-			current = details.current;
-			history = details.history;
-		}
-
 		updateStatusUi(ctx);
 	}
 
-	pi.on("session_start", async (_event, ctx) => reconstructState(ctx));
-	pi.on("session_switch", async (_event, ctx) => reconstructState(ctx));
-	pi.on("session_fork", async (_event, ctx) => reconstructState(ctx));
-	pi.on("session_tree", async (_event, ctx) => reconstructState(ctx));
-	pi.on("session_shutdown", async (_event, ctx) => {
-		ctx.ui.setStatus(STATUS_KEY, undefined);
-	});
+	pi.on("session_start", async (_event, ctx) => clearFocusState(ctx));
+	pi.on("session_switch", async (_event, ctx) => clearFocusState(ctx));
+	pi.on("session_fork", async (_event, ctx) => clearFocusState(ctx));
+	pi.on("session_tree", async (_event, ctx) => clearFocusState(ctx));
+	pi.on("session_shutdown", async (_event, ctx) => clearFocusState(ctx));
 
 	pi.on("before_agent_start", async (event) => {
 		return {
@@ -246,10 +232,12 @@ export default function focusTrackerExtension(pi: ExtensionAPI): void {
 				`${event.systemPrompt}\n\n` +
 				[
 					"You have a tiny user-visibility tool named focus_update.",
-					"Use it only when starting meaningful work, changing subgoal, or discovering a blocker.",
+					"For any non-trivial task, call focus_update near the start of the work.",
+					"Call it again when the work meaningfully changes, when you change subgoal, or when you discover a blocker.",
+					"If you start a sidequest, update subgoal and problem so the user can follow it.",
+					"If you realize you are already on a sidequest and it did not succeed quickly, update focus_update now with the current subgoal and problem.",
 					"Keep fields short.",
 					"Do not call it for every tool or micro-step.",
-					"If you go on a sidequest, update subgoal and problem so the user understands what you are trying to solve.",
 				].join("\n"),
 		};
 	});
@@ -260,9 +248,10 @@ export default function focusTrackerExtension(pi: ExtensionAPI): void {
 		description: "Update the tiny shared focus state: overall goal, current subgoal, and current blocker.",
 		promptSnippet: "Update the tiny shared focus state for the user",
 		promptGuidelines: [
-			"Use focus_update only when the work meaningfully changes.",
+			"For non-trivial tasks, call focus_update near the start of the work.",
+			"Call it again when the work meaningfully changes, when you change subgoal, or when you discover a blocker.",
+			"If you start a sidequest, or realize an ongoing sidequest is not resolving quickly, update subgoal and problem so the user can follow it.",
 			"Keep goal, subgoal, and problem very short.",
-			"If you start a sidequest, update subgoal and problem so the user can follow it.",
 		],
 		parameters: focusUpdateSchema,
 		async execute(_toolCallId, params, _signal, _onUpdate, ctx) {
