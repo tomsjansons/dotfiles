@@ -3,6 +3,7 @@ import { spawn } from "node:child_process";
 
 const SUMMARY_MODEL = process.env.PI_IDLE_NOTIFY_MODEL ?? "openrouter/google/gemini-2.0-flash-lite-001";
 const SUMMARY_TIMEOUT_MS = Number(process.env.PI_IDLE_NOTIFY_TIMEOUT_MS ?? 12000);
+const NOTIFICATION_TIMEOUT_MS = Number(process.env.PI_IDLE_NOTIFY_NOTIFICATION_TIMEOUT_MS ?? 60000);
 const MAX_MESSAGE_CHARS = Number(process.env.PI_IDLE_NOTIFY_MAX_MESSAGE_CHARS ?? 8000);
 const SUMMARY_MAX_CHARS = Number(process.env.PI_IDLE_NOTIFY_SUMMARY_MAX_CHARS ?? 160);
 
@@ -176,7 +177,7 @@ async function summarizeLastMessage(lastMessage: string, cwd: string): Promise<S
 }
 
 function sendNotification(title: string, body: string, urgency: "low" | "normal"): void {
-	const child = spawn("notify-send", ["-u", urgency, title, body], {
+	const child = spawn("notify-send", ["-u", urgency, "-t", String(NOTIFICATION_TIMEOUT_MS), title, body], {
 		stdio: "ignore",
 		detached: true,
 	});

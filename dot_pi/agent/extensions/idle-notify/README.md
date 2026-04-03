@@ -34,6 +34,7 @@ That keeps it fast and avoids recursive notifications.
 
 - `PI_IDLE_NOTIFY_MODEL` - override the summary model
 - `PI_IDLE_NOTIFY_TIMEOUT_MS` - summary call timeout
+- `PI_IDLE_NOTIFY_NOTIFICATION_TIMEOUT_MS` - how long the desktop notification stays visible (default `60000`)
 - `PI_IDLE_NOTIFY_MAX_MESSAGE_CHARS` - truncate very long assistant messages before summarizing
 - `PI_IDLE_NOTIFY_SUMMARY_MAX_CHARS` - final notification summary length cap
 - `PI_IDLE_NOTIFY_DISABLED=1` - disable notifications
