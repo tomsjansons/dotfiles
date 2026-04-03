@@ -84,8 +84,16 @@ function normalizePath(path: string): string {
 	return path.startsWith("@") ? path.slice(1) : path;
 }
 
+export function normalizeHashlinePath(path: string): string {
+	return normalizePath(path);
+}
+
 function resolvePath(cwd: string, path: string): string {
 	return resolve(cwd, normalizePath(path));
+}
+
+export function resolveHashlinePath(cwd: string, path: string): string {
+	return resolvePath(cwd, path);
 }
 
 function isImagePath(path: string): boolean {
@@ -419,8 +427,30 @@ function countDiffLines(diff: string): { additions: number; removals: number } {
 	return { additions, removals };
 }
 
-function prefixHashLines(lines: string[], startLineNumber: number): string {
+export function prefixHashLines(lines: string[], startLineNumber: number): string {
 	return lines.map((line, index) => formatHashLine(startLineNumber + index, line)).join("\n");
+}
+
+export function buildHashlinePreview(
+	raw: string,
+	options: { offset?: number; limit?: number } = {},
+): { totalFileLines: number; selectedLines: string[]; anchored: string; startLine: number } {
+	const text = normalizeToLF(raw);
+	const allLines = textToLines(text);
+	const totalFileLines = allLines.length;
+	const startIndex = options.offset ? Math.max(0, options.offset - 1) : 0;
+	if (startIndex > allLines.length - 1 && !(allLines.length === 0 && startIndex === 0)) {
+		throw new Error(`Offset ${options.offset} is beyond end of file (${totalFileLines} lines total)`);
+	}
+
+	const endIndex = options.limit ? startIndex + Math.max(0, options.limit) : allLines.length;
+	const selectedLines = allLines.slice(startIndex, endIndex).map((line) => line.replace(/\r$/, ""));
+	return {
+		totalFileLines,
+		selectedLines,
+		anchored: prefixHashLines(selectedLines, startIndex + 1),
+		startLine: startIndex + 1,
+	};
 }
 
 export function stripHashlinePrefixesFromText(text: string): string {
@@ -457,18 +487,8 @@ export default function hashlineTools(pi: ExtensionAPI) {
 			const raw = await readFile(absolutePath, "utf8");
 			if (signal?.aborted) throw new Error("Operation aborted");
 
-			const text = normalizeToLF(raw);
-			const allLines = textToLines(text);
-			const totalFileLines = allLines.length;
-			const startIndex = params.offset ? Math.max(0, params.offset - 1) : 0;
-			if (startIndex > allLines.length - 1 && !(allLines.length === 0 && startIndex === 0)) {
-				throw new Error(`Offset ${params.offset} is beyond end of file (${totalFileLines} lines total)`);
-			}
-
-			const endIndex = params.limit ? startIndex + Math.max(0, params.limit) : allLines.length;
-			const selectedLines = allLines.slice(startIndex, endIndex).map((line) => line.replace(/\r$/, ""));
-			const anchored = prefixHashLines(selectedLines, startIndex + 1);
-			const truncation = truncateHead(anchored, {
+			const preview = buildHashlinePreview(raw, { offset: params.offset, limit: params.limit });
+			const truncation = truncateHead(preview.anchored, {
 				maxLines: DEFAULT_MAX_LINES,
 				maxBytes: DEFAULT_MAX_BYTES,
 			});
@@ -571,8 +591,18 @@ export default function hashlineTools(pi: ExtensionAPI) {
 			const details = result.details as EditToolDetails | undefined;
 			const content = result.content[0];
 			if (context.isError || (content?.type === "text" && /^error/i.test(content.text))) {
-				const message = content?.type === "text" ? content.text.split("\n")[0] : "Edit failed";
-				return new Text(theme.fg("error", message), 0, 0);
+				const fullMessage = content?.type === "text" ? content.text : "Edit failed";
+				const lines = fullMessage.split("\n");
+				const previewLimit = expanded ? 40 : 12;
+				let text = theme.fg("error", lines[0] ?? "Edit failed");
+				for (const line of lines.slice(1, previewLimit)) {
+					if (line.startsWith(">>>")) text += `\n${theme.fg("warning", line)}`;
+					else text += `\n${theme.fg("dim", line)}`;
+				}
+				if (lines.length > previewLimit) {
+					text += `\n${theme.fg("muted", expanded ? "... more error lines" : "... ctrl+e for full mismatch preview")}`;
+				}
+				return new Text(text, 0, 0);
 			}
 			if (!details?.diff) {
 				return new Text(theme.fg("success", "Applied"), 0, 0);
