@@ -1,2 +1,6 @@
 ./etc-greetd-config.toml
 ./etc-systemd-system-battery-check.service
+node_modules/
+node_modules/**
+**/node_modules/
+**/node_modules/**
