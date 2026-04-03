@@ -120,6 +120,13 @@ interface SymbolInformation {
 	name: string;
 	kind: number;
 	location: Location;
+	containerName?: string;
+}
+
+interface OutlineSymbolEntry {
+	name: string;
+	line: number;
+	kind: number;
 }
 
 interface ServerCapabilities {
@@ -247,6 +254,19 @@ const formatSymbol = (sym: DocumentSymbol | SymbolInformation, filePath: string,
 		}
 	}
 	return results;
+};
+
+const extractTopLevelOutlineSymbols = (symbols: Array<DocumentSymbol | SymbolInformation>): OutlineSymbolEntry[] => {
+	const results: OutlineSymbolEntry[] = [];
+	for (const symbol of symbols) {
+		if ("location" in symbol) {
+			if (symbol.containerName) continue;
+			results.push({ name: symbol.name, line: symbol.location.range.start.line + 1, kind: symbol.kind });
+			continue;
+		}
+		results.push({ name: symbol.name, line: symbol.range.start.line + 1, kind: symbol.kind });
+	}
+	return results.sort((a, b) => a.line - b.line || a.name.localeCompare(b.name));
 };
 
 const findFilesWithExtension = (dir: string, ext: string, maxDepth: number): string[] => {
@@ -722,19 +742,34 @@ export default function lspExtension(pi: ExtensionAPI) {
 		return String(hover.contents);
 	};
 
-	const handleSymbols = async (file: string): Promise<string> => {
+	const getTopLevelOutline = async (file: string): Promise<OutlineSymbolEntry[]> => {
 		const absPath = path.resolve(cwd, file);
 		const client = await getClientForFile(absPath);
 		await ensureFileOpen(client, absPath);
-		const symbols = await client.connection.sendRequest(DocumentSymbolRequest.type, {
+		const symbols = (await client.connection.sendRequest(DocumentSymbolRequest.type, {
 			textDocument: { uri: fileToUri(absPath) },
-		});
-		if (!symbols?.length) return "No symbols found.";
-		const relPath = path.relative(cwd, absPath);
+		})) as Array<DocumentSymbol | SymbolInformation> | null;
+		if (!symbols?.length) return [];
+		return extractTopLevelOutlineSymbols(symbols);
+	};
+
+	const handleSymbols = async (file: string): Promise<string> => {
+		const outline = await getTopLevelOutline(file);
+		if (!outline.length) return "No symbols found.";
+		const relPath = path.relative(cwd, path.resolve(cwd, file));
 		const results = [`Symbols in ${relPath}:`];
-		for (const sym of symbols) results.push(...formatSymbol(sym, relPath));
+		for (const symbol of outline) results.push(`${symbol.name} @ line ${symbol.line}`);
 		return results.join("\n");
 	};
+
+	pi.events.on("pi-lsp:outline-request", (data) => {
+		const request = data as {
+			file: string;
+			resolve: (value: OutlineSymbolEntry[]) => void;
+			reject: (error: unknown) => void;
+		};
+		void getTopLevelOutline(request.file).then(request.resolve, request.reject);
+	});
 
 	const handleWorkspaceSymbols = async (query: string, file?: string): Promise<string> => {
 		let client = clients.values().next().value;

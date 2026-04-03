@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
-import { access, mkdir, readFile, writeFile } from "node:fs/promises";
-import { dirname, extname, resolve } from "node:path";
+import { Dirent } from "node:fs";
+import { access, mkdir, readFile, readdir, writeFile } from "node:fs/promises";
+import { dirname, extname, relative, resolve } from "node:path";
 
 import type { ExtensionAPI, ReadToolDetails, EditToolDetails } from "@mariozechner/pi-coding-agent";
 import {
@@ -24,6 +25,14 @@ const readSchema = Type.Object({
 	path: Type.String({ description: "Path to the file to read (relative or absolute)" }),
 	offset: Type.Optional(Type.Number({ description: "Line number to start reading from (1-indexed)" })),
 	limit: Type.Optional(Type.Number({ description: "Maximum number of lines to read" })),
+});
+
+const findSchema = Type.Object({
+	path: Type.Optional(Type.String({ description: "Directory to search from (relative or absolute, default .)" })),
+	pattern: Type.Optional(Type.String({ description: "Glob pattern for matching files (default **)" })),
+	"max-file-count": Type.Optional(Type.Number({ description: "Maximum number of matching files to include (default 200)" })),
+	"preview-offset": Type.Optional(Type.Number({ description: "First line number to include from the preview window (default 1)" })),
+	"preview-limit": Type.Optional(Type.Number({ description: "Maximum preview line span per file (default 200)" })),
 });
 
 const editItemSchema = Type.Object(
@@ -98,6 +107,128 @@ export function resolveHashlinePath(cwd: string, path: string): string {
 
 function isImagePath(path: string): boolean {
 	return IMAGE_EXTENSIONS.has(extname(path).toLowerCase());
+}
+
+function isProbablyTextBuffer(buffer: Buffer, path: string): boolean {
+	if (isImagePath(path)) return false;
+	if (buffer.includes(0)) return false;
+	if (buffer.length === 0) return true;
+
+	let suspicious = 0;
+	const sampleLength = Math.min(buffer.length, 4096);
+	for (let index = 0; index < sampleLength; index++) {
+		const byte = buffer[index] ?? 0;
+		const isControl = byte < 32 && byte !== 9 && byte !== 10 && byte !== 13;
+		if (isControl) suspicious++;
+	}
+	return suspicious / sampleLength < 0.1;
+}
+
+function sortDirents(entries: Dirent[]): Dirent[] {
+	return [...entries].sort((a, b) => a.name.localeCompare(b.name));
+}
+
+function toDisplayPath(rootAbsolutePath: string, displayRoot: string, absolutePath: string): string {
+	const rel = relative(rootAbsolutePath, absolutePath).split("\\").join("/");
+	const normalizedRoot = normalizePath(displayRoot).replace(/[\\/]+$/g, "").split("\\").join("/") || ".";
+	return rel ? `${normalizedRoot}/${rel}` : normalizedRoot;
+}
+
+async function collectDirectoryFiles(rootPath: string): Promise<string[]> {
+	const entries = sortDirents(await readdir(rootPath, { withFileTypes: true }));
+	let files: string[] = [];
+	for (const entry of entries) {
+		const absolutePath = resolve(rootPath, entry.name);
+		if (entry.isDirectory()) {
+			files = files.concat(await collectDirectoryFiles(absolutePath));
+			continue;
+		}
+		if (entry.isFile()) files.push(absolutePath);
+	}
+	return files;
+}
+
+function escapeRegex(text: string): string {
+	return text.replace(/[|\\{}()[\]^$+?.]/g, "\\$&");
+}
+
+function globToRegExp(pattern: string): RegExp {
+	let regex = "^";
+	for (let index = 0; index < pattern.length; ) {
+		const char = pattern[index];
+		const next = pattern[index + 1];
+		if (char === "*" && next === "*") {
+			regex += ".*";
+			index += 2;
+			continue;
+		}
+		if (char === "*") {
+			regex += "[^/]*";
+			index += 1;
+			continue;
+		}
+		if (char === "?") {
+			regex += "[^/]";
+			index += 1;
+			continue;
+		}
+		regex += escapeRegex(char);
+		index += 1;
+	}
+	regex += "$";
+	return new RegExp(regex);
+}
+
+function matchesPattern(displayPath: string, pattern: string): boolean {
+	const normalizedPattern = pattern.trim() || "**";
+	const regex = globToRegExp(normalizedPattern.split("\\").join("/"));
+	const basename = displayPath.split("/").pop() ?? displayPath;
+	return normalizedPattern.includes("/") ? regex.test(displayPath) : regex.test(basename);
+}
+
+type OutlineEntry = {
+	name: string;
+	line: number;
+	kind?: number;
+};
+
+async function requestOutline(pi: ExtensionAPI, file: string, timeoutMs = 1500): Promise<OutlineEntry[]> {
+	return new Promise((resolve, reject) => {
+		const timer = setTimeout(() => reject(new Error("Timed out waiting for LSP outline")), timeoutMs);
+		pi.events.emit("pi-lsp:outline-request", {
+			file,
+			resolve: (value: OutlineEntry[]) => {
+				clearTimeout(timer);
+				resolve(Array.isArray(value) ? value : []);
+			},
+			reject: (error: unknown) => {
+				clearTimeout(timer);
+				reject(error instanceof Error ? error : new Error(String(error)));
+			},
+		});
+	});
+}
+
+function buildOutlineHashPreview(
+	raw: string,
+	outline: OutlineEntry[],
+	options: { offset: number; readLimit: number },
+): { totalFileLines: number; lines: string[]; usedOutline: boolean } {
+	const text = normalizeToLF(raw);
+	const allLines = textToLines(text);
+	const totalFileLines = allLines.length;
+	const startLine = Math.max(1, options.offset);
+	const endLine = startLine + Math.max(0, options.readLimit) - 1;
+	const deduped = new Set<number>();
+	const outlineLines = outline
+		.filter((entry) => entry.line >= startLine && entry.line <= endLine && !deduped.has(entry.line) && deduped.add(entry.line))
+		.map((entry) => {
+			const sourceLine = allLines[entry.line - 1] ?? "";
+			return formatHashLine(entry.line, sourceLine);
+		});
+	if (outlineLines.length > 0) return { totalFileLines, lines: outlineLines, usedOutline: true };
+	const fallback = buildHashlinePreview(raw, { offset: startLine, limit: Math.min(options.readLimit, 10) });
+	return { totalFileLines, lines: fallback.anchored ? fallback.anchored.split("\n") : [], usedOutline: false };
 }
 
 function textToLines(text: string): string[] {
@@ -500,6 +631,143 @@ export default function hashlineTools(pi: ExtensionAPI) {
 				result.details = { truncation };
 			}
 			return result;
+		},
+	});
+
+	pi.registerTool({
+		name: "find",
+		label: "find",
+		description:
+			"Find files in a directory and show a first-level LSP outline for each matching text file with hashline prefixes. Falls back to a short hashline line preview when no outline is available.",
+		promptSnippet: "Prefer this find tool over bash find when inspecting code directories",
+		promptGuidelines: [
+			"Prefer this find tool over bash find when the user wants to inspect files in a code directory.",
+			"Use pattern to filter files, for example *.ts or src/**/*.rs.",
+			"This tool shows first-level LSP outlines when available, with hashline-prefixed source lines.",
+			"Use preview-offset and preview-limit to restrict which preview lines are eligible per file.",
+		],
+		parameters: findSchema,
+		async execute(_toolCallId, params, signal, _onUpdate, ctx) {
+			const searchPath = normalizePath(params.path ?? ".");
+			const absolutePath = resolvePath(ctx.cwd, searchPath);
+			const displayRoot = searchPath.replace(/[\\/]+$/g, "") || ".";
+			const pattern = (params.pattern ?? "**").trim() || "**";
+			const fileLimit = params["max-file-count"] ?? 200;
+			const previewOffset = params["preview-offset"] ?? 1;
+			const previewLimit = params["preview-limit"] ?? 200;
+
+			if (signal?.aborted) throw new Error("Operation aborted");
+			await access(absolutePath);
+
+			let absoluteFiles: string[];
+			try {
+				absoluteFiles = await collectDirectoryFiles(absolutePath);
+			} catch (error: any) {
+				if (error?.code === "ENOTDIR") throw new Error(`Path is not a directory: ${searchPath}`);
+				throw error;
+			}
+
+			const matchedFiles = absoluteFiles
+				.map((absoluteFile) => ({
+					absolute: absoluteFile,
+					display: toDisplayPath(absolutePath, displayRoot, absoluteFile),
+				}))
+				.filter((file) => matchesPattern(file.display, pattern))
+				.sort((a, b) => a.display.localeCompare(b.display));
+
+			const files = matchedFiles.slice(0, fileLimit);
+			const sections: string[] = [`--- ${displayRoot} files ---`, ...files.map((file) => `   ${file.display}`)];
+
+			for (const file of files) {
+				if (signal?.aborted) throw new Error("Operation aborted");
+				const buffer = await readFile(file.absolute);
+				sections.push("");
+
+				if (!isProbablyTextBuffer(buffer, file.display)) {
+					sections.push(`   --- ${file.display} ---`);
+					sections.push("   [binary or image file skipped]");
+					continue;
+				}
+
+				let outline: OutlineEntry[] = [];
+				try {
+					outline = await requestOutline(pi, file.absolute);
+				} catch {
+					outline = [];
+				}
+
+				const preview = buildOutlineHashPreview(buffer.toString("utf8"), outline, { offset: previewOffset, readLimit: previewLimit });
+				const startLine = Math.max(1, previewOffset);
+				const endLine = preview.totalFileLines > 0 ? Math.min(preview.totalFileLines, startLine + Math.max(0, previewLimit) - 1) : startLine - 1;
+				const headerLabel = preview.usedOutline
+					? "lsp outline"
+					: preview.totalFileLines > 0
+						? `lines ${startLine}-${endLine}${preview.totalFileLines > endLine ? ` of ${preview.totalFileLines}` : ""}; fallback preview`
+						: `empty file${previewOffset > 1 ? ` at offset ${previewOffset}` : ""}`;
+				sections.push(`   --- ${file.display} (${headerLabel}) ---`);
+				if (preview.lines.length === 0) {
+					sections.push("   [empty file]");
+					continue;
+				}
+				for (const line of preview.lines) sections.push(`   ${line}`);
+			}
+
+			const combined = sections.join("\n");
+			const truncation = truncateHead(combined, { maxLines: DEFAULT_MAX_LINES, maxBytes: DEFAULT_MAX_BYTES });
+			return {
+				content: [{ type: "text" as const, text: truncation.content }],
+				details: {
+					fileCount: files.length,
+					matchedCount: matchedFiles.length,
+					pattern,
+					previewOffset,
+					previewLimit,
+					...(matchedFiles.length > fileLimit ? { resultLimitReached: matchedFiles.length } : {}),
+					...(truncation.truncated ? { truncation } : {}),
+				},
+			};
+		},
+		renderCall(args, theme) {
+			const pathValue = String((args as any)?.path ?? ".");
+			const pattern = String((args as any)?.pattern ?? "**");
+			const previewOffset = Number((args as any)?.["preview-offset"] ?? 1);
+			const previewLimit = Number((args as any)?.["preview-limit"] ?? 200);
+			let text = theme.fg("toolTitle", theme.bold("find "));
+			text += theme.fg("accent", pathValue);
+			text += theme.fg("dim", ` -name ${pattern} · preview ${previewOffset}-${previewOffset + Math.max(0, previewLimit) - 1}`);
+			return new Text(text, 0, 0);
+		},
+		renderResult(result, { expanded, isPartial }, theme, context) {
+			if (isPartial) return new Text(theme.fg("warning", "Finding files..."), 0, 0);
+			const content = result.content[0];
+			const details = (result.details ?? {}) as {
+				fileCount?: number;
+				matchedCount?: number;
+				pattern?: string;
+				previewOffset?: number;
+				previewLimit?: number;
+				resultLimitReached?: number;
+				truncation?: { truncated: boolean; totalLines?: number };
+			};
+			if (context.isError || (content?.type === "text" && /^error/i.test(content.text))) {
+				const fullMessage = content?.type === "text" ? content.text : "find failed";
+				const lines = fullMessage.split("\n");
+				const previewLimit = expanded ? 40 : 12;
+				let text = theme.fg("error", lines[0] ?? "find failed");
+				for (const line of lines.slice(1, previewLimit)) text += `\n${theme.fg("dim", line)}`;
+				if (lines.length > previewLimit) text += `\n${theme.fg("muted", expanded ? "... more error lines" : "... ctrl+e for more")}`;
+				return new Text(text, 0, 0);
+			}
+			let text = theme.fg("success", `${details.fileCount ?? 0} files`);
+			if ((details.matchedCount ?? 0) > (details.fileCount ?? 0)) text += theme.fg("warning", ` of ${details.matchedCount}`);
+			text += theme.fg("dim", ` · ${details.pattern ?? "**"} · preview ${details.previewOffset ?? 1}-${(details.previewOffset ?? 1) + Math.max(0, (details.previewLimit ?? 200)) - 1}`);
+			if (details.truncation?.truncated) text += theme.fg("warning", " [truncated]");
+			if (expanded && content?.type === "text") {
+				const lines = content.text.split("\n").slice(0, 30);
+				for (const line of lines) text += `\n${theme.fg("dim", line)}`;
+				if (content.text.split("\n").length > 30) text += `\n${theme.fg("muted", "... more output lines")}`;
+			}
+			return new Text(text, 0, 0);
 		},
 	});
 
