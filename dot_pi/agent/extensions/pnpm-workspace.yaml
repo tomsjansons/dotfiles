@@ -1,0 +1,6 @@
+packages:
+  - at-preload
+  - focus-tracker
+  - hashline-tools
+  - idle-notify
+  - pi-lsp

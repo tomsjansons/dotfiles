@@ -14,12 +14,19 @@ import {
 } from "@mariozechner/pi-coding-agent";
 import { Type } from "@sinclair/typebox";
 import { Text } from "@mariozechner/pi-tui";
+import ignore from "ignore";
+
 
 const HASH_ALPHABET = "ZPMQVRWSNKTXJBYH";
 const SIGNIFICANT_RE = /[A-Za-z0-9]/;
 const HASHLINE_RE = /^\s*(\d+)\s*#\s*([ZPMQVRWSNKTXJBYH]{2})/;
 const HASHLINE_PREFIX_RE = new RegExp(`^\\s*\\d+\\s*#\\s*[${HASH_ALPHABET}]{2}\\s*:`);
 const IMAGE_EXTENSIONS = new Set([".jpg", ".jpeg", ".png", ".gif", ".webp"]);
+const FIND_IGNORE_FILE_NAMES = [".gitignore", ".ignore", ".piignore"] as const;
+const FIND_DEFAULT_IGNORE_RULES = [".git/", ".jj/", ".svn/", "node_modules/"] as const;
+const FIND_FALLBACK_PREVIEW_START = 1;
+const FIND_FALLBACK_PREVIEW_LIMIT = 20;
+
 
 const readSchema = Type.Object({
 	path: Type.String({ description: "Path to the file to read (relative or absolute)" }),
@@ -31,8 +38,6 @@ const findSchema = Type.Object({
 	path: Type.Optional(Type.String({ description: "Directory to search from (relative or absolute, default .)" })),
 	pattern: Type.Optional(Type.String({ description: "Glob pattern for matching files (default **)" })),
 	"max-file-count": Type.Optional(Type.Number({ description: "Maximum number of matching files to include (default 200)" })),
-	"preview-offset": Type.Optional(Type.Number({ description: "First line number to include from the preview window (default 1)" })),
-	"preview-limit": Type.Optional(Type.Number({ description: "Maximum preview line span per file (default 200)" })),
 });
 
 const editItemSchema = Type.Object(
@@ -134,13 +139,81 @@ function toDisplayPath(rootAbsolutePath: string, displayRoot: string, absolutePa
 	return rel ? `${normalizedRoot}/${rel}` : normalizedRoot;
 }
 
-async function collectDirectoryFiles(rootPath: string): Promise<string[]> {
-	const entries = sortDirents(await readdir(rootPath, { withFileTypes: true }));
+function toMatchPath(rootAbsolutePath: string, absolutePath: string): string {
+	return relative(rootAbsolutePath, absolutePath).split("\\").join("/");
+}
+
+type IgnoreMatcher = {
+	baseRelativePath: string;
+	matcher: ReturnType<typeof ignore>;
+};
+
+function trimTrailingSlash(path: string): string {
+	return path.replace(/\/+$/g, "");
+}
+
+function toMatcherRelativePath(relativePath: string, baseRelativePath: string): string | null {
+	const normalizedRelativePath = trimTrailingSlash(normalizeMatchCandidate(relativePath));
+	const normalizedBasePath = trimTrailingSlash(normalizeMatchCandidate(baseRelativePath));
+	if (!normalizedBasePath) return normalizedRelativePath;
+	if (normalizedRelativePath === normalizedBasePath) return "";
+	const prefix = `${normalizedBasePath}/`;
+	if (!normalizedRelativePath.startsWith(prefix)) return null;
+	return normalizedRelativePath.slice(prefix.length);
+}
+
+async function loadIgnoreMatcher(baseRelativePath: string, absoluteDirectoryPath: string): Promise<IgnoreMatcher | undefined> {
+	let combinedRules = "";
+	for (const fileName of FIND_IGNORE_FILE_NAMES) {
+		try {
+			const raw = await readFile(resolve(absoluteDirectoryPath, fileName), "utf8");
+			if (raw.trim() === "") continue;
+			combinedRules += `${combinedRules ? "\n" : ""}${normalizeToLF(raw)}`;
+		} catch (error: any) {
+			if (error?.code !== "ENOENT") throw error;
+		}
+	}
+	if (!combinedRules) return undefined;
+	return {
+		baseRelativePath,
+		matcher: ignore().add(combinedRules),
+	};
+}
+
+function shouldIgnorePath(relativePath: string, isDirectory: boolean, matchers: IgnoreMatcher[]): boolean {
+	const normalizedRelativePath = trimTrailingSlash(normalizeMatchCandidate(relativePath));
+	let ignored = false;
+	for (const { baseRelativePath, matcher } of matchers) {
+		const matcherRelativePath = toMatcherRelativePath(normalizedRelativePath, baseRelativePath);
+		if (matcherRelativePath == null || matcherRelativePath === "") continue;
+		const candidates = isDirectory ? [matcherRelativePath, `${matcherRelativePath}/`] : [matcherRelativePath];
+		for (const candidate of candidates) {
+			const result = (matcher as any).test?.(candidate);
+			if (result && (result.ignored || result.unignored)) {
+				ignored = !!result.ignored;
+				continue;
+			}
+			if (matcher.ignores(candidate)) ignored = true;
+		}
+	}
+	return ignored;
+}
+
+async function collectDirectoryFiles(
+	absoluteDirectoryPath: string,
+	directoryRelativePath = "",
+	parentMatchers: IgnoreMatcher[] = [{ baseRelativePath: "", matcher: ignore().add(FIND_DEFAULT_IGNORE_RULES) }],
+): Promise<string[]> {
+	const localMatcher = await loadIgnoreMatcher(directoryRelativePath, absoluteDirectoryPath);
+	const matchers = localMatcher ? [...parentMatchers, localMatcher] : parentMatchers;
+	const entries = sortDirents(await readdir(absoluteDirectoryPath, { withFileTypes: true }));
 	let files: string[] = [];
 	for (const entry of entries) {
-		const absolutePath = resolve(rootPath, entry.name);
+		const absolutePath = resolve(absoluteDirectoryPath, entry.name);
+		const relativePath = normalizeMatchCandidate(directoryRelativePath ? `${directoryRelativePath}/${entry.name}` : entry.name);
+		if (shouldIgnorePath(relativePath, entry.isDirectory(), matchers)) continue;
 		if (entry.isDirectory()) {
-			files = files.concat(await collectDirectoryFiles(absolutePath));
+			files = files.concat(await collectDirectoryFiles(absolutePath, relativePath, matchers));
 			continue;
 		}
 		if (entry.isFile()) files.push(absolutePath);
@@ -179,11 +252,19 @@ function globToRegExp(pattern: string): RegExp {
 	return new RegExp(regex);
 }
 
-function matchesPattern(displayPath: string, pattern: string): boolean {
+function normalizeMatchCandidate(path: string): string {
+	return path.split("\\").join("/").replace(/^\.\//, "");
+}
+
+function matchesPattern(displayPath: string, relativePath: string, pattern: string): boolean {
 	const normalizedPattern = pattern.trim() || "**";
 	const regex = globToRegExp(normalizedPattern.split("\\").join("/"));
-	const basename = displayPath.split("/").pop() ?? displayPath;
-	return normalizedPattern.includes("/") ? regex.test(displayPath) : regex.test(basename);
+	const candidates = [displayPath, relativePath, normalizeMatchCandidate(displayPath), normalizeMatchCandidate(relativePath)]
+		.filter((value, index, values) => value !== "" && values.indexOf(value) === index);
+	if (!normalizedPattern.includes("/")) {
+		return candidates.some((candidate) => regex.test(candidate.split("/").pop() ?? candidate));
+	}
+	return candidates.some((candidate) => regex.test(candidate));
 }
 
 type OutlineEntry = {
@@ -212,22 +293,25 @@ async function requestOutline(pi: ExtensionAPI, file: string, timeoutMs = 1500):
 function buildOutlineHashPreview(
 	raw: string,
 	outline: OutlineEntry[],
-	options: { offset: number; readLimit: number },
 ): { totalFileLines: number; lines: string[]; usedOutline: boolean } {
 	const text = normalizeToLF(raw);
 	const allLines = textToLines(text);
 	const totalFileLines = allLines.length;
-	const startLine = Math.max(1, options.offset);
-	const endLine = startLine + Math.max(0, options.readLimit) - 1;
 	const deduped = new Set<number>();
-	const outlineLines = outline
-		.filter((entry) => entry.line >= startLine && entry.line <= endLine && !deduped.has(entry.line) && deduped.add(entry.line))
-		.map((entry) => {
+	const availableOutline = outline.filter(
+		(entry) => entry.line >= 1 && entry.line <= totalFileLines && !deduped.has(entry.line) && deduped.add(entry.line),
+	);
+	if (availableOutline.length > 0) {
+		const outlineLines = availableOutline.map((entry) => {
 			const sourceLine = allLines[entry.line - 1] ?? "";
 			return formatHashLine(entry.line, sourceLine);
 		});
-	if (outlineLines.length > 0) return { totalFileLines, lines: outlineLines, usedOutline: true };
-	const fallback = buildHashlinePreview(raw, { offset: startLine, limit: Math.min(options.readLimit, 10) });
+		return { totalFileLines, lines: outlineLines, usedOutline: true };
+	}
+	const fallback = buildHashlinePreview(raw, {
+		offset: FIND_FALLBACK_PREVIEW_START,
+		limit: FIND_FALLBACK_PREVIEW_LIMIT,
+	});
 	return { totalFileLines, lines: fallback.anchored ? fallback.anchored.split("\n") : [], usedOutline: false };
 }
 
@@ -516,6 +600,49 @@ function applyOperations(originalLines: string[], operations: ParsedEditOperatio
 
 	return lines;
 }
+function buildEditOverview(nextLines: string[], operations: ParsedEditOperation[]): string[] {
+	if (operations.length === 0) return [];
+	if (nextLines.length === 0) return ["[empty file]"];
+	const sorted = [...operations].sort((a, b) => a.oldStartIndex - b.oldStartIndex || a.priority - b.priority);
+	const ranges: Array<{ start: number; end: number }> = [];
+	let delta = 0;
+
+	for (const operation of sorted) {
+		const oldCount = operation.oldEndIndex - operation.oldStartIndex;
+		const newStart = operation.oldStartIndex + 1 + delta;
+		const newCount = operation.contentLines.length;
+
+		if (newCount > 0) {
+			ranges.push({ start: Math.max(1, newStart), end: Math.max(1, newStart + newCount - 1) });
+		} else {
+			const anchor = Math.min(Math.max(1, newStart), nextLines.length);
+			ranges.push({ start: anchor, end: anchor });
+		}
+
+		delta += newCount - oldCount;
+	}
+
+	const merged: Array<{ start: number; end: number }> = [];
+	for (const range of ranges) {
+		if (range.start < 1 || range.start > nextLines.length) continue;
+		const previous = merged[merged.length - 1];
+		if (previous && range.start <= previous.end + 1) {
+			previous.end = Math.max(previous.end, Math.min(range.end, nextLines.length));
+			continue;
+		}
+		merged.push({ start: range.start, end: Math.min(range.end, nextLines.length) });
+	}
+
+	const overview: string[] = [];
+	for (const range of merged) {
+		if (overview.length > 0) overview.push("...");
+		for (let lineNumber = range.start; lineNumber <= range.end; lineNumber++) {
+			overview.push(formatHashLine(lineNumber, nextLines[lineNumber - 1] ?? ""));
+		}
+	}
+
+	return overview;
+}
 
 function buildUnifiedDiff(originalLines: string[], operations: ParsedEditOperation[]): { diff: string; firstChangedLine?: number } {
 	if (operations.length === 0) return { diff: "" };
@@ -638,13 +765,13 @@ export default function hashlineTools(pi: ExtensionAPI) {
 		name: "find",
 		label: "find",
 		description:
-			"Find files in a directory and show a first-level LSP outline for each matching text file with hashline prefixes. Falls back to a short hashline line preview when no outline is available.",
+			"Find files in a directory and show the full first-level LSP outline for each matching text file with hashline prefixes. Falls back to a hashline preview of lines 1-20 only when the file has no LSP outline.",
 		promptSnippet: "Prefer this find tool over bash find when inspecting code directories",
 		promptGuidelines: [
 			"Prefer this find tool over bash find when the user wants to inspect files in a code directory.",
 			"Use pattern to filter files, for example *.ts or src/**/*.rs.",
-			"This tool shows first-level LSP outlines when available, with hashline-prefixed source lines.",
-			"Use preview-offset and preview-limit to restrict which preview lines are eligible per file.",
+			"This tool always shows the full first-level LSP outline for the whole file when available, with hashline-prefixed source lines.",
+			"If there is no outline, it falls back to hashline preview lines 1-20.",
 		],
 		parameters: findSchema,
 		async execute(_toolCallId, params, signal, _onUpdate, ctx) {
@@ -653,9 +780,6 @@ export default function hashlineTools(pi: ExtensionAPI) {
 			const displayRoot = searchPath.replace(/[\\/]+$/g, "") || ".";
 			const pattern = (params.pattern ?? "**").trim() || "**";
 			const fileLimit = params["max-file-count"] ?? 200;
-			const previewOffset = params["preview-offset"] ?? 1;
-			const previewLimit = params["preview-limit"] ?? 200;
-
 			if (signal?.aborted) throw new Error("Operation aborted");
 			await access(absolutePath);
 
@@ -671,8 +795,9 @@ export default function hashlineTools(pi: ExtensionAPI) {
 				.map((absoluteFile) => ({
 					absolute: absoluteFile,
 					display: toDisplayPath(absolutePath, displayRoot, absoluteFile),
+					relative: toMatchPath(absolutePath, absoluteFile),
 				}))
-				.filter((file) => matchesPattern(file.display, pattern))
+				.filter((file) => matchesPattern(file.display, file.relative, pattern))
 				.sort((a, b) => a.display.localeCompare(b.display));
 
 			const files = matchedFiles.slice(0, fileLimit);
@@ -696,14 +821,16 @@ export default function hashlineTools(pi: ExtensionAPI) {
 					outline = [];
 				}
 
-				const preview = buildOutlineHashPreview(buffer.toString("utf8"), outline, { offset: previewOffset, readLimit: previewLimit });
-				const startLine = Math.max(1, previewOffset);
-				const endLine = preview.totalFileLines > 0 ? Math.min(preview.totalFileLines, startLine + Math.max(0, previewLimit) - 1) : startLine - 1;
+				const preview = buildOutlineHashPreview(buffer.toString("utf8"), outline);
+				const fallbackStartLine = FIND_FALLBACK_PREVIEW_START;
+				const fallbackEndLine = preview.totalFileLines > 0
+					? Math.min(preview.totalFileLines, fallbackStartLine + FIND_FALLBACK_PREVIEW_LIMIT - 1)
+					: 0;
 				const headerLabel = preview.usedOutline
 					? "lsp outline"
 					: preview.totalFileLines > 0
-						? `lines ${startLine}-${endLine}${preview.totalFileLines > endLine ? ` of ${preview.totalFileLines}` : ""}; fallback preview`
-						: `empty file${previewOffset > 1 ? ` at offset ${previewOffset}` : ""}`;
+						? `lines ${fallbackStartLine}-${fallbackEndLine}${preview.totalFileLines > fallbackEndLine ? ` of ${preview.totalFileLines}` : ""}; fallback preview`
+						: "empty file";
 				sections.push(`   --- ${file.display} (${headerLabel}) ---`);
 				if (preview.lines.length === 0) {
 					sections.push("   [empty file]");
@@ -720,8 +847,6 @@ export default function hashlineTools(pi: ExtensionAPI) {
 					fileCount: files.length,
 					matchedCount: matchedFiles.length,
 					pattern,
-					previewOffset,
-					previewLimit,
 					...(matchedFiles.length > fileLimit ? { resultLimitReached: matchedFiles.length } : {}),
 					...(truncation.truncated ? { truncation } : {}),
 				},
@@ -730,11 +855,9 @@ export default function hashlineTools(pi: ExtensionAPI) {
 		renderCall(args, theme) {
 			const pathValue = String((args as any)?.path ?? ".");
 			const pattern = String((args as any)?.pattern ?? "**");
-			const previewOffset = Number((args as any)?.["preview-offset"] ?? 1);
-			const previewLimit = Number((args as any)?.["preview-limit"] ?? 200);
 			let text = theme.fg("toolTitle", theme.bold("find "));
 			text += theme.fg("accent", pathValue);
-			text += theme.fg("dim", ` -name ${pattern} · preview ${previewOffset}-${previewOffset + Math.max(0, previewLimit) - 1}`);
+			text += theme.fg("dim", ` -name ${pattern}`);
 			return new Text(text, 0, 0);
 		},
 		renderResult(result, { expanded, isPartial }, theme, context) {
@@ -744,8 +867,6 @@ export default function hashlineTools(pi: ExtensionAPI) {
 				fileCount?: number;
 				matchedCount?: number;
 				pattern?: string;
-				previewOffset?: number;
-				previewLimit?: number;
 				resultLimitReached?: number;
 				truncation?: { truncated: boolean; totalLines?: number };
 			};
@@ -755,17 +876,20 @@ export default function hashlineTools(pi: ExtensionAPI) {
 				const previewLimit = expanded ? 40 : 12;
 				let text = theme.fg("error", lines[0] ?? "find failed");
 				for (const line of lines.slice(1, previewLimit)) text += `\n${theme.fg("dim", line)}`;
-				if (lines.length > previewLimit) text += `\n${theme.fg("muted", expanded ? "... more error lines" : "... ctrl+e for more")}`;
+				if (lines.length > previewLimit) text += `\n${theme.fg("muted", expanded ? "... more error lines" : "... more error lines")}`;
 				return new Text(text, 0, 0);
 			}
+			const outputLines = content?.type === "text" ? content.text.split("\n") : [];
+			const visibleLineCount = expanded ? 80 : 12;
 			let text = theme.fg("success", `${details.fileCount ?? 0} files`);
 			if ((details.matchedCount ?? 0) > (details.fileCount ?? 0)) text += theme.fg("warning", ` of ${details.matchedCount}`);
-			text += theme.fg("dim", ` · ${details.pattern ?? "**"} · preview ${details.previewOffset ?? 1}-${(details.previewOffset ?? 1) + Math.max(0, (details.previewLimit ?? 200)) - 1}`);
+			text += theme.fg("dim", ` · ${details.pattern ?? "**"}`);
 			if (details.truncation?.truncated) text += theme.fg("warning", " [truncated]");
-			if (expanded && content?.type === "text") {
-				const lines = content.text.split("\n").slice(0, 30);
-				for (const line of lines) text += `\n${theme.fg("dim", line)}`;
-				if (content.text.split("\n").length > 30) text += `\n${theme.fg("muted", "... more output lines")}`;
+			for (const line of outputLines.slice(0, visibleLineCount)) {
+				text += `\n${theme.fg("dim", line)}`;
+			}
+			if (outputLines.length > visibleLineCount) {
+				text += `\n${theme.fg("muted", expanded ? "... more output lines" : "... more output lines")}`;
 			}
 			return new Text(text, 0, 0);
 		},
@@ -831,6 +955,7 @@ export default function hashlineTools(pi: ExtensionAPI) {
 				}
 
 				const diff = buildUnifiedDiff(originalLines, operations);
+				const overviewLines = buildEditOverview(nextLines, operations);
 				const finalContent = bom + restoreLineEndings(normalizedNext, originalLineEnding);
 				await mkdir(dirname(absolutePath), { recursive: true });
 				await writeFile(absolutePath, finalContent, "utf8");
@@ -843,7 +968,7 @@ export default function hashlineTools(pi: ExtensionAPI) {
 							text: `Successfully applied ${operations.length} hashline edit block(s) to ${path}.`,
 						},
 					],
-					details: { diff: diff.diff, firstChangedLine: diff.firstChangedLine } satisfies EditToolDetails,
+					details: { diff: diff.diff, firstChangedLine: diff.firstChangedLine, overviewLines } as EditToolDetails & { overviewLines: string[] },
 				};
 			});
 		},
@@ -856,7 +981,7 @@ export default function hashlineTools(pi: ExtensionAPI) {
 		},
 		renderResult(result, { expanded, isPartial }, theme, context) {
 			if (isPartial) return new Text(theme.fg("warning", "Editing..."), 0, 0);
-			const details = result.details as EditToolDetails | undefined;
+			const details = result.details as (EditToolDetails & { overviewLines?: string[] }) | undefined;
 			const content = result.content[0];
 			if (context.isError || (content?.type === "text" && /^error/i.test(content.text))) {
 				const fullMessage = content?.type === "text" ? content.text : "Edit failed";
@@ -876,19 +1001,17 @@ export default function hashlineTools(pi: ExtensionAPI) {
 				return new Text(theme.fg("success", "Applied"), 0, 0);
 			}
 			const { additions, removals } = countDiffLines(details.diff);
+			const overviewLines = details.overviewLines ?? [];
+			const visibleLineCount = expanded ? 24 : 8;
 			let text = theme.fg("success", `+${additions}`);
 			text += theme.fg("dim", " / ");
 			text += theme.fg("error", `-${removals}`);
-			if (expanded) {
-				const lines = details.diff.split("\n").slice(0, 40);
-				for (const line of lines) {
-					if (line.startsWith("+") && !line.startsWith("+++")) text += `\n${theme.fg("success", line)}`;
-					else if (line.startsWith("-") && !line.startsWith("---")) text += `\n${theme.fg("error", line)}`;
-					else text += `\n${theme.fg("dim", line)}`;
-				}
-				if (details.diff.split("\n").length > 40) {
-					text += `\n${theme.fg("muted", "... more diff lines")}`;
-				}
+			for (const line of overviewLines.slice(0, visibleLineCount)) {
+				text += `\n${theme.fg("dim", line)}`;
+			}
+			if (overviewLines.length > visibleLineCount) {
+				const remaining = overviewLines.length - visibleLineCount;
+				text += `\n${theme.fg("muted", `... ${remaining} more edited line${remaining === 1 ? "" : "s"}`)}`;
 			}
 			return new Text(text, 0, 0);
 		},

@@ -1,0 +1,16 @@
+{
+  "name": "focus-tracker",
+  "version": "0.1.0",
+  "description": "Tiny Pi extension for showing current model focus",
+  "type": "module",
+  "pi": {
+    "extensions": [
+      "./index.ts"
+    ]
+  },
+  "dependencies": {
+    "@mariozechner/pi-coding-agent": "^0.64.0",
+    "@mariozechner/pi-tui": "^0.64.0",
+    "@sinclair/typebox": "^0.34.49"
+  }
+}

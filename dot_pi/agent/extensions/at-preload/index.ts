@@ -5,6 +5,7 @@ import { homedir } from "node:os";
 
 import type { ExtensionAPI, ExtensionContext } from "@mariozechner/pi-coding-agent";
 import { Box, Text } from "@mariozechner/pi-tui";
+import ignore from "ignore";
 import { buildHashlinePreview, resolveHashlinePath } from "../hashline-tools/index.ts";
 
 const CONTEXT_TYPE = "at-preload-context";
@@ -12,7 +13,8 @@ const SUMMARY_TYPE = "at-preload-summary";
 const UI_KEY = "at-preload";
 const FILE_PRELOAD_LIMIT = 200;
 const IMAGE_EXTENSIONS = new Set([".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg", ".bmp", ".ico", ".avif"]);
-
+const IGNORE_FILE_NAMES = [".gitignore", ".ignore", ".piignore"] as const;
+const DEFAULT_IGNORE_RULES = [".git/", ".jj/", ".svn/", "node_modules/"] as const;
 type PreloadItem =
 	| {
 			kind: "file";
@@ -45,7 +47,6 @@ type PreloadItem =
 type PendingState = {
 	items: PreloadItem[];
 	summaryLines: string[];
-	widgetLines: string[];
 	contextText?: string;
 	announced: boolean;
 };
@@ -58,6 +59,11 @@ type SummaryDetails = {
 		previewLines?: string[];
 		remainingLineCount?: number;
 	}>;
+};
+
+type IgnoreMatcher = {
+	baseRelativePath: string;
+	matcher: ReturnType<typeof ignore>;
 };
 
 function isProbablyText(buffer: Buffer, path: string): boolean {
@@ -163,13 +169,81 @@ function joinDisplayPath(parent: string, child: string): string {
 	return `${parent}/${child}`;
 }
 
-async function buildPathList(path: string, displayPath: string): Promise<{ lines: string[]; entryCount: number }> {
+function normalizeIgnorePath(path: string): string {
+	return path.split("\\").join("/");
+}
+
+function normalizeToLF(text: string): string {
+	return text.replace(/\r\n?/g, "\n");
+}
+
+function trimTrailingSlash(path: string): string {
+	return path.replace(/\/+$/g, "");
+}
+
+function toMatcherRelativePath(relativePath: string, baseRelativePath: string): string | null {
+	const normalizedRelativePath = trimTrailingSlash(normalizeIgnorePath(relativePath));
+	const normalizedBasePath = trimTrailingSlash(normalizeIgnorePath(baseRelativePath));
+	if (!normalizedBasePath) return normalizedRelativePath;
+	if (normalizedRelativePath === normalizedBasePath) return "";
+	const prefix = `${normalizedBasePath}/`;
+	if (!normalizedRelativePath.startsWith(prefix)) return null;
+	return normalizedRelativePath.slice(prefix.length);
+}
+
+async function loadIgnoreMatcher(baseRelativePath: string, absoluteDirectoryPath: string): Promise<IgnoreMatcher | undefined> {
+	let combinedRules = "";
+	for (const fileName of IGNORE_FILE_NAMES) {
+		try {
+			const raw = await readFile(resolve(absoluteDirectoryPath, fileName), "utf8");
+			if (raw.trim() === "") continue;
+			combinedRules += `${combinedRules ? "\n" : ""}${normalizeToLF(raw)}`;
+		} catch (error: any) {
+			if (error?.code !== "ENOENT") throw error;
+		}
+	}
+	if (!combinedRules) return undefined;
+	return {
+		baseRelativePath,
+		matcher: ignore().add(combinedRules),
+	};
+}
+
+function shouldIgnorePath(relativePath: string, isDirectory: boolean, matchers: IgnoreMatcher[]): boolean {
+	const normalizedRelativePath = trimTrailingSlash(normalizeIgnorePath(relativePath));
+	let ignored = false;
+	for (const { baseRelativePath, matcher } of matchers) {
+		const matcherRelativePath = toMatcherRelativePath(normalizedRelativePath, baseRelativePath);
+		if (matcherRelativePath == null || matcherRelativePath === "") continue;
+		const candidates = isDirectory ? [matcherRelativePath, `${matcherRelativePath}/`] : [matcherRelativePath];
+		for (const candidate of candidates) {
+			const result = (matcher as any).test?.(candidate);
+			if (result && (result.ignored || result.unignored)) {
+				ignored = !!result.ignored;
+				continue;
+			}
+			if (matcher.ignores(candidate)) ignored = true;
+		}
+	}
+	return ignored;
+}
+
+async function buildPathList(
+	path: string,
+	displayPath: string,
+	directoryRelativePath = "",
+	parentMatchers: IgnoreMatcher[] = [{ baseRelativePath: "", matcher: ignore().add(DEFAULT_IGNORE_RULES) }],
+): Promise<{ lines: string[]; entryCount: number }> {
+	const localMatcher = await loadIgnoreMatcher(directoryRelativePath, path);
+	const matchers = localMatcher ? [...parentMatchers, localMatcher] : parentMatchers;
 	const entries = sortDirents(await readdir(path, { withFileTypes: true }));
 	const lines: string[] = [];
 	let entryCount = 0;
 
 	for (const entry of entries) {
 		const entryPath = resolve(path, entry.name);
+		const entryRelativePath = normalizeIgnorePath(directoryRelativePath ? `${directoryRelativePath}/${entry.name}` : entry.name);
+		if (shouldIgnorePath(entryRelativePath, entry.isDirectory(), matchers)) continue;
 		const entryDisplayPath = joinDisplayPath(displayPath, entry.name);
 		entryCount++;
 
@@ -187,7 +261,7 @@ async function buildPathList(path: string, displayPath: string): Promise<{ lines
 		if (entry.isDirectory()) {
 			lines.push(formatDirectoryPath(entryDisplayPath));
 			try {
-				const child = await buildPathList(entryPath, entryDisplayPath);
+				const child = await buildPathList(entryPath, entryDisplayPath, entryRelativePath, matchers);
 				lines.push(...child.lines);
 				entryCount += child.entryCount;
 			} catch (error) {
@@ -318,11 +392,8 @@ function buildPreviewLines(content: string, limit = 10): { lines: string[]; rema
 	};
 }
 
-function buildSummaryState(items: PreloadItem[], ctx: ExtensionContext): PendingState {
-	const successCount = items.filter((item) => item.kind === "file" || item.kind === "directory").length;
+function buildSummaryState(items: PreloadItem[]): PendingState {
 	const summaryLines: string[] = [];
-	const fg = (color: string, text: string) => (ctx.hasUI ? ctx.ui.theme.fg(color, text) : text);
-	const widgetLines: string[] = [fg("accent", "📥 @ preloads") + fg("dim", ` ${successCount}/${items.length}`)];
 
 	for (const item of items) {
 		if (item.kind === "file") {
@@ -331,25 +402,21 @@ function buildSummaryState(items: PreloadItem[], ctx: ExtensionContext): Pending
 					? `file · lines 1-${item.loadedLines} of ${item.totalLines}`
 					: `file · ${item.loadedLines} lines`;
 			summaryLines.push(`✓ ${item.displayPath} — ${detail}`);
-			widgetLines.push(`${fg("success", "✓")} ${item.displayPath} ${fg("dim", `[1-${item.loadedLines}]`)}`);
 			continue;
 		}
 
 		if (item.kind === "directory") {
 			const detail = `dir · ${item.entryCount} entries`;
 			summaryLines.push(`✓ ${item.displayPath}/ — ${detail}`);
-			widgetLines.push(`${fg("success", "✓")} ${item.displayPath}/ ${fg("dim", `[${item.entryCount} entries]`)}`);
 			continue;
 		}
 
 		summaryLines.push(`⚠ ${item.displayPath} — ${item.message}`);
-		widgetLines.push(`${fg("warning", "⚠")} ${item.displayPath} ${fg("dim", item.message)}`);
 	}
 
 	return {
 		items,
 		summaryLines,
-		widgetLines,
 		contextText: buildContextText(items),
 		announced: false,
 	};
@@ -390,19 +457,14 @@ function summaryDetailsFromState(state: PendingState): SummaryDetails {
 	};
 }
 
-function applyUI(ctx: ExtensionContext, state: PendingState | null): void {
+function applyUI(ctx: ExtensionContext): void {
 	if (!ctx.hasUI) return;
 	ctx.ui.setStatus(UI_KEY, undefined);
-	if (!state) {
-		ctx.ui.setWidget(UI_KEY, undefined, { placement: "belowEditor" });
-		return;
-	}
-
-	ctx.ui.setWidget(UI_KEY, state.widgetLines, { placement: "belowEditor" });
+	ctx.ui.setWidget(UI_KEY, undefined, { placement: "belowEditor" });
 }
 
 function clearState(ctx?: ExtensionContext): void {
-	if (ctx) applyUI(ctx, null);
+	if (ctx) applyUI(ctx);
 }
 
 export default function atPreloadExtension(pi: ExtensionAPI) {
@@ -474,8 +536,8 @@ export default function atPreloadExtension(pi: ExtensionAPI) {
 		}
 
 		const items = await Promise.all(mentions.map((mention) => preloadMention(ctx.cwd, mention)));
-		pendingState = buildSummaryState(items, ctx);
-		applyUI(ctx, pendingState);
+		pendingState = buildSummaryState(items);
+		applyUI(ctx);
 
 		if (!pendingState.contextText) return undefined;
 		return {
@@ -490,7 +552,7 @@ export default function atPreloadExtension(pi: ExtensionAPI) {
 	pi.on("agent_start", async (_event, ctx) => {
 		if (!pendingState || pendingState.announced) return;
 		pendingState.announced = true;
-		applyUI(ctx, pendingState);
+		applyUI(ctx);
 		pi.sendMessage(
 			{
 				customType: SUMMARY_TYPE,

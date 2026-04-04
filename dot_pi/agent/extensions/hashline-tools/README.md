@@ -26,16 +26,24 @@ Pi extension that replaces the built-in `read`, `edit`, and `write` tools with a
 - `find`
   - finds files in a directory recursively
   - supports a glob-style `pattern` filter
-  - emits a sorted file list plus per-file first-level LSP outline previews with hashline prefixes
-  - falls back to a short hashline preview when no outline is available
-  - uses `max-file-count`, `preview-offset`, and `preview-limit` to control output
+  - matches path patterns against both the displayed path and the search-root-relative path, so `*/index.ts` works from `.`
+  - respects `.gitignore`, `.ignore`, and `.piignore` files while walking directories
+  - skips `.git/`, `.jj/`, `.svn/`, and `node_modules/` by default
+  - emits a sorted file list plus the full per-file first-level LSP outline with hashline prefixes when available
+  - falls back to a hashline preview of lines `1-20` only when the file has no outline
 
 - `write`
   - behaves like pi's built-in write tool
   - strips accidental `LINE#ID:` prefixes if copied from hashline `read` output
 ## Activation
 
-This extension lives in `~/.pi/agent/extensions/hashline-tools/index.ts`, so pi auto-discovers it.
+This extension lives in `~/.pi/agent/extensions/hashline-tools/`, so pi auto-discovers it.
+
+Install dependencies after pulling changes:
+
+```bash
+cd ~/.pi/agent/extensions/hashline-tools && npm install
+```
 
 Reload pi resources after changes:
 
