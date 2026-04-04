@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { mkdir, readFile, writeFile, access } from "node:fs/promises";
 import { dirname } from "node:path";
 
@@ -415,6 +416,87 @@ function renderDisplayDiff(diff: string, rawPath: string | undefined, theme: any
 	return lines;
 }
 
+function renderEditDiffSummary(diff: string, rawPath: string | undefined, expanded: boolean, theme: any): string {
+	const { additions, removals } = countDiffLines(diff);
+	const renderedDiff = renderDisplayDiff(diff, rawPath, theme);
+	const visibleLineCount = expanded ? 24 : 10;
+	let text = theme.fg("success", `+${additions}`);
+	text += theme.fg("dim", " / ");
+	text += theme.fg("error", `-${removals}`);
+	for (const line of renderedDiff.slice(0, visibleLineCount)) {
+		text += `\n${line}`;
+	}
+	if (renderedDiff.length > visibleLineCount) {
+		const remaining = renderedDiff.length - visibleLineCount;
+		text += `\n${theme.fg("muted", `... ${remaining} more diff line${remaining === 1 ? "" : "s"}`)}`;
+	}
+	return text;
+}
+
+function buildPendingEditPreview(args: unknown, cwd: string): { rawPath?: string; diff?: string; error?: string } {
+	const rawPath = typeof (args as any)?.path === "string" ? normalizePath((args as any).path) : undefined;
+	const edits = Array.isArray((args as any)?.edits) ? ((args as any).edits as unknown[]) : [];
+	if (!rawPath || edits.length === 0) return {};
+
+	try {
+		const absolutePath = resolvePath(cwd, rawPath);
+		let raw = "";
+		let existed = true;
+		try {
+			raw = readFileSync(absolutePath, "utf8");
+		} catch {
+			existed = false;
+		}
+
+		const { text: bomStripped } = stripBom(raw);
+		const normalizedOriginal = normalizeToLF(bomStripped);
+		const originalLines = existed ? textToLines(normalizedOriginal) : [];
+
+		if (!existed) {
+			for (const edit of edits) {
+				const loc = (edit as any)?.loc;
+				if (loc !== "append" && loc !== "prepend") {
+					throw new Error(
+						`File not found: ${rawPath}. New files can only be created with anchorless "append" or "prepend" edits.`,
+					);
+				}
+			}
+		}
+
+		const operations = parseHashlineOperations(edits, originalLines);
+		const nextLines = applyOperations(originalLines, operations);
+		const normalizedNext = nextLines.join("\n");
+		if (normalizedNext === normalizedOriginal) {
+			throw new Error("The hashline edit would produce no changes.");
+		}
+
+		const diff = buildDisplayDiff(originalLines, nextLines, operations);
+		return { rawPath, diff: diff.diff };
+	} catch (error) {
+		return { rawPath, error: error instanceof Error ? error.message : String(error) };
+	}
+}
+
+function formatPendingEditPreview(args: unknown, cwd: string, expanded: boolean, theme: any): string | undefined {
+	const preview = buildPendingEditPreview(args, cwd);
+	if (preview.error) {
+		const lines = preview.error.split("\n");
+		const previewLimit = expanded ? 12 : 6;
+		let text = theme.fg("muted", "preview ");
+		text += theme.fg("error", lines[0] ?? "Preview unavailable");
+		for (const line of lines.slice(1, previewLimit)) {
+			if (line.startsWith(">>>")) text += `\n${theme.fg("warning", line)}`;
+			else text += `\n${theme.fg("dim", line)}`;
+		}
+		if (lines.length > previewLimit) {
+			text += `\n${theme.fg("muted", "... more preview error lines")}`;
+		}
+		return text;
+	}
+	if (!preview.diff) return undefined;
+	return `${theme.fg("muted", "preview ")}${renderEditDiffSummary(preview.diff, preview.rawPath, expanded, theme)}`;
+}
+
 export function registerEditTool(pi: ExtensionAPI): void {
 	pi.registerTool({
 		name: "edit",
@@ -492,11 +574,25 @@ export function registerEditTool(pi: ExtensionAPI): void {
 				};
 			});
 		},
-		renderCall(args, theme) {
+		renderCall(args, theme, context) {
 			const editCount = Array.isArray((args as any)?.edits) ? (args as any).edits.length : 0;
 			let text = theme.fg("toolTitle", theme.bold("edit "));
 			text += theme.fg("accent", String((args as any)?.path ?? ""));
 			text += theme.fg("dim", ` (${editCount} block${editCount === 1 ? "" : "s"}, hashline)`);
+
+			const state = (context.state ??= {}) as { previewKey?: string; previewText?: string };
+			if (context.argsComplete) {
+				const key = JSON.stringify({ args, cwd: context.cwd, expanded: context.expanded });
+				if (state.previewKey !== key) {
+					state.previewKey = key;
+					state.previewText = formatPendingEditPreview(args, context.cwd, context.expanded, theme);
+				}
+				if (state.previewText) text += `\n${state.previewText}`;
+			} else {
+				state.previewKey = undefined;
+				state.previewText = undefined;
+			}
+
 			return new Text(text, 0, 0);
 		},
 		renderResult(result, { expanded, isPartial }, theme, context) {
@@ -522,20 +618,7 @@ export function registerEditTool(pi: ExtensionAPI): void {
 			}
 
 			const rawPath = typeof (context.args as any)?.path === "string" ? normalizePath((context.args as any).path) : undefined;
-			const { additions, removals } = countDiffLines(details.diff);
-			const renderedDiff = renderDisplayDiff(details.diff, rawPath, theme);
-			const visibleLineCount = expanded ? 24 : 10;
-			let text = theme.fg("success", `+${additions}`);
-			text += theme.fg("dim", " / ");
-			text += theme.fg("error", `-${removals}`);
-			for (const line of renderedDiff.slice(0, visibleLineCount)) {
-				text += `\n${line}`;
-			}
-			if (renderedDiff.length > visibleLineCount) {
-				const remaining = renderedDiff.length - visibleLineCount;
-				text += `\n${theme.fg("muted", `... ${remaining} more diff line${remaining === 1 ? "" : "s"}`)}`;
-			}
-			return new Text(text, 0, 0);
+			return new Text(renderEditDiffSummary(details.diff, rawPath, expanded, theme), 0, 0);
 		},
 	});
 }
