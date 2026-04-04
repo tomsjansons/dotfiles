@@ -2,7 +2,7 @@ import { mkdir, readFile, writeFile, access } from "node:fs/promises";
 import { dirname } from "node:path";
 
 import type { EditToolDetails, ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import { withFileMutationQueue } from "@mariozechner/pi-coding-agent";
+import { getLanguageFromPath, highlightCode, withFileMutationQueue } from "@mariozechner/pi-coding-agent";
 import { Type } from "@sinclair/typebox";
 import { Text } from "@mariozechner/pi-tui";
 
@@ -315,76 +315,46 @@ function applyOperations(originalLines: string[], operations: ParsedEditOperatio
 	return lines;
 }
 
-function buildEditOverview(nextLines: string[], operations: ParsedEditOperation[]): string[] {
-	if (operations.length === 0) return [];
-	if (nextLines.length === 0) return ["[empty file]"];
-	const sorted = [...operations].sort((a, b) => a.oldStartIndex - b.oldStartIndex || a.priority - b.priority);
-	const ranges: Array<{ start: number; end: number }> = [];
-	let delta = 0;
-
-	for (const operation of sorted) {
-		const oldCount = operation.oldEndIndex - operation.oldStartIndex;
-		const newStart = operation.oldStartIndex + 1 + delta;
-		const newCount = operation.contentLines.length;
-
-		if (newCount > 0) {
-			ranges.push({ start: Math.max(1, newStart), end: Math.max(1, newStart + newCount - 1) });
-		} else {
-			const anchor = Math.min(Math.max(1, newStart), nextLines.length);
-			ranges.push({ start: anchor, end: anchor });
-		}
-
-		delta += newCount - oldCount;
-	}
-
-	const merged: Array<{ start: number; end: number }> = [];
-	for (const range of ranges) {
-		if (range.start < 1 || range.start > nextLines.length) continue;
-		const previous = merged[merged.length - 1];
-		if (previous && range.start <= previous.end + 1) {
-			previous.end = Math.max(previous.end, Math.min(range.end, nextLines.length));
-			continue;
-		}
-		merged.push({ start: range.start, end: Math.min(range.end, nextLines.length) });
-	}
-
-	const overview: string[] = [];
-	for (const range of merged) {
-		if (overview.length > 0) overview.push("...");
-		for (let lineNumber = range.start; lineNumber <= range.end; lineNumber++) {
-			overview.push(formatHashLine(lineNumber, nextLines[lineNumber - 1] ?? ""));
-		}
-	}
-
-	return overview;
+function replaceTabsForDisplay(text: string): string {
+	return text.replace(/\t/g, "   ");
 }
 
-function buildUnifiedDiff(originalLines: string[], operations: ParsedEditOperation[]): { diff: string; firstChangedLine?: number } {
+function buildDisplayDiff(
+	originalLines: string[],
+	nextLines: string[],
+	operations: ParsedEditOperation[],
+): { diff: string; firstChangedLine?: number } {
 	if (operations.length === 0) return { diff: "" };
-
 	const sorted = [...operations].sort((a, b) => a.oldStartIndex - b.oldStartIndex || a.priority - b.priority);
-	const diffLines = ["--- before", "+++ after"];
+	const lineNumberWidth = String(Math.max(1, originalLines.length, nextLines.length)).length;
+	const diffLines: string[] = [];
 	let delta = 0;
 	let firstChangedLine: number | undefined;
+	let previousOldEndExclusive: number | undefined;
 
 	for (const operation of sorted) {
-		const oldStart = operation.oldStartIndex + 1;
 		const oldCount = operation.oldEndIndex - operation.oldStartIndex;
-		const newStart = operation.oldStartIndex + 1 + delta;
 		const newCount = operation.contentLines.length;
+		const oldStart = operation.oldStartIndex + 1;
+		const newStart = operation.oldStartIndex + 1 + delta;
+
 		if (firstChangedLine === undefined) {
 			firstChangedLine = Math.max(1, newStart);
 		}
-
-		diffLines.push(`@@ -${oldStart},${oldCount} +${newStart},${newCount} @@`);
-		for (const line of originalLines.slice(operation.oldStartIndex, operation.oldEndIndex)) {
-			diffLines.push(`-${line}`);
+		if (previousOldEndExclusive !== undefined && operation.oldStartIndex > previousOldEndExclusive) {
+			diffLines.push(` ${"".padStart(lineNumberWidth, " ")} ...`);
 		}
-		for (const line of operation.contentLines) {
-			diffLines.push(`+${line}`);
+		for (let index = 0; index < oldCount; index++) {
+			const lineNumber = String(oldStart + index).padStart(lineNumberWidth, " ");
+			diffLines.push(`-${lineNumber} ${originalLines[operation.oldStartIndex + index] ?? ""}`);
+		}
+		for (let index = 0; index < newCount; index++) {
+			const lineNumber = String(newStart + index).padStart(lineNumberWidth, " ");
+			diffLines.push(`+${lineNumber} ${operation.contentLines[index] ?? ""}`);
 		}
 
 		delta += newCount - oldCount;
+		previousOldEndExclusive = Math.max(previousOldEndExclusive ?? 0, operation.oldEndIndex);
 	}
 
 	return { diff: diffLines.join("\n"), firstChangedLine };
@@ -394,10 +364,55 @@ function countDiffLines(diff: string): { additions: number; removals: number } {
 	let additions = 0;
 	let removals = 0;
 	for (const line of diff.split("\n")) {
-		if (line.startsWith("+") && !line.startsWith("+++")) additions++;
-		if (line.startsWith("-") && !line.startsWith("---")) removals++;
+		if (line.startsWith("+")) additions++;
+		if (line.startsWith("-")) removals++;
 	}
 	return { additions, removals };
+}
+
+function tintLine(text: string, theme: any, color: string): string {
+	if (typeof theme?.getFgAnsi !== "function") {
+		return theme.fg(color, text);
+	}
+	const ansi = theme.getFgAnsi(color);
+	return `${ansi}${text.replace(/\x1b\[39m/g, `\x1b[39m${ansi}`)}\x1b[39m`;
+}
+
+function parseDisplayDiffLine(
+	line: string,
+): { prefix: "+" | "-" | " "; lineNumber: string; content: string; isGap: boolean } | null {
+	const match = line.match(/^([+\- ])(\s*\d*)\s(.*)$/);
+	if (!match) return null;
+	const prefix = match[1] as "+" | "-" | " ";
+	const lineNumber = match[2];
+	const content = match[3];
+	return { prefix, lineNumber, content, isGap: prefix === " " && lineNumber.trim() === "" && content === "..." };
+}
+
+function renderDisplayDiff(diff: string, rawPath: string | undefined, theme: any): string[] {
+	if (!diff) return [];
+	const language = rawPath ? getLanguageFromPath(rawPath) : undefined;
+	const lines: string[] = [];
+
+	for (const rawLine of diff.split("\n")) {
+		const parsed = parseDisplayDiffLine(rawLine);
+		if (!parsed) {
+			lines.push(theme.fg("dim", rawLine));
+			continue;
+		}
+		if (parsed.isGap) {
+			lines.push(theme.fg("muted", rawLine));
+			continue;
+		}
+
+		const color = parsed.prefix === "+" ? "toolDiffAdded" : parsed.prefix === "-" ? "toolDiffRemoved" : "toolDiffContext";
+		const gutter = theme.fg(color, `${parsed.prefix}${parsed.lineNumber}`);
+		const content = replaceTabsForDisplay(parsed.content);
+		const highlighted = language ? (highlightCode(content, language)[0] ?? content) : content;
+		lines.push(`${gutter} ${tintLine(highlighted, theme, color)}`);
+	}
+
+	return lines;
 }
 
 export function registerEditTool(pi: ExtensionAPI): void {
@@ -460,8 +475,7 @@ export function registerEditTool(pi: ExtensionAPI): void {
 					throw new Error("The hashline edit produced no changes.");
 				}
 
-				const diff = buildUnifiedDiff(originalLines, operations);
-				const overviewLines = buildEditOverview(nextLines, operations);
+				const diff = buildDisplayDiff(originalLines, nextLines, operations);
 				const finalContent = bom + restoreLineEndings(normalizedNext, originalLineEnding);
 				await mkdir(dirname(absolutePath), { recursive: true });
 				await writeFile(absolutePath, finalContent, "utf8");
@@ -474,7 +488,7 @@ export function registerEditTool(pi: ExtensionAPI): void {
 							text: `Successfully applied ${operations.length} hashline edit block(s) to ${path}.`,
 						},
 					],
-					details: { diff: diff.diff, firstChangedLine: diff.firstChangedLine, overviewLines } as EditToolDetails & { overviewLines: string[] },
+					details: { diff: diff.diff, firstChangedLine: diff.firstChangedLine } as EditToolDetails,
 				};
 			});
 		},
@@ -487,7 +501,7 @@ export function registerEditTool(pi: ExtensionAPI): void {
 		},
 		renderResult(result, { expanded, isPartial }, theme, context) {
 			if (isPartial) return new Text(theme.fg("warning", "Editing..."), 0, 0);
-			const details = result.details as (EditToolDetails & { overviewLines?: string[] }) | undefined;
+			const details = result.details as EditToolDetails | undefined;
 			const content = result.content[0];
 			if (context.isError || (content?.type === "text" && /^error/i.test(content.text))) {
 				const fullMessage = content?.type === "text" ? content.text : "Edit failed";
@@ -506,18 +520,20 @@ export function registerEditTool(pi: ExtensionAPI): void {
 			if (!details?.diff) {
 				return new Text(theme.fg("success", "Applied"), 0, 0);
 			}
+
+			const rawPath = typeof (context.args as any)?.path === "string" ? normalizePath((context.args as any).path) : undefined;
 			const { additions, removals } = countDiffLines(details.diff);
-			const overviewLines = details.overviewLines ?? [];
-			const visibleLineCount = expanded ? 24 : 8;
+			const renderedDiff = renderDisplayDiff(details.diff, rawPath, theme);
+			const visibleLineCount = expanded ? 24 : 10;
 			let text = theme.fg("success", `+${additions}`);
 			text += theme.fg("dim", " / ");
 			text += theme.fg("error", `-${removals}`);
-			for (const line of overviewLines.slice(0, visibleLineCount)) {
-				text += `\n${theme.fg("dim", line)}`;
+			for (const line of renderedDiff.slice(0, visibleLineCount)) {
+				text += `\n${line}`;
 			}
-			if (overviewLines.length > visibleLineCount) {
-				const remaining = overviewLines.length - visibleLineCount;
-				text += `\n${theme.fg("muted", `... ${remaining} more edited line${remaining === 1 ? "" : "s"}`)}`;
+			if (renderedDiff.length > visibleLineCount) {
+				const remaining = renderedDiff.length - visibleLineCount;
+				text += `\n${theme.fg("muted", `... ${remaining} more diff line${remaining === 1 ? "" : "s"}`)}`;
 			}
 			return new Text(text, 0, 0);
 		},
