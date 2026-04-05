@@ -581,17 +581,14 @@ export function registerEditTool(pi: ExtensionAPI): void {
 			text += theme.fg("dim", ` (${editCount} block${editCount === 1 ? "" : "s"}, hashline)`);
 
 			const state = (context.state ??= {}) as { previewKey?: string; previewText?: string };
-			if (context.argsComplete) {
-				const key = JSON.stringify({ args, cwd: context.cwd, expanded: context.expanded });
-				if (state.previewKey !== key) {
-					state.previewKey = key;
-					state.previewText = formatPendingEditPreview(args, context.cwd, context.expanded, theme);
-				}
-				if (state.previewText) text += `\n${state.previewText}`;
-			} else {
-				state.previewKey = undefined;
-				state.previewText = undefined;
+			const key = JSON.stringify({ args, cwd: context.cwd, expanded: context.expanded });
+			// Recompute as soon as we have enough args for a preview. Waiting for
+			// argsComplete can delay the diff until execution has already started.
+			if (state.previewKey !== key) {
+				state.previewKey = key;
+				state.previewText = formatPendingEditPreview(args, context.cwd, context.expanded, theme);
 			}
+			if (state.previewText) text += `\n${state.previewText}`;
 
 			return new Text(text, 0, 0);
 		},
