@@ -245,7 +245,6 @@ packages:
       - git-delta
       - tree-sitter-cli
       - qt5-wayland
-      - helix
       - gofumpt
       - golangci-lint
       - ansible
@@ -271,6 +270,7 @@ packages:
       - papers
       - evolution
       - gnome-calendar
+      - neovim
     yay:
       - brave-bin
       - oh-my-posh-bin
@@ -311,7 +311,6 @@ packages:
       - nmail
       - ggshield
       - goose
-      - neovim-git
       - youtube-tui
       - yourube-dl
       - trino-cli-bin
@@ -321,6 +320,7 @@ packages:
       - hoppscotch-bin
       - lmstudio-bin
       - forgecode
+      - evil-helix-bin
     flathub:
       - com.usebottles.bottles
       - org.kde.kdenlive
