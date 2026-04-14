@@ -1,0 +1,9 @@
+{
+	"commands": {
+		"file": {
+			"list": "fd --type f --max-depth 6",
+			"action": "@{{selected}}",
+			"shortcut": "ctrl+f"
+		}
+	}
+}
