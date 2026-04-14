@@ -389,9 +389,24 @@ export default function lspExtension(pi: ExtensionAPI) {
 	pi.on("session_shutdown", async () => {
 		for (const client of clients.values()) {
 			try {
-				client.connection.sendNotification("exit");
+				// sendNotification() returns a Promise and can reject with EPIPE if the
+				// server already exited. Await it here so the rejection stays inside this
+				// handler instead of crashing Pi as an unhandled promise rejection.
+				if (client.process.exitCode === null && !client.process.killed) {
+					await client.connection.sendNotification("exit");
+				}
+			} catch {
+				/* ignore */
+			}
+			try {
 				client.connection.dispose();
-				client.process.kill();
+			} catch {
+				/* ignore */
+			}
+			try {
+				if (client.process.exitCode === null && !client.process.killed) {
+					client.process.kill();
+				}
 			} catch {
 				/* ignore */
 			}

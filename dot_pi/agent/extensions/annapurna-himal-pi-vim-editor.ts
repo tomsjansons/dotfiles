@@ -6,7 +6,7 @@
  *
  * Modes:
  *   NORMAL  — Movement, operators, text manipulation. Enter submits prompt.
- *   INSERT  — Regular text input. Enter = new line. Escape = normal mode.
+ *   INSERT  — Default on open/input. Shift+Enter = new line. Enter submits prompt. Escape = normal mode.
  *   VISUAL  — Character selection (v). Operators act on selection.
  *   V-LINE  — Line selection (V). Operators act on selected lines.
  *   COMMAND — Ex commands (:w to submit, :q to exit).
@@ -92,7 +92,7 @@ function clearRecoveryBuffer(): void {
 
 class VimEditor extends CustomEditor {
 	// --- Vim state ---
-	private mode: VimMode = "normal";
+	private mode: VimMode = "insert";
 	private count = 0;
 	private operator: Operator | null = null;
 	private gPending = false;
@@ -124,8 +124,8 @@ class VimEditor extends CustomEditor {
 
 	constructor(tui: TUI, theme: any, keybindings: any) {
 		super(tui, theme, keybindings);
-		// Set initial cursor shape (DECSCUSR — bonus for terminals that show hardware cursor)
-		this.setCursorShape("normal");
+		// Start in insert mode when Pi opens.
+		this.enterInsertReady();
 		// Restore any recovered buffer content
 		const recovered = loadRecoveryBuffer();
 		if (recovered && recovered.trim()) {
@@ -137,6 +137,11 @@ class VimEditor extends CustomEditor {
 			// Clear recovery file after restoring
 			clearRecoveryBuffer();
 		}
+	}
+
+	override setText(text: string): void {
+		super.setText(text);
+		this.enterInsertReady();
 	}
 
 	// ─── Cursor shape ───────────────────────────────────────────────────
@@ -590,6 +595,19 @@ class VimEditor extends CustomEditor {
 		}
 	}
 
+	private enterInsertReady(): void {
+		if (this.recording) {
+			this.lastChangeKeys = [...this.changeKeys];
+			this.recording = false;
+			this.changeKeys = [];
+		}
+		this.mode = "insert";
+		this.setCursorShape("insert");
+		this.resetPending();
+		this.visualAnchor = null;
+		this.commandBuf = "";
+	}
+
 	private enterInsert(where: string): void {
 		this.mode = "insert";
 		this.setCursorShape("insert");
@@ -676,6 +694,7 @@ class VimEditor extends CustomEditor {
 		(this as any).scrollOffset = 0;
 		if (Array.isArray((this as any).undoStack)) (this as any).undoStack.length = 0;
 		(this as any).lastAction = null;
+		this.enterInsertReady();
 
 		// Clear recovery buffer on successful submit
 		clearRecoveryBuffer();
@@ -788,9 +807,21 @@ class VimEditor extends CustomEditor {
 			this.enterNormal();
 			return;
 		}
-		// Enter → new line (not submit) in insert mode
+		if (matchesKey(data, "shift+enter")) {
+			super.handleInput(data);
+			return;
+		}
 		if (matchesKey(data, "enter") || matchesKey(data, "return")) {
-			super.handleInput("\x1b[13;2~"); // Kitty Shift+Enter → newLine
+			if (this.isShowingAutocomplete()) {
+				const hadText = this.getText().trim().length > 0;
+				super.handleInput(data);
+				if (hadText && this.getText() === "") {
+					clearRecoveryBuffer();
+					this.enterInsertReady();
+				}
+			} else {
+				this.submitPrompt();
+			}
 			return;
 		}
 		// Everything else (including Ctrl+C, Tab, autocomplete, etc.)

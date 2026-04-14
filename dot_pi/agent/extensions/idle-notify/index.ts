@@ -1,18 +1,12 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import { spawn } from "node:child_process";
 
-const SUMMARY_MODEL = process.env.PI_IDLE_NOTIFY_MODEL ?? "openrouter/google/gemini-2.0-flash-lite-001";
-const SUMMARY_TIMEOUT_MS = Number(process.env.PI_IDLE_NOTIFY_TIMEOUT_MS ?? 12000);
+const CLASSIFIER_MODEL = process.env.PI_IDLE_NOTIFY_MODEL ?? "openrouter/google/gemini-2.0-flash-lite-001";
+const CLASSIFIER_TIMEOUT_MS = Number(process.env.PI_IDLE_NOTIFY_TIMEOUT_MS ?? 12000);
 const NOTIFICATION_TIMEOUT_MS = Number(process.env.PI_IDLE_NOTIFY_NOTIFICATION_TIMEOUT_MS ?? 60000);
 const MAX_MESSAGE_CHARS = Number(process.env.PI_IDLE_NOTIFY_MAX_MESSAGE_CHARS ?? 8000);
-const SUMMARY_MAX_CHARS = Number(process.env.PI_IDLE_NOTIFY_SUMMARY_MAX_CHARS ?? 160);
 
-type SummaryStatus = "WAITING" | "DONE";
-
-type SummaryResult = {
-	status: SummaryStatus;
-	summary: string;
-};
+type IdleStatus = "WAITING" | "DONE";
 
 type AssistantTextBlock = {
 	type: string;
@@ -21,7 +15,7 @@ type AssistantTextBlock = {
 
 type AssistantMessageLike = {
 	role: string;
-	content?: AssistantTextBlock[];
+	content?: string | AssistantTextBlock[];
 };
 
 function isAssistantMessage(message: unknown): message is AssistantMessageLike {
@@ -29,6 +23,7 @@ function isAssistantMessage(message: unknown): message is AssistantMessageLike {
 }
 
 function getAssistantText(message: AssistantMessageLike): string {
+	if (typeof message.content === "string") return message.content.trim();
 	if (!Array.isArray(message.content)) return "";
 	return message.content
 		.filter((block): block is AssistantTextBlock => !!block && block.type === "text" && typeof block.text === "string")
@@ -46,46 +41,21 @@ function truncate(text: string, maxChars: number): string {
 	return `${text.slice(0, Math.max(0, maxChars - 1)).trimEnd()}…`;
 }
 
-function sanitizeSummary(text: string): string {
-	return truncate(compactWhitespace(text), SUMMARY_MAX_CHARS);
-}
-
-function fallbackSummary(lastMessage: string): SummaryResult {
+function fallbackNeedsInput(lastMessage: string): boolean {
 	const compact = compactWhitespace(lastMessage);
-	const waiting = /\?|\b(please|can you|could you|would you|which|what|where|when|why|how|choose|confirm|decide|provide|share|tell me|let me know|want me to)\b/i.test(
+	if (!compact) return false;
+	return /\?|\b(please|can you|could you|would you|which|what|where|when|why|how|choose|confirm|decide|provide|share|tell me|let me know|want me to|input needed|reply with|send me|pick one)\b/i.test(
 		compact,
 	);
-
-	if (!compact) {
-		return {
-			status: "DONE",
-			summary: "Pi is idle.",
-		};
-	}
-
-	return {
-		status: waiting ? "WAITING" : "DONE",
-		summary: waiting
-			? sanitizeSummary(compact)
-			: sanitizeSummary(compact.endsWith(".") ? compact : `${compact}.`),
-	};
 }
 
-function parseSummary(stdout: string): SummaryResult | null {
+function parseIdleStatus(stdout: string): IdleStatus | null {
 	const firstLine = stdout
 		.split(/\r?\n/)
-		.map((line) => line.trim())
+		.map((line) => line.trim().toUpperCase())
 		.find(Boolean);
-	if (!firstLine) return null;
-
-	const match = firstLine.match(/^(WAITING|DONE)(?:\t+|\s*[:|-]\s*)(.+)$/i);
-	if (!match) return null;
-
-	const status = match[1].toUpperCase() as SummaryStatus;
-	const summary = sanitizeSummary(match[2]);
-	if (!summary) return null;
-
-	return { status, summary };
+	if (firstLine === "WAITING" || firstLine === "DONE") return firstLine;
+	return null;
 }
 
 function runCommand(
@@ -137,18 +107,16 @@ function runCommand(
 	});
 }
 
-async function summarizeLastMessage(lastMessage: string, cwd: string): Promise<SummaryResult | null> {
+async function classifyIdleStatus(lastMessage: string, cwd: string): Promise<IdleStatus | null> {
+	if (!lastMessage) return "DONE";
+
 	const prompt = [
-		"You are summarizing the assistant's final message for a desktop notification.",
-		"Decide whether the assistant is waiting for user input because it asked questions, requested missing information, or asked the user to choose or confirm something.",
-		"Return exactly one line in this format:",
-		"WAITING<TAB>one short sentence",	
-		"or",	
-		"DONE<TAB>one short sentence",	
-		"Keep the sentence under 140 characters.",
-		"Do not use markdown.",
-		"Do not add any extra lines or explanation.",
-		"",	
+		"Classify the assistant's final message for a desktop idle notification.",
+		"Return exactly one word:",
+		"WAITING - the assistant still needs user input, missing information, a choice, or confirmation.",
+		"DONE - the assistant finished and is not waiting for anything.",
+		"Do not add any other text.",
+		"",
 		"Assistant message:",
 		truncate(lastMessage, MAX_MESSAGE_CHARS),
 	].join("\n");
@@ -166,14 +134,14 @@ async function summarizeLastMessage(lastMessage: string, cwd: string): Promise<S
 			"--thinking",
 			"off",
 			"--model",
-			SUMMARY_MODEL,
+			CLASSIFIER_MODEL,
 			prompt,
 		],
-		{ cwd, timeoutMs: SUMMARY_TIMEOUT_MS },
+		{ cwd, timeoutMs: CLASSIFIER_TIMEOUT_MS },
 	);
 
 	if (result.code !== 0) return null;
-	return parseSummary(result.stdout);
+	return parseIdleStatus(result.stdout);
 }
 
 function sendNotification(title: string, body: string, urgency: "low" | "normal"): void {
@@ -188,18 +156,17 @@ function sendNotification(title: string, body: string, urgency: "low" | "normal"
 export default function idleNotifyExtension(pi: ExtensionAPI): void {
 	pi.on("agent_end", async (event, ctx) => {
 		if (process.env.PI_IDLE_NOTIFY_DISABLED === "1") return;
+		if (Number(process.env.PI_SUBAGENT_DEPTH ?? "0") > 0) return;
 
 		const lastAssistant = [...event.messages].reverse().find(isAssistantMessage);
 		const lastMessage = compactWhitespace(lastAssistant ? getAssistantText(lastAssistant) : "");
+		const idleStatus = (await classifyIdleStatus(lastMessage, ctx.cwd).catch(() => null)) ??
+			(fallbackNeedsInput(lastMessage) ? "WAITING" : "DONE");
 
-		const summary = lastMessage
-			? (await summarizeLastMessage(lastMessage, ctx.cwd).catch(() => null)) ?? fallbackSummary(lastMessage)
-			: fallbackSummary("");
-
-		const waitingForInput = summary.status === "WAITING";
+		const waitingForInput = idleStatus === "WAITING";
 		const emoji = waitingForInput ? "❓" : "✅";
 		const title = waitingForInput ? `${emoji} Pi idle — input needed` : `${emoji} Pi idle — task done`;
-		const body = [`📁 ${ctx.cwd}`, summary.summary].join("\n");
+		const body = `📁 ${ctx.cwd}`;
 
 		sendNotification(title, body, waitingForInput ? "normal" : "low");
 	});
